@@ -1,11 +1,15 @@
 public class PumpProd {
 
-    // Private variables
+    // Local variables
     private String name;
     private int prize;
     public boolean isBought;
     public Player ownership;
     public int amount;
+
+    // Reference to the next object
+    // (stricte for ownership data structure)
+    PumpProd next;
 
     // Constructor
     public PumpProd(String name, int prize, int amount) {

@@ -14,6 +14,7 @@ public class App {
         PumpProd[] pumpProds = PumpProd.initialize();
         DrillProd[] drillProds = DrillProd.initialize();
         
+        // Info for player
         System.out.println("Znajdujemy się obecnie w roku:");
         System.out.println("1986\n");
         System.out.println("Gra kończy się w roku 2020");

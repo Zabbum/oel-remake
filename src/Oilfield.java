@@ -6,6 +6,10 @@ public class Oilfield {
     public boolean isBought;
     public Player ownership;
 
+    // Reference to the next object
+    // (stricte for ownership data structure)
+    Oilfield next;
+
     // Constructor
     public Oilfield(String name, int prize) {
         this.name = name;

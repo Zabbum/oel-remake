@@ -6,3 +6,5 @@
 - `bf$()` - oilfields
 - `pf$()` - pump productions
 - `b$()` - drill productions
+- `tg$()` - cars productions
+- `k` - ?

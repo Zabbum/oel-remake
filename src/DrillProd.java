@@ -1,11 +1,15 @@
 public class DrillProd {
 
-    // Private variables
+    // Local variables
     private String name;
     private int prize;
     public boolean isBought;
     public Player ownership;
     public int amount;
+
+    // Reference to the next object
+    // (stricte for ownership data structure)
+    DrillProd next;
 
     // Constructor
     public DrillProd(String name, int prize, int amount) {
