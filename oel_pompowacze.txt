@@ -1,0 +1,1287 @@
+
+start tok64 oel2.bas.prg
+8373 CLR
+8374 POKE788,52
+8380 GOSUB9835
+8383 PRINT"{clear}"
+8386 POKE53280,0
+8394 POKE53281,2
+8402 GOSUB10205
+8405 b=1
+8406 FORb=1TO3
+8411 PRINT" {reverse on}{space*12}{reverse off} {reverse on}{space*12}{reverse off} {reverse on}{space*3}{reverse off}"
+8450 NEXTb
+8453 b=1
+8454 FORb=1TO7
+8459 PRINT" {reverse on}{space*3}{reverse off}{space*6}{reverse on}{space*3}{reverse off} {reverse on}{space*3}{reverse off}{space*10}{reverse on}{space*3}{reverse off}"
+8500 NEXTb
+8503 b=1
+8504 FORb=1TO3
+8509 PRINT" {reverse on}{space*3}{reverse off}{space*6}{reverse on}{space*3}{reverse off} {reverse on}{space*8}{reverse off}{space*5}{reverse on}{space*3}{reverse off}"
+8550 NEXTb
+8553 b=1
+8554 FORb=1TO7
+8559 PRINT" {reverse on}{space*3}{reverse off}{space*6}{reverse on}{space*3}{reverse off} {reverse on}{space*3}{reverse off}{space*10}{reverse on}{space*3}{reverse off}"
+8600 NEXTb
+8603 b=1
+8604 FORb=1TO3
+8609 NEXTb
+8612 b=1
+8613 FORb=1TO3
+8618 PRINT" {reverse on}{space*12}{reverse off} {reverse on}{space*12}{reverse off} {reverse on}{space*11}{reverse off}"
+8665 NEXTb
+8668 PRINT"{down}{space*4}cr.comp.& transl.by {reverse on} mi$ al "
+8705 GOSUB21104
+8708 v=1
+8710 GOSUB20222
+8713 GOSUB20980
+8716 PRINT"{space*6}the big game and big money."
+8752 GOSUB20980
+8755 GOSUB20993
+8758 GOSUB20980
+8761 PRINT" ilu bedzie kapitalistow (2-6)"
+8794 GOSUB20980
+8797 GETsz
+8800 IFsz>1ANDsz<7GOTO8885
+8810 PRINT"{home}{down*13}{right*7}{reverse on}?"
+8836 t=1
+8837 FORt=1TO90
+8843 NEXTt
+8846 PRINT"{home}{down*13}{right*7}{reverse on} "
+8872 t=1
+8873 FORt=1TO90
+8879 NEXTt
+8882 GOTO8797
+8885 PRINTTAB(9);
+8887 PRINT"{up}chwileczke prosze{!*3}"
+8911 DIMab(13)
+8918 DIMbd(13)
+8925 DIMbm(13)
+8932 DIMbf$(13)
+8939 DIMbp(13)
+8946 DIMbt(13)
+8953 DIMfb(13)
+8960 DIMf(13)
+8967 DIMfm(13)
+8974 DIMpa(13)
+8981 DIMta(13)
+8988 DIMrp(37)
+8996 DIMgf(12)
+9003 DIMgg(12)
+9010 bf$(1)="jasny gwint{space*2}"
+9028 bf$(2)="wielka dziura"
+9046 bf$(3)="wiertowisko{space*2}"
+9064 bf$(4)="smak waluty{space*2}"
+9082 bf$(5)="mi{pound}a ziemia{space*2}"
+9100 bf$(6)="boruj-boruj{space*2}"
+9118 bf$(7)="krasny potok "
+9136 bf$(8)="p{pound}ytkie do{pound}y "
+9154 bf$(9)="$lady oleju{space*2}"
+9172 bf$(10)="niczyj grunt "
+9190 bf$(11)="dzikie psy{space*3}"
+9208 bf$(12)="ugory naftowe"
+9226 vg$(1)="ab:smar & co."
+9244 vg$(2)="cd:r.r. inc. "
+9262 vg$(3)="ef:o.machinen"
+9280 vg$(4)="gh:gut & lut "
+9298 vg$(5)="ij:olejarz kc"
+9316 vg$(6)="kl:zdisek ob."
+9334 pf$(1)="zassanicki gmbh"
+9354 pf$(2)="dr pumpener{space*4}"
+9374 ra$="mi$ & ry$ & sons"
+9393 tg$(1)="woz-przewoz{space*4}"
+9413 tg$(2)="wagonensitz{space*4}"
+9433 tg$(3)="world co.{space*6}"
+9453 tg$(4)="drink tank inc."
+9473 t=1
+9474 FORt=1TO12
+9479 bp(t)=INT(RND(1)*70000)+29900
+9496 fm(t)=INT((bp(t)-RND(1)*9999+1)*10)
+9514 NEXTt
+9517 t=1
+9518 FORt=1TO12
+9523 bt(t)=INT(RND(1)*3666)+1
+9535 NEXTt
+9538 k=INT(RND(1)*100000)+100000
+9556 l1=INT(RND(1)*6)+1
+9564 fm(l1*2)=1200
+9572 fm(l1*2-1)=1400
+9582 t=1
+9583 FORt=1TO2
+9588 pf(t)=INT(RND(1)*80000)+36000
+9608 pw(t)=INT(pf(t)/10000)*7+25
+9623 NEXTt
+9626 t=1
+9627 FORt=1TO4
+9632 tp(t)=INT(RND(1)*55000)+45000
+9652 tw(t)=INT(tp(t)/10000)*3+15
+9667 NEXTt
+9670 rp(1)=INT(RND(1)*7)+7
+9680 t=2
+9681 FORt=2TO34
+9687 rp(t)=rp(t-1)+INT(RND(1)*14)-7
+9703 IFrp(t)<0THENrp(t)=1:GOTO9687
+9717 IFrp(t)>20THENrp(t)=20
+9728 NEXTt
+9731 t=1
+9732 FORt=1TO34
+9738 a1$="{down}{space*2}dop{pound}acasz do interesu!"
+9766 a2$="{down}{space*2}udane przedsiewziecie!"
+9794 a3$="%{space*20}"
+9818 DEF FN z(x)=INT(RND(1)*x)+1
+9832 GOTO9877
+9835 si=54272
+9842 fl=si
+9844 fh=si+1
+9848 tl=si+2
+9852 th=si+3
+9856 w=si+4
+9860 a=si+5
+9864 h=si+6
+9868 l=si+24
+9872 rz=1985
+9876 RETURN
+9877 GOSUB20980
+9880 GOSUB20980
+9883 PRINT"{space*3}znajdujemy sie obecnie w roku:"
+9919 GOSUB20980
+9922 GOSUB21104
+9925 PRINTTAB(13);
+9927 PRINT"{cm +} {cm +*3} {cm +*3} {cm +*3}"
+9943 PRINTTAB(13);
+9945 PRINT"{cm +} {cm +} {cm +} {cm +} {cm +} {cm +}{space*2}"
+9961 PRINTTAB(13);
+9963 PRINT"{cm +} {cm +*3} {cm +*3} {cm +*3}"
+9979 PRINTTAB(13);
+9981 PRINT"{cm +}{space*3}{cm +} {cm +} {cm +} {cm +} {cm +}"
+9997 PRINTTAB(13);
+9999 PRINT"{cm +} {cm +*3} {cm +*3} {cm +*3}"
+10015 GOSUB20980
+10018 GOSUB21104
+10021 GOSUB20980
+10024 PRINT"{space*5}gra konczy sie w roku 2020"
+10058 GOSUB20980
+10061 GOSUB20993
+10064 b$(1)="turbowiert{space*4}"
+10083 b$(2)="na b{pound}ysk inc. "
+10102 b$(3)="pet shop&boys "
+10121 t=1
+10122 FORt=1TO3
+10127 bg(t)=INT(RND(1)*50000)+10000
+10144 bw(t)=INT(bg(t)/10000)*8+25
+10159 NEXTt
+10162 a4$="{down*2} ktory zak{pound}ad produkcyjny wybierasz"
+10202 GOTO10206
+10205 RETURN
+10206 PRINT"{home}{down*13}{reverse off}{right*9}{space*5}{left*5}i odbedzie sie przy udziale:"
+10271 PRINT"{down} prosze wpisac imiona (max 12 liter){down}"
+10312 t=1
+10313 FORt=1TOsz
+10318 INPUT"{space*6}";sn$(t)
+10331 IFLEN(sn$(t))>15THENPRINT"{down} za d{pound}ugie!{down}":GOTO10318
+10358 ks(t)=k
+10362 NEXTt
+10365 GOSUB20980
+10368 v=2
+10370 PRINT"kazdy gracz posiada ";
+10393 PRINTk;
+10395 PRINT"$ kapita{pound}u"
+10408 GOSUB20980
+10411 GOSUB20993
+10414 PRINT"{clear}{yellow}"
+10418 POKE53280,4
+10426 POKE53281,14
+10434 PRINT" wygrywa ten,kto osiagnie najwiekszy "
+10474 k=0
+10476 PRINT" kapita{pound} na koncu gry "
+10501 GOSUB21006
+10504 PRINT"{clear}{yellow}";
+10508 POKE53280,4
+10516 POKE53281,2
+10524 PRINT"{reverse on}{space*3}przewidywane ceny ropy na rynku{space*3}";
+10565 PRINT"{space*3}(jakie trendy w kolejnych latach :){space*5}";
+10611 GOSUB21104
+10614 t=1
+10615 FORt=1TO34
+10621 POKEl,15
+10624 b=1
+10625 FORb=1TOrp(t)
+10632 POKEa,21
+10635 POKE56218+t-b*40,4
+10650 POKEh,255
+10654 POKE1946+t-b*40,224
+10667 POKEth,8
+10670 POKEtl,0
+10673 POKEfh,41-t
+10679 POKEfl,101-t
+10685 POKEw,17
+10688 NEXTb
+10691 NEXTt
+10694 POKEw,0
+10697 GOSUB21006
+10700 t=1
+10701 FORt=1TO34
+10707 rp(t)=rp(t)/10
+10715 NEXTt
+10718 r=r+1
+10722 s=1
+10723 FORs=1TOsz
+10728 PRINT"{clear}{down}"
+10732 POKE53280,4
+10740 POKE53281,4
+10748 PRINT"{right*3}{white}{reverse on}decyzja nalezy do ciebie!"
+10781 GOSUB20331
+10784 PRINT"{right*3}{cyan}{down}{reverse off}gracz:";
+10799 PRINTsn$(s);
+10803 PRINT" $=";
+10808 PRINTks(s)
+10812 PRINT"{blue}{down}{space*3}{reverse on} kupowanie {reverse off}"
+10833 PRINT"{black}{space*3}a = fabryki wierte{pound}"
+10859 PRINT"{white}{space*3}b = zak{pound}ady pomp"
+10882 PRINT"{black}{space*3}c = firmy wagonowe"
+10907 PRINT"{white}{space*3}d = pola naftowe"
+10930 PRINT"{black}{space*3}e = wiert{pound}a"
+10948 PRINT"{white}{space*3}f = pompy"
+10964 PRINT"{black}{space*3}g = wagony"
+10981 PRINT"{down}{blue}{space*3}{reverse on} pozosta{pound}e mozliwo$ci {reverse off}"
+11013 PRINT"{down}{white}{space*3}h = nastepny gracz"
+11039 PRINT"{black}{space*3}i = proba sabotazu"
+11064 PRINT"{white}{space*3}j = zmiana ceny"
+11086 PRINT"{black}{space*3}k = przeczekanie{down}"
+11110 GOSUB21006
+11113 z2=ASC(s$)
+11116 z2=z2-64
+11121 IFz2<1ORz2>12GOTO11110
+11131 ONz2GOSUB16561,13124,13996,12700,17027,17543,17969,11162,15114,18390,11162
+11156 NEXTs
+11159 GOTO11163
+11162 RETURN
+11163 s=1
+11164 FORs=1TOsz
+11169 i=1
+11170 FORi=1TO12
+11175 GOSUB12099
+11178 NEXTi
+11181 ks(s)=INT(ks(s))
+11188 NEXTs
+11191 PRINT"{clear}"
+11194 GOSUB12651
+11197 GOSUB20433
+11200 rz=rz+1
+11204 IFrz=2020GOTO11215
+11212 GOTO10718
+11215 PRINT"{clear}"
+11218 POKE53281,0
+11226 POKE53280,0
+11234 PRINT" gra"
+11240 PRINT"{space*4}dobieg{pound}a"
+11255 PRINT"{space*12}konca"
+11275 PRINT"{down*2}{light blue} a oto rezultaty walki:"
+11304 PRINT"{down*2}{space*2}gracz:{space*6}pozyczka:{space*5}kapita{pound}:"
+11345 PRINT" {cm u*37}"
+11386 z0=1
+11387 FORz0=1TOsz
+11392 PRINT"{space*2}";
+11396 PRINTsn$(z0);
+11400 PRINTTAB(15);
+11402 PRINTbk(z0);
+11406 PRINTTAB(28);
+11408 PRINTINT(ks(z0)-bk(z0)*1.6)
+11424 NEXTz0
+11427 PRINT"{down*2} gratuluje zwyciezcom !"
+11455 v=1
+11457 GOSUB20222
+11460 POKE788,49
+11466 END
+11467 PRINT"{clear}"
+11470 POKE53281,8
+11478 POKE53280,0
+11486 PRINT"{dark gray}{space*4}{reverse on}{sh pound}{reverse off}{black}{cm r}{dark gray}{reverse on}{cm asterisk}{reverse off}{blue}{space*4}{reverse on}U{C*3}{cm r}I {reverse off}{space*2}{reverse on}{black}{space*2}pole naftowe : {reverse off}"
+11539 PRINT"{dark gray}{space*4}{reverse on} {reverse off}{black}{sh -}{dark gray}{reverse on} {reverse off}{blue}{space*4}{reverse on}{cm q}{white}{C*3}{cm x}{blue}JI{reverse off}";
+11572 PRINTTAB(22);
+11574 PRINTbf$(i)
+11578 PRINT"{dark gray}{space*4}{reverse on} {reverse off}{black}{sh -}{dark gray}{reverse on} {reverse off}{blue}{space*4}{reverse on}{cm z}{black}WW{blue}CC{black}W{blue}K{reverse off}{space*2}{black}{cm t*17}"
+11633 PRINTTAB(20);
+11635 PRINT"{reverse on}{black} w{pound}a$ciciel pola {reverse off}"
+11658 IFgg(i)<fm(i)THENgf(i)=gf(i)+8000*pa(i)
+11681 PRINTTAB(22);
+11683 PRINTsn$(s)
+11687 gg(i)=gg(i)+8000*pa(i)
+11701 PRINT"{space*4}rok: {white}";
+11714 PRINTrz;
+11716 PRINTTAB(20);
+11718 PRINT"{black}{cm t*17}"
+11739 PRINT"{down} {blue}";
+11744 PRINTra$;
+11746 PRINT" -"
+11750 PRINT" cena sprzedazy ropy = ";
+11776 PRINTrp(r);
+11780 PRINT"${down}"
+11784 PRINT"{black} ilo$c pomp{space*3}:";
+11803 PRINTpa(i)
+11807 PRINT"{light green} wypompowano{space*2}:";
+11826 PRINTgf(i)
+11830 PRINT"{black} ilo$c wagonow:";
+11849 PRINTta(i)
+11853 PRINT"{light green} max wywoz{space*4}:";
+11872 PRINTta(i)*7000
+11880 PRINT"{black} twoj kapita{pound} :";
+11899 PRINTks(s)
+11903 IFgg(i)>fm(i)THENPRINT"{down}{space*3}zrod{pound}o wyczerpane!"
+11937 IFgf(i)<=0THENPRINT"{down}";:GOSUB21006:RETURN
+11951 IFta(i)=0ORpa(i)=0THENPRINT"{down}";:GOSUB21006:RETURN
+11971 PRINT
+11972 INPUT" ile litrow ropy sprzedajesz";m
+12007 IFm>gf(i)ORm>ta(i)*7000THENPRINT" zbyt wiele!{up*3}":GOTO11971
+12045 ks(s)=ks(s)+m*rp(r)
+12057 gf(i)=gf(i)-m
+12065 PRINT"{blue} twoj kapita{pound} :";
+12084 PRINTks(s);
+12088 PRINT" $"
+12092 PRINT"{down}";
+12095 GOSUB21006
+12098 RETURN
+12099 IFfb(i)<>sTHENRETURN
+12105 IFf(i)=1GOTO11467
+12113 PRINT"{clear}"
+12116 POKE53280,0
+12124 POKE53281,1
+12132 PRINT"{space*2}{blue}{space*2}{reverse on}{sh pound}{space*4}{cm asterisk}{reverse off}{gray}{cm i}{black}{cm @*2}"
+12153 PRINT"{space*2}{blue}{space*2}{reverse on}{space*5}{reverse off}{sh pound}{gray}{reverse on}{cm i}{reverse off}{black}{cm t*2}";
+12176 PRINTTAB(17);
+12178 PRINT"{red}wiercenie na polu:"
+12200 PRINT"{space*2}{blue}{space*2}{reverse on} {reverse off}{pink}{cm k}{blue}{space*2}{cm k}{light green}";
+12218 PRINTTAB(17);
+12220 PRINTbf$(i)
+12224 PRINT"{space*2}{blue}{space*2}{reverse on} {reverse off}{space*3}{cm v}{space*3}"
+12242 PRINT"{space*2}{black} UK";
+12250 PRINTTAB(12);
+12252 PRINT"{light blue}w{pound}asno$c:{black}";
+12266 PRINTsn$(s)
+12270 PRINT"{space*2}{black}CK"
+12277 PRINT" twoi ludzie z pola naftowego "
+12310 PRINT" melduja co nastepuje:{down}"
+12336 IFbm(i)<=0THENPRINT"{red} wiercenia niemozliwe - brak wierte{pound} !"
+12385 IFbm(i)<=0THENPRINT"{space*2}trzeba co$ przedsiewziac!":GOTO12450
+12425 bm(i)=bm(i)-500
+12435 ab(i)=ab(i)+500-FNz(30)
+12450 PRINT"{down*2}{green} aktualna g{pound}eboko$c wiercen:";
+12484 PRINTab(i);
+12488 PRINT"m"
+12491 PRINT"{down} jeszcze ci starczy na:";
+12518 PRINTbm(i);
+12522 PRINT"m"
+12525 IFab(i)>=bt(i)THENPRINT"{down*2} trysne{pound}o{!*3}":f(i)=1:v=3:GOSUB20222
+12560 PRINT"{down}";
+12563 GOSUB21006
+12566 RETURN
+12567 PRINT
+12568 dd=1
+12569 FORdd=1TO12
+12574 PRINTdd;
+12576 IFfb(dd)=sTHENPRINTTAB(10);:PRINTbf$(dd):GOTO12593
+12592 PRINT
+12593 NEXTdd
+12596 PRINT
+12597 INPUT"na ktore pole naftowe";d
+12625 IFd>12THENPRINT"{?*3}":GOTO12596
+12638 IFd=0THENRETURN
+12642 IFfb(d)<>sGOTO12596
+12650 RETURN
+12651 PRINT"rok:";
+12657 PRINTrz
+12659 PRINT
+12660 z8=1
+12662 FORz8=1TOsz
+12667 PRINTsn$(z8);
+12672 PRINTTAB(20);
+12674 PRINT"kapita{pound}:";
+12685 PRINTks(z8)
+12690 NEXTz8
+12693 PRINT"{down}";
+12696 GOSUB21006
+12699 RETURN
+12700 PRINT"{clear}";
+12703 POKE53280,4
+12711 POKE53281,14
+12719 PRINT"{yellow}{reverse on}{space*40}{reverse off}";
+12765 PRINT"{reverse on}{space*5}wyprzedaz pol naftowych{space*12}{reverse off}";
+12810 PRINT"{down} dawna w{pound}asno$c{space*4}nazwa{space*8}cena{space*2}${down}"
+12854 t=1
+12855 FORt=1TO6
+12860 PRINTvg$(t)
+12864 NEXTt
+12867 PRINT"{home}{down*5}"
+12875 t=1
+12876 FORt=1TO12
+12881 PRINTTAB(15);
+12883 PRINT"{white}";
+12886 PRINTCHR$(64+t);
+12892 PRINTTAB(17);
+12894 PRINT"{blue}";
+12897 PRINTbf$(t)
+12901 NEXTt
+12904 PRINT"{home}{down*5}{black}"
+12913 t=1
+12914 FORt=1TO12
+12919 IFfb(t)>0THENPRINTTAB(31);:PRINT"{cyan}{-*6}{black}":GOTO12949
+12942 PRINTTAB(32);
+12945 PRINTbp(t)
+12949 NEXTt
+12952 PRINT"{white}{space*3}";
+12958 PRINTsn$(s)
+12962 PRINT"{black}ktore pole chcesz wykupic ?"
+12993 PRINT"{down}{blue}aktualny kapita{pound}:";
+13015 PRINTks(s);
+13019 PRINT"$"
+13022 GETs$
+13024 IFs$=""GOTO13022
+13030 b=ASC(s$)-64
+13036 IFb>90ORb<0GOTO13022
+13047 IFb>12THENRETURN
+13051 IFfb(b)>0GOTO13022
+13059 fb(b)=s
+13063 ks(s)=ks(s)-bp(b)
+13073 PRINT"{up*3}{yellow}";
+13079 PRINTTAB(35);
+13082 PRINTs$;
+13084 PRINT"{down}"
+13087 PRINTTAB(17);
+13089 PRINT"{space*8}{left*8}";
+13108 PRINTks(s)
+13112 t=1
+13113 FORt=1TO1500
+13120 NEXTt
+13123 RETURN
+13124 PRINT"{clear}";
+13127 POKE53281,6
+13135 POKE53280,2
+13143 GOSUB20222
+13146 PRINT"{yellow}{reverse on}{space*39}";
+13190 PRINT"{reverse on}{space*6}kupowanie fabryk pomp{space*14}";
+13235 PRINT"{yellow}{reverse on}{space*40}"
+13280 PRINT" wybor spo$rod ofert : "
+13306 PRINT" {E*21} "
+13332 IFpp(1)>0ANDpp(2)>0GOTO13440
+13346 PRINT"{down}"
+13349 PRINT" 1 ";
+13354 PRINTpf$(1),
+13358 PRINTpw(1);
+13362 IFpp(1)>0THENPRINTTAB(30);:PRINT"sprzedane":GOTO13392
+13386 PRINTTAB(28);
+13388 PRINTpf(1)
+13392 PRINT" 2 ";
+13397 PRINTpf$(2),
+13401 PRINTpw(2);
+13405 IFpp(2)>0THENPRINTTAB(30);:PRINT"{white}sprzedane{yellow}":GOTO13437
+13431 PRINTTAB(28);
+13433 PRINTpf(2)
+13437 GOTO13495
+13440 PRINT"{down}niestety zadna firma";
+13464 PRINT" nie jest do sprzedania."
+13491 GOSUB21006
+13494 RETURN
+13495 PRINT"{down} wybierz fabryke,ktora cie"
+13525 PRINT" interesuje. przyci$nij 'x' gdy nic nie";
+13567 PRINT" kupujesz."
+13580 GETs$
+13582 IFs$=""GOTO13580
+13588 IFs$="1"ANDpp(1)=0THENks(s)=ks(s)-pf(1):pp(1)=s:GOSUB20980:GOTO13687
+13620 IFs$="2"ANDpp(2)=0THENks(s)=ks(s)-pf(2):pp(2)=s:GOSUB20980:GOTO13845
+13652 PRINT"{down*3}{space*2}szkoda - ale nic z tego"
+13683 GOSUB20993
+13686 RETURN
+13687 GOSUB20980
+13690 PRINT"{home}{down*5}"
+13698 PRINT"{light green} jeste$ jedynym posiadaczem firmy:{down}"
+13737 PRINT"{space*5}";
+13744 PRINTpf$(1);
+13748 PRINT".{down}"
+13752 INPUT" jaka cena pompy z twojej fabryki";p(1)
+13793 IFp(1)>50000THENPRINT"zbyt wiele!":GOTO13752
+13822 IFp(1)<0THENPRINT"bzdura!":GOSUB20980:RETURN
+13842 GOTO13981
+13845 GOSUB20980
+13848 PRINT"{home}{down*6}"
+13857 PRINT"{light green} jeste$ jedynym posiadaczem firmy:{down}"
+13896 PRINT"{space*5}";
+13903 PRINTpf$(2);
+13907 PRINT".{down}"
+13911 INPUT"podaj cene pompy z twojej fabryki";p(2)
+13952 IFp(2)>50000THENPRINT"zbyt wiele!":GOTO13911
+13981 PRINT"{down*2}{space*2}{yellow}ok!"
+13992 GOSUB20993
+13995 RETURN
+13996 PRINT"{clear}";
+13999 POKE53280,0
+14007 POKE53281,14
+14015 GOSUB20222
+14018 PRINT"{blue}{reverse on}{space*40}{reverse off}";
+14064 PRINT"{reverse on}{space*5}f a b r y k i{space*2}w a g o n o w{space*7}{reverse off}";
+14109 PRINT"{blue}{reverse on}{space*40}{reverse off}";
+14155 PRINT"{reverse on}{space*11}s p r z e d a z{space*14}{reverse off}";
+14200 PRINT"{blue}{reverse on}{space*40}{reverse off}";
+14246 PRINT"{reverse on} nr{space*4}n a z w a{space*3}ilo$c wag.{space*2}cena{space*5}{reverse off}{home}{down*6}"
+14298 t=1
+14299 FORt=1TO4
+14304 PRINT
+14305 PRINTt;
+14307 PRINT"{space*2}";
+14311 PRINTtg$(t)
+14315 NEXTt
+14318 PRINT"{home}{down*6}"
+14327 t=1
+14328 FORt=1TO4
+14333 IFtb(t)>0THENPRINTTAB(30);:PRINT"{down}{red}sprzedane{blue}":GOTO14373
+14360 PRINT
+14361 PRINTTAB(24);
+14363 PRINTtw(t);
+14367 PRINTTAB(29);
+14369 PRINTtp(t)
+14373 NEXTt
+14376 PRINT"{down} nie kupujesz = 'x'"
+14399 GETs$
+14401 IFs$=""GOTO14399
+14407 b=VAL(s$)
+14410 IFtb(b)>0THENRETURN
+14416 IFb>4ORb=0THENRETURN
+14424 ks(s)=ks(s)-tp(b)
+14434 tb(b)=s
+14438 PRINT"{down}{space*2}stan twojego kapita{pound}u ";
+14466 PRINTks(s);
+14470 PRINT"{down}"
+14473 INPUT" twoja cena sprzedazy wagonu";lp(b)
+14509 IFlp(b)>=100000THENPRINT"{clear}{down*3} nierealne !{down}":GOTO14473
+14544 IFlp(b)<0THENPRINT"bzdura!":GOTO14473
+14563 RETURN
+14564 PRINT"{clear}{white}"
+14568 POKE53280,0
+14576 POKE53281,0
+14584 PRINT"{space*5}tu padnie rozstrzygniecie!{down*2}{white}"
+14621 w3=INT(RND(1)*10)+1
+14630 PRINTTAB(15);
+14632 PRINT"{reverse on} + 50 %{space*3}{reverse off}"
+14647 PRINTTAB(15);
+14649 PRINT"{reverse on} - 20 %{space*3}{reverse off}"
+14664 PRINTTAB(15);
+14666 PRINT"{reverse on} + 40 %{space*3}{reverse off}"
+14681 PRINTTAB(15);
+14683 PRINT"{reverse on} - 10 %{space*3}{reverse off}"
+14698 PRINTTAB(15);
+14700 PRINT"{reverse on} + 30 %{space*3}{reverse off}"
+14715 PRINTTAB(15);
+14717 PRINT"{reverse on} - 30 %{space*3}{reverse off}"
+14732 PRINTTAB(15);
+14734 PRINT"{reverse on} + 10 %{space*3}{reverse off}"
+14749 PRINTTAB(15);
+14751 PRINT"{reverse on} - 40 %{space*3}{reverse off}"
+14766 PRINTTAB(15);
+14768 PRINT"{reverse on} + 20 %{space*3}{reverse off}"
+14783 PRINTTAB(15);
+14785 PRINT"{reverse on} - 50 %{space*3}{reverse off}"
+14800 PRINT"{down*3}{space*2}naci$nij 'f1' w odpowiednim momencie"
+14844 e=0
+14847 t=1207
+14850 FORt=1207TO1567STEP40
+14859 POKEt,31
+14862 b=1
+14863 FORb=1TO3
+14868 NEXTb
+14871 e=e+1
+14877 GETs$
+14879 IFs$=CHR$(133)GOTO14900
+14887 POKEt,224
+14891 NEXTt
+14894 e=0
+14897 GOTO14847
+14900 PRINT"{down}{space*2}wynik sabotazu :{space*5}";
+14927 ONeGOTO14951,14967,14983,14999,15015,15030,15046,15061,15078,15093
+14951 PRINT"+50";
+14956 PRINTa3$;
+14958 PRINTa1$
+14960 e=50
+14964 GOTO15107
+14967 PRINT"-20";
+14972 PRINTa3$;
+14974 PRINTa2$
+14976 e=-20
+14980 GOTO15107
+14983 PRINT"+40";
+14988 PRINTa3$;
+14990 PRINTa1$
+14992 e=40
+14996 GOTO15107
+14999 PRINT"-10";
+15004 PRINTa3$;
+15006 PRINTa2$
+15008 e=-10
+15012 GOTO15107
+15015 PRINT"+30";
+15020 PRINTa3$;
+15022 PRINTa1$
+15024 e=30
+15027 GOTO15107
+15030 PRINT"-30";
+15035 PRINTa3$;
+15037 PRINTa2$
+15039 e=-30
+15043 GOTO15107
+15046 PRINT"+10";
+15051 PRINTa3$;
+15053 PRINTa1$
+15055 e=10
+15058 GOTO15107
+15061 PRINT"-40";
+15066 PRINTa3$;
+15068 PRINTa2$
+15070 e=-40
+15075 GOTO15107
+15078 PRINT"+20";
+15083 PRINTa3$;
+15085 PRINTa1$
+15087 e=20
+15090 GOTO15107
+15093 PRINT"-50";
+15098 PRINTa3$;
+15100 PRINTa2$
+15102 e=-50
+15107 PRINT"{down}";
+15110 GOSUB21006
+15113 RETURN
+15114 PRINT"{clear}{white}"
+15118 POKE53281,11
+15126 POKE53280,0
+15134 t=1
+15135 FORt=1TO23
+15140 GOSUB20289
+15143 PRINT"{right}";
+15146 PRINTSPC(t);
+15148 PRINT"s a b o t a z "
+15165 NEXTt
+15168 GOSUB20980
+15171 GOSUB20980
+15174 PRINT"{clear}"
+15177 PRINTTAB(12);
+15179 PRINTsn$(s)
+15183 PRINT"{down}{space*2}masz teraz nastepujace mozliwo$ci:{down}"
+15224 PRINT"{light blue}{space*2}'f1'-zatrudniasz super agenta "
+15260 PRINT"{space*2}na pole naftowe konkurenta"
+15291 PRINT"{yellow}{space*2}'f3'-bedziesz sabotowa{pound} fabryke pomp"
+15333 PRINT"{light blue}{space*2}'f5'mozesz doprowadzic do ruiny "
+15371 PRINT"{space*2}fabryke wagonow"
+15391 w4=FNz(40000)
+15402 PRINT"{yellow}{space*2}'f7'-sabotaz fabryki wierte{pound}"
+15436 PRINT
+15437 w3=INT(RND(1)*40000)+40000
+15456 GOSUB21006
+15459 IFs$=CHR$(136)GOTO19952
+15467 IFs$=CHR$(133)GOTO15492
+15475 IFs$=CHR$(134)GOTO19061
+15483 IFs$=CHR$(135)GOTO19352
+15491 RETURN
+15492 PRINT"{clear}{down*6} tu masz tylko 50% szans!"
+15527 PRINT"{down*5}prosze nacisnac '*' oraz 'return'"
+15568 PRINT
+15569 PRINT
+15570 INPUT"{space*6}";q$
+15582 IFASC(q$)=INT(RND(1)*2)+42GOTO15670
+15597 PRINT"{clear}"
+15600 i=1
+15601 FORi=1TO15
+15606 PRINT"{space*2}masz pecha !"
+15623 NEXTi
+15626 j=1
+15628 FORj=1TO15
+15633 PRINT"{space*2}{sh space}{space*9}masz pecha !"
+15660 NEXTj
+15663 GOSUB20980
+15666 GOSUB20980
+15669 RETURN
+15670 GOSUB20980
+15673 GOSUB20980
+15676 PRINT"{clear}{pink} hello! i'm agent funny happy bear"
+15715 PRINT" ktore pole mam sabotowac,my friend?{down}{gray}"
+15756 t=1
+15757 FORt=1TO12
+15762 PRINT" ";
+15765 PRINTt,
+15767 PRINTbf$(t)
+15771 NEXTt
+15774 PRINT
+15775 INPUT"{space*2}numer pola";n
+15794 IFn<1ORn>12THENRETURN
+15804 PRINT"{down}{pink} dane do sabotazu pola naftowego-"
+15842 PRINT" musisz ponie$c nastepujace koszty:"
+15880 PRINT" {white}op{pound}aty,{pound}apowki itp.{space*6}= ";
+15912 PRINTw3
+15915 PRINT" zatkania,wysadzenia itp. = ";
+15946 PRINTw4
+15949 PRINT" w sumie{space*18}= ";
+15980 PRINTw3+w4
+15986 PRINT" {black}szanse powodzenia kszta{pound}tuja sie"
+16023 PRINT" w granicach 33%.";
+16043 GOSUB20993
+16046 GOSUB20980
+16049 PRINT"{down*5}"
+16056 PRINT"{home}{down*8}{white} bear:'mam zaczac dzia{pound}ac?'"
+16096 GETs$
+16098 IFs$=""GOTO16096
+16104 IFs$="n"THENRETURN
+16109 IFs$="n"THENRETURN
+16114 IFs$="t"GOTO16124
+16121 GOTO16096
+16124 ks(s)=ks(s)-w3-w4
+16136 w3=0
+16139 w4=0
+16142 w3=FNz(3)
+16148 t1=0
+16151 IFw3=1THENbp(n)=FNz(50000)+30000:w4=FNz(200000):fm(n)=w4:t1=2:f(n)=0
+16199 IFw3=1THENbt(n)=FNz(4500):fb(n)=0:pa(n)=0:ta(n)=0:ab(n)=0:bm(n)=0:gf(n)=0
+16245 IFw3=1THENgg(n)=0
+16256 PRINT"{down} {light blue} start po naci$nieciu klawisza{down*5}"
+16297 GETs$
+16299 IFs$=""GOTO16297
+16305 k=1
+16306 FORk=1TO30
+16311 POKEl,15
+16314 POKEa,190
+16318 POKEth,8
+16321 POKEfh,k
+16324 PRINTTAB(10);
+16326 PRINT"{yellow}{space*2}sabotaz udany{space*4}{up}"
+16350 POKEfl,k
+16353 POKEw,33
+16357 t=1
+16358 FORt=1TO100
+16364 NEXTt
+16367 PRINTTAB(10);
+16369 PRINT"{light blue} sabotaz nieudany {up}"
+16392 t1=1
+16394 FORt1=1TO100
+16400 NEXTt1
+16403 POKEw,0
+16406 NEXTk
+16409 IFw3=1THENPRINTTAB(10);:PRINT"{white}{space*2}uda{pound}o sie{space*6}"
+16438 IFw3<>1THENPRINTTAB(10);:PRINT"{down*2}{black}mia{pound}e$ pecha{space*3}"
+16467 POKEw,0
+16470 IFw3<>1THENGOSUB21104:RETURN
+16480 t=16
+16481 FORt=16TO0STEP-1
+16488 POKEl,t
+16491 POKEa,15
+16494 POKEh,0
+16497 POKEfh,40
+16501 POKEfl,200
+16505 POKEw,129
+16509 ts=1
+16511 FORts=1TO100
+16517 NEXTts
+16520 NEXTt
+16523 POKEl,15
+16526 POKEa,190
+16530 POKEh,64
+16534 POKEfh,1
+16537 POKEfl,95
+16541 POKEw,129
+16545 tt=1
+16547 FORtt=1TO1000
+16554 NEXTtt
+16557 POKEw,0
+16560 RETURN
+16561 PRINT"{clear}{white}"
+16565 POKE53280,6
+16573 POKE53281,6
+16581 GOSUB20222
+16584 PRINT"{reverse on}{space*40}";
+16628 PRINT"{space*5}sprzedaz fabryk wierte{pound}{space*12}";
+16671 PRINT"{reverse on}{space*40}{down*2}"
+16717 t=1
+16718 FORt=1TO3
+16723 IFbb(t)=0GOTO16745
+16731 NEXTt
+16734 PRINT"brak!"
+16741 GOSUB20993
+16744 RETURN
+16745 t=0
+16747 t=1
+16748 FORt=1TO3
+16753 IFbb(t)>0GOTO16784
+16761 PRINT"{reverse on}";
+16764 PRINTt;
+16766 PRINT" ";
+16769 PRINTb$(t),
+16773 PRINTbw(t),
+16777 PRINTbg(t);
+16781 PRINT"$"
+16784 NEXTt
+16787 PRINT"{down*2} ktora firme chcesz kupic?{down}"
+16819 GOSUB21006
+16822 z1=VAL(s$)
+16826 IFz1=0ORbb(z1)>0THENRETURN
+16838 PRINT"jeste$ w{pound}a$cicielem fabryki:{space*4}"
+16873 PRINT"'{space*5}";
+16881 PRINTb$(z1);
+16886 PRINT"'"
+16889 PRINT"{down}prosze podac swoja cene na rury{space*8}"
+16932 PRINT"o d{pound}ugo$ci 500 m."
+16952 INPUTbd(z1)
+16958 IFbd(z1)>60000THENPRINT"za duzo{!*3}":GOTO16952
+16987 IFbd(z1)<0THENPRINT"bzdura{!*3}":GOTO16952
+17010 ks(s)=ks(s)-bg(z1)
+17021 bb(z1)=s
+17026 RETURN
+17027 PRINT"{clear}{white}"
+17031 POKE53281,8
+17039 POKE53280,8
+17047 PRINT"tu mozesz kupic wiert{pound}a:"
+17074 PRINT"{blue}firma";
+17082 PRINTSPC(20);
+17084 PRINT"cena"
+17090 z=1
+17092 FORz=1TO40
+17098 PRINT"D";
+17101 NEXTz
+17104 z=0
+17107 z=1
+17109 FORz=1TO3
+17114 PRINTz;
+17117 PRINT"{space*2}";
+17121 PRINTb$(z);
+17126 PRINTbw(z);
+17131 IFbb(z)>0THENPRINTTAB(26);:PRINTbd(z);:PRINT"$":GOTO17165
+17152 PRINTTAB(26);
+17154 PRINT"{black}{-*6}{blue}"
+17165 NEXTz
+17168 IFbb(1)=0ANDbb(2)=0ANDbb(3)=0THENPRINT"{down*2}{white}nie masz zadnej oferty zakupu."
+17223 IFbb(1)=0ANDbb(2)=0ANDbb(3)=0THENGOSUB20993:GOSUB21104:RETURN
+17249 PRINT"{down*2}{red}"
+17254 INPUT"zakup z ktorej firmy";cc
+17281 IFcc=0THENRETURN
+17286 IFcc>=10GOTO17254
+17293 IFbd(cc)=0THENPRINT"{down*2}{black} no co$ ty!":GOTO17254
+17321 INPUT"ile rur 500 metrowych kupujesz";c
+17358 IFc=0ORc>bw(cc)THENRETURN
+17371 IFbw(cc)<cTHENPRINT"nie da rady!":GOTO17321
+17398 IFc>10THENPRINT"limit=10.":GOTO17321
+17419 GOSUB12567
+17422 IFd=0THENRETURN
+17426 ks(s)=ks(s)-c*bd(cc)
+17440 bw(cc)=bw(cc)-c
+17451 k=1
+17452 FORk=1TOsz
+17457 IFbb(cc)=sTHENks(s)=ks(s)+.2*c*bd(cc):GOTO17511
+17489 IFbb(cc)=kTHENks(k)=ks(k)+c*bd(cc)
+17511 NEXTk
+17514 bm(d)=bm(d)+c*500
+17527 GOSUB12651
+17530 d=0
+17532 dd=0
+17534 c=0
+17537 cc=0
+17540 k=0
+17542 RETURN
+17543 PRINT"{clear}{white}";
+17547 POKE53281,12
+17555 POKE53280,12
+17563 PRINT"{reverse on}{space*2}**{space*4}sprzedaz pomp{space*4}**{space*2}{reverse off}"
+17597 PRINT" wytworca:{space*7}cena pompy: {down}"
+17630 b=0
+17631 FORb=0TO39
+17637 PRINT"{cm u}";
+17640 NEXTb
+17643 PRINT
+17644 z=1
+17646 FORz=1TO2
+17651 PRINTz;
+17654 PRINTpf$(z);
+17659 PRINTpw(z);
+17664 IFpp(z)=0THENPRINT" {black}{-*6}{white}":GOTO17692
+17687 PRINTp(z)
+17692 NEXTz
+17695 PRINT"{down}"
+17698 INPUT"od ktorej firmy kupujesz";cc
+17729 IFcc=0THENRETURN
+17734 IFcc>=10GOTO17698
+17741 IFpp(cc)=0THENPRINT"{down}niemozliwe ":GOTO17698
+17767 INPUT"{black}ile pomp chcesz kupic";c
+17796 IFc=0THENRETURN
+17801 IFc>pw(cc)THENPRINT"nie da rady!":GOTO17767
+17828 IFc>15THENPRINT"limit=15!":GOTO17698
+17849 GOSUB12567
+17852 IFd=0THENRETURN
+17856 ks(s)=ks(s)-c*p(cc)
+17870 pw(cc)=pw(cc)-c
+17881 k=1
+17882 FORk=1TOsz
+17887 IFpp(cc)=sTHENks(s)=ks(s)+.2*c*p(cc):GOTO17941
+17919 IFpp(cc)=kTHENks(k)=ks(k)+c*p(cc)
+17941 NEXTk
+17944 pa(d)=pa(d)+c
+17953 GOSUB12651
+17956 d=0
+17958 dd=0
+17960 c=0
+17963 cc=0
+17966 k=0
+17968 RETURN
+17969 PRINT"{clear}{yellow}";
+17973 POKE53281,10
+17981 POKE53280,10
+17989 PRINT"{reverse on}{space*2}**{space*3}sprzedaz wagonow{space*4}**{space*2}{reverse off}"
+18025 PRINT" nr firma{space*6}zasoby{space*2}cena {down}"
+18057 b=0
+18058 FORb=0TO39
+18064 PRINT"{cm u}";
+18067 NEXTb
+18070 PRINT
+18071 z=1
+18073 FORz=1TO4
+18078 PRINTz;
+18081 PRINTtg$(z);
+18086 PRINTtw(z);
+18091 IFtb(z)=0THENPRINT" {black}brak sprzedazy{white}":GOTO18127
+18122 PRINTlp(z)
+18127 NEXTz
+18130 PRINT"{down}"
+18133 INPUT"od ktorej firmy kupujesz";cc
+18164 IFcc=0THENRETURN
+18169 IFcc>=10GOTO18133
+18176 IFtb(cc)=0ORtw(cc)<=0THENPRINT"{down} nie da rady!":GOTO18133
+18211 INPUT"{black}ile chcesz wagonow";c
+18237 IFc>6THENPRINT"limit=6!":GOTO18211
+18257 IFc=0ORc>tw(cc)THENRETURN
+18270 GOSUB12567
+18273 IFd=0THENRETURN
+18277 ks(s)=ks(s)-c*lp(cc)
+18291 tw(cc)=tw(cc)-c
+18302 k=1
+18303 FORk=1TOsz
+18308 IFtb(cc)=sTHENks(s)=ks(s)+.2*c*lp(cc):GOTO18362
+18340 IFtb(cc)=kTHENks(k)=ks(k)+c*lp(cc)
+18362 NEXTk
+18365 ta(d)=ta(d)+c
+18374 GOSUB12651
+18377 d=0
+18379 dd=0
+18381 c=0
+18384 cc=0
+18387 k=0
+18389 RETURN
+18390 PRINT"{clear}{white}"
+18394 POKE53280,2
+18402 POKE53281,2
+18410 PRINT" jaka cene bedziesz zmieniac? "
+18443 PRINT"{down*2} 1{space*3}={space*3}ceny pomp"
+18466 PRINT"{down*2} 2{space*3}={space*3}ceny wagonow"
+18492 PRINT"{down*2} 3{space*3}={space*3}ceny wierte{pound}{down*2}"
+18520 INPUT" nr";e1
+18529 IFe1<=0ORe1>3GOTO18520
+18541 PRINT"{clear}"
+18544 ONe1GOTO18554,18726,18892
+18554 PRINT"nr{space*2}firma{space*10}cena pompy{down*2}"
+18588 z=1
+18590 FORz=1TO2
+18595 PRINTz;
+18598 PRINTpf$(z);
+18603 PRINTp(z)
+18608 NEXTz
+18611 PRINT
+18612 INPUT" ktora firma";e1
+18631 IFe1<=0ORe1>2THENPRINT" nie ma takiej firmy":GOSUB21104:RETURN
+18669 IFpp(e1)<>sTHENPRINT" to nie jest twoje!{space*2}":GOTO18611
+18704 PRINT"{down}"
+18707 GOSUB20389
+18710 p(e1)=e2
+18716 GOSUB12651
+18719 e1=0
+18722 e2=0
+18725 RETURN
+18726 PRINT"nr{space*2}firma:{space*7}cena wagonu: {down*2}"
+18761 z=1
+18763 FORz=1TO4
+18768 PRINTz;
+18771 PRINTtg$(z);
+18776 PRINTlp(z)
+18781 NEXTz
+18784 PRINT
+18785 INPUT" ktora firma";e1
+18804 IFe1<=0ORe1>4THENPRINT" no co$ ty{!*3}":GOSUB21104:RETURN
+18835 IFtb(e1)<>sTHENPRINT" nie twoje przeciez! ":GOTO18784
+18870 PRINT"{down}"
+18873 GOSUB20389
+18876 lp(e1)=e2
+18882 GOSUB12651
+18885 e1=0
+18888 e2=0
+18891 RETURN
+18892 PRINT"nr{space*2}firma:{space*6}cena wiert{pound}a: {down*2}"
+18927 z=1
+18929 FORz=1TO3
+18934 PRINTz;
+18937 PRINTb$(z);
+18942 PRINTbd(z)
+18947 NEXTz
+18950 PRINT
+18951 INPUT" ktora firma";e1
+18970 IFe1<=0ORe1>3THENPRINT" w zyciu swojem!":GOSUB21104:RETURN
+19004 IFbb(e1)<>sTHENPRINT" nie twoja w{pound}asno$c! ":GOTO18950
+19039 PRINT"{down}"
+19042 GOSUB20389
+19045 bd(e1)=e2
+19051 GOSUB12651
+19054 e1=0
+19057 e2=0
+19060 RETURN
+19061 PRINT"{clear} ktora z nastepujacych firm chcesz{space*5}"
+19104 PRINT" zasabotowac?{space*10}{down*2}"
+19132 PRINT"{reverse on} fabryka:{space*9}cena:{space*5}w{pound}asno$c:{space*3}"
+19176 z=1
+19178 FORz=1TO2
+19183 PRINTz;
+19186 PRINTpf$(z);
+19191 PRINTpf(z);
+19196 zz=1
+19198 FORzz=1TOsz
+19203 IFpp(z)=zzTHENPRINTTAB(25);:PRINTsn$(zz)
+19219 IFpp(z)<>zzTHENPRINT" "
+19231 NEXTzz
+19234 NEXTz
+19237 PRINT"{down}"
+19240 GOSUB20952
+19243 IFn<=0ORn>2ORpp(n)=0THENRETURN
+19260 GOSUB14564
+19263 e=e+100
+19270 IFe<100GOTO19298
+19278 ks(s)=ks(s)-pf(n)*e/100
+19295 GOTO19342
+19298 ks(s)=ks(s)-pf(n)*e/100
+19315 pp(n)=0
+19320 w3=FNz(100000)
+19331 pf(n)=w3
+19337 p(n)=0
+19342 e=0
+19345 z=0
+19348 zz=0
+19351 RETURN
+19352 PRINT"{clear}{yellow} ktora z nastepujacych fabryk wagonow"
+19394 PRINT" bedziesz sabotowa{pound}?{down*2}"
+19419 PRINT"{reverse on}{black}{space*2}fabryka:{space*10}cena:{space*2}w{pound}asno$c{space*5}"
+19464 PRINT"{home}{down*6}"
+19473 z=1
+19475 FORz=1TO4
+19480 PRINT"{white}";
+19483 PRINTz;
+19486 PRINTtg$(z);
+19491 PRINT" ";
+19494 PRINTtp(z)
+19499 NEXTz
+19502 PRINT"{home}{down*6}"
+19511 zz=1
+19513 FORzz=1TO4
+19518 z=1
+19520 FORz=1TOsz
+19525 IFtb(zz)=zTHENPRINTTAB(27);:PRINTsn$(z):GOTO19561
+19544 NEXTz
+19547 PRINTTAB(27);
+19549 PRINT"{black}niczyja{white}"
+19561 NEXTzz
+19564 PRINT"{down}"
+19567 GOSUB20952
+19570 IFn<=0ORn>4ORtb(n)=0THENRETURN
+19587 GOSUB14564
+19590 e=e+100
+19597 IFe<100GOTO19632
+19605 ks(s)=ks(s)-tp(n)*e/100
+19622 zz=0
+19625 z=0
+19628 e=0
+19631 RETURN
+19632 ks(s)=ks(s)-tp(n)*e/100
+19649 tb(n)=0
+19654 w3=FNz(200000)
+19665 tp(n)=w3
+19671 lp(n)=0
+19676 tw(n)=INT(w3/10000)
+19687 zz=0
+19690 z=0
+19693 PRINT"{clear}{yellow}mozesz stac sie posiadaczem sabotowanej"
+19737 PRINT"fabryki produkujacej wagony:{space*2}"
+19770 PRINT"{down} firma{space*6}:";
+19787 PRINTtg$(n)
+19792 PRINT" cena{space*7}:";
+19808 PRINTtp(n);
+19813 PRINT"$"
+19816 PRINT" ilo$c wag. :";
+19832 PRINTtw(n)
+19837 PRINT"{down*2} czy chcesz kupic (t/n)?{down}"
+19867 GOSUB21006
+19870 POKE53281,2
+19878 PRINT"{yellow}{down*2}"
+19883 IFs$="t"THENtb(n)=s:ks(s)=ks(s)-tp(n)
+19905 IFs$="t"THENINPUT" nowa cena wagonu";lp(n):IFlp(n)>200000GOTO19905
+19951 RETURN
+19952 PRINT"{clear} ktora z nastepujacych fabryk wierte{pound}{space*2}";
+19995 PRINT" chcesz sabotowac?{down*2}"
+20018 PRINT"{reverse on} fabryka:{space*6}cena:{space*8}w{pound}asno$c:{space*3}{reverse off}"
+20063 z=1
+20065 FORz=1TO3
+20070 PRINTz;
+20073 PRINTb$(z);
+20078 PRINTbg(z);
+20083 zz=1
+20085 FORzz=1TOsz
+20090 IFbb(z)=zzTHENPRINTsn$(zz)
+20104 PRINT
+20105 NEXTzz
+20108 NEXTz
+20111 PRINT"{down}"
+20114 GOSUB20952
+20117 IFn<=0ORn>3ORbb(n)=0THENRETURN
+20134 GOSUB14564
+20137 e=e+100
+20144 IFe<100GOTO20172
+20152 ks(s)=ks(s)-bg(n)*e/100
+20169 GOTO20212
+20172 ks(s)=ks(s)-bg(n)*e/100
+20189 bb(n)=0
+20194 bg(n)=FNz(100000)
+20207 bd(n)=0
+20212 e=0
+20215 z=0
+20218 zz=0
+20221 RETURN
+20222 POKEl,15
+20225 POKEth,13
+20228 POKEtl,15
+20231 POKEa,3*16+15
+20238 POKEh,9
+20241 READgx
+20244 READgy
+20247 READdt
+20250 IFgx=-1THENRESTORE:RETURN
+20259 POKEfh,gx
+20263 POKEfl,gy
+20267 POKEw,65
+20271 t=1
+20272 FORt=1TOdt/v
+20280 NEXTt
+20283 POKEw,0
+20286 GOTO20241
+20289 POKEl,15
+20292 POKEa,24
+20295 POKEh,170
+20299 POKEfh,2
+20302 POKEfl,113
+20306 POKEw,33
+20310 tt=1
+20312 FORtt=1TO50
+20318 NEXTtt
+20321 POKEw,0
+20324 POKEa,0
+20327 POKEh,0
+20330 RETURN
+20331 t=1
+20332 FORt=1TO6
+20337 ts=4
+20339 FORts=4TO14STEP10
+20345 POKEl,ts
+20349 POKEa,15
+20352 POKEh,0
+20355 POKEfh,6
+20358 POKEfl,133
+20362 POKEw,17
+20365 tt=1
+20367 FORtt=1TO100
+20373 NEXTtt
+20376 NEXTts
+20379 NEXTt
+20382 POKEw,0
+20385 POKEa,0
+20388 RETURN
+20389 INPUT" nowa cena";e2
+20406 IFe2>150000THENPRINT"za wiele!":GOTO20389
+20432 RETURN
+20433 x=1
+20434 FORx=1TOsz
+20439 IFbk(x)>0THENks(x)=ks(x)-5000:bk(x)=bk(x)-3000:GOSUB20780
+20469 IFks(x)<0THENGOSUB20483
+20479 NEXTx
+20482 RETURN
+20483 PRINT"{clear}{white}";
+20487 POKE53281,0
+20495 POKE53280,0
+20503 POKE53272,23
+20511 PRINT" Jest kiepsko {!*3}{space*2}";
+20533 PRINTsn$(x)
+20537 z9=1
+20539 FORz9=1TO30
+20544 POKEl,15
+20547 POKEa,190
+20551 POKEth,8
+20554 POKEtl,0
+20557 POKEfh,2+z9
+20563 POKEfl,78+z9
+20570 POKEw,129
+20574 tt=1
+20576 FORtt=1TO28
+20581 NEXTtt
+20584 NEXTz9
+20587 POKEw,0
+20590 PRINT
+20591 PRINT" Aby grac dalej musisz zapozyczyc sie"
+20631 PRINT"{down} w banku 'Sons & Fathers' na sume{space*5}"
+20673 PRINT"{down} 2{0*4} dolarow.Splata kredytu na rok{space*4}"
+20717 PRINT" wynosi 5{0*3} dolarow.{space*3}{down}"
+20745 GOSUB21006
+20748 PRINT"{clear}"
+20751 POKE53272,21
+20759 ks(x)=ks(x)+20000
+20769 bk(x)=bk(x)+20000
+20779 RETURN
+20780 PRINT"{clear}{reverse on}{light blue} 'sons & fathers' :karta kredytowa{space*6}{reverse off}"
+20827 POKE53281,0
+20835 PRINT"{down} d{pound}uznik:";
+20848 PRINTsn$(x)
+20852 PRINT"{down*3} do sp{pound}acenia{space*3}:";
+20875 PRINTbk(x);
+20879 PRINT"$"
+20882 PRINT"{down} kolejna sp{pound}ata : 5 0 0 0.-- $"
+20916 PRINT"{down} twoj kapita{pound}{space*3}:";
+20937 PRINTks(x);
+20941 PRINT"$"
+20944 PRINT"{down*2}";
+20948 GOSUB21006
+20951 RETURN
+20952 INPUT"{reverse on}{space*3}ktora firma (nr)";n
+20979 RETURN
+20980 b=1
+20981 FORb=1TO6
+20986 PRINT"{down}"
+20989 NEXTb
+20992 RETURN
+20993 tt=1
+20995 FORtt=1TO1000
+21002 NEXTtt
+21005 RETURN
+21006 GETs$
+21008 PRINTTAB(6);
+21010 PRINT"{white}przyci$nij dowolny klawisz{up}"
+21041 ox=1
+21043 FORox=1TO100
+21049 NEXTox
+21052 PRINTTAB(6);
+21054 PRINT"{black}{reverse on}przycisnij dowolny klawisz{up}"
+21086 ox=1
+21088 FORox=1TO100
+21094 NEXTox
+21097 IFs$=""GOTO21006
+21103 RETURN
+21104 tt=1
+21106 FORtt=1TO1000
+21113 NEXTtt
+21116 RETURN
+21127 DATA8,180,600,13,10,600,10,247,300,9,196,150,10,247,150,8,180,300,6
+21137 DATA133,300,8,180,300,14,162,300,13,10,300,10,247,150,11,158,150,13
+21147 DATA10,900,-1,-1,0
+stop tok64
+(bastext 1.0)
