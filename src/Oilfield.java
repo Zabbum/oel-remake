@@ -3,13 +3,15 @@ public class Oilfield {
     // Private variables
     private String name;
     private int prize;
-    private char state; // f - free, b - bought
+    public boolean isBought;
+    public Player ownership;
 
     // Constructor
     public Oilfield(String name, int prize) {
         this.name = name;
         this.prize = prize;
-        this.state = 'f';
+        this.isBought = false;
+        this.ownership = null;
     }
 
     // Name getter
@@ -20,16 +22,6 @@ public class Oilfield {
     // Prize getter
     public int getPrize() {
         return prize;
-    }
-
-    // State getter
-    public char getState() {
-        return state;
-    }
-
-    // State setter
-    public void setState(char state) {
-        this.state = state;
     }
 
     public static Oilfield[] initialize() {

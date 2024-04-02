@@ -1,6 +1,3 @@
-// SOME SHORTCUTS ARE USED IN THE CODE
-// IOSC - In Original Source Code
-
 public class App {
     public static void main(String[] args) {
         // Intro
@@ -11,9 +8,11 @@ public class App {
         int playerAmount = Prompt.playerAmount(); // IOSC sz
         System.out.println();
 
-        // Initialize oilfields
+        // Initialize industries
         Oilfield[] oilfields = Oilfield.initialize();
-        
+        CarsProd[] carsProds = CarsProd.initialize();
+        PumpProd[] pumpProds = PumpProd.initialize();
+        DrillProd[] drillProds = DrillProd.initialize();
         
         System.out.println("Znajdujemy się obecnie w roku:");
         System.out.println("1986\n");
