@@ -50,6 +50,8 @@ public class CarsProd {
     // Menu for buying cars productions
     public static void buyProd(Player player, Scanner scanner, CarsProd[] carsProds) {
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "SPRZEDAŻ WIERTEŁ" + ANSI.RESET);
+        System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "Saldo konta:" + ANSI.RESET + " " +
+                           ANSI.WHITE_BACKGROUND + ANSI.BLUE + player.balance + "$" + ANSI.RESET);
         System.out.println();
 
         // Calculate how many actions are possible
@@ -110,21 +112,21 @@ public class CarsProd {
             action = scanner.nextLine().toUpperCase().charAt(0);
         }
 
-        int selectedProd = (int) (action-48-1);
+        int selectedProdIndex = (int) (action-48-1);
 
         // Note purchase
         CarsProd tmp = player.ownedCarsProd;
-        player.ownedCarsProd = carsProds[selectedProd];
+        player.ownedCarsProd = carsProds[selectedProdIndex];
         player.ownedCarsProd.next = tmp;
 
-        carsProds[selectedProd].isBought = true;
-        carsProds[selectedProd].ownership = player;
+        carsProds[selectedProdIndex].isBought = true;
+        carsProds[selectedProdIndex].ownership = player;
 
-        player.balance -= carsProds[selectedProd].getPrice();
+        player.balance -= carsProds[selectedProdIndex].getPrice();
 
         // Inform user about purchase
         System.out.println("Jesteś właścicielem fabryki:");
-        System.out.println(carsProds[selectedProd].getName());
+        System.out.println(carsProds[selectedProdIndex].getName());
         System.out.println();
         System.out.println("Proszę podać swoją cenę za wagon.");
 
@@ -140,7 +142,7 @@ public class CarsProd {
         }
 
         // Set the price
-        carsProds[selectedProd].carPrice = proposedPrice;
+        carsProds[selectedProdIndex].carPrice = proposedPrice;
 
     }
 }

@@ -49,6 +49,8 @@ public class DrillProd {
     // Menu for buying drill productions
     public static void buyProd(Player player, Scanner scanner, DrillProd[] drillProds) {
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "SPRZEDAŻ WIERTEŁ" + ANSI.RESET);
+        System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "Saldo konta:" + ANSI.RESET + " " +
+                           ANSI.WHITE_BACKGROUND + ANSI.BLUE + player.balance + "$" + ANSI.RESET);
         System.out.println();
 
         // Calculate how many actions are possible
@@ -109,21 +111,21 @@ public class DrillProd {
             action = scanner.nextLine().toUpperCase().charAt(0);
         }
 
-        int selectedProd = (int) (action-48-1);
+        int selectedProdIndex = (int) (action-48-1);
 
         // Note purchase
         DrillProd tmp = player.ownedDrillProd;
-        player.ownedDrillProd = drillProds[selectedProd];
+        player.ownedDrillProd = drillProds[selectedProdIndex];
         player.ownedDrillProd.next = tmp;
 
-        drillProds[selectedProd].isBought = true;
-        drillProds[selectedProd].ownership = player;
+        drillProds[selectedProdIndex].isBought = true;
+        drillProds[selectedProdIndex].ownership = player;
 
-        player.balance -= drillProds[selectedProd].getPrice();
+        player.balance -= drillProds[selectedProdIndex].getPrice();
 
         // Inform user about purchase
         System.out.println("Jesteś właścicielem fabryki:");
-        System.out.println(drillProds[selectedProd].getName());
+        System.out.println(drillProds[selectedProdIndex].getName());
         System.out.println();
         System.out.println("Proszę podać swoją cenę na rury o długości 500m.");
 
@@ -139,7 +141,7 @@ public class DrillProd {
         }
 
         // Set the price
-        drillProds[selectedProd].pipePrice500m = proposedPrice;
+        drillProds[selectedProdIndex].pipePrice500m = proposedPrice;
 
     }
 }

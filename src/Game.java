@@ -38,6 +38,10 @@ public class Game {
                 // Cars productions
                 CarsProd.buyProd(player, scanner, carsProds);
             }
+            if (action == 'D') {
+                // Oilfields
+                Oilfield.buyField(player, scanner, oilfields);
+            }
         }
     }
 

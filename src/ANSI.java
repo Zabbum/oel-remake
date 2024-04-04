@@ -1,6 +1,8 @@
 public class ANSI {
-    // ANSI Colors
+    // Reset
     public static final String RESET = "\u001B[0m";
+
+    // Colors
     public static final String BLACK = "\u001B[30m";
     public static final String RED = "\u001B[31m";
     public static final String GREEN = "\u001B[32m";
@@ -9,6 +11,18 @@ public class ANSI {
     public static final String PURPLE = "\u001B[35m";
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
+
+    // Bright colors
+    public static final String BLACK_BRIGHT = "\033[0;90m";
+    public static final String RED_BRIGHT = "\033[0;91m";
+    public static final String GREEN_BRIGHT = "\033[0;92m";
+    public static final String YELLOW_BRIGHT = "\033[0;93m";
+    public static final String BLUE_BRIGHT = "\033[0;94m";
+    public static final String PURPLE_BRIGHT = "\033[0;95m";
+    public static final String CYAN_BRIGHT = "\033[0;96m";
+    public static final String WHITE_BRIGHT = "\033[0;97m";
+
+    // Backgrounds
     public static final String BLACK_BACKGROUND = "\u001B[40m";
     public static final String RED_BACKGROUND = "\u001B[41m";
     public static final String GREEN_BACKGROUND = "\u001B[42m";
@@ -17,4 +31,14 @@ public class ANSI {
     public static final String PURPLE_BACKGROUND = "\u001B[45m";
     public static final String CYAN_BACKGROUND = "\u001B[46m";
     public static final String WHITE_BACKGROUND = "\u001B[47m";
+
+    // Bright backgrounds
+    public static final String BLACK_BACKGROUND_BRIGHT = "\033[0;100m";
+    public static final String RED_BACKGROUND_BRIGHT = "\033[0;101m";
+    public static final String GREEN_BACKGROUND_BRIGHT = "\033[0;102m";
+    public static final String YELLOW_BACKGROUND_BRIGHT = "\033[0;103m";
+    public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";
+    public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m";
+    public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";
+    public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";
 }

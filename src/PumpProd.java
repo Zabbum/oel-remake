@@ -48,6 +48,8 @@ public class PumpProd {
     // Menu for buying pump productions
     public static void buyProd(Player player, Scanner scanner, PumpProd[] pumpProds) {
         System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "KUPOWANIE FABRYK POMP" + ANSI.RESET);
+        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "Saldo konta:" + ANSI.RESET + " " +
+                           ANSI.YELLOW_BACKGROUND + ANSI.BLUE + player.balance + "$" + ANSI.RESET);
         System.out.println();
 
         // Calculate how many actions are possible
@@ -108,21 +110,21 @@ public class PumpProd {
             action = scanner.nextLine().toUpperCase().charAt(0);
         }
 
-        int selectedProd = (int) (action-48-1);
+        int selectedProdIndex = (int) (action-48-1);
 
         // Note purchase
         PumpProd tmp = player.ownedPumpProd;
-        player.ownedPumpProd = pumpProds[selectedProd];
+        player.ownedPumpProd = pumpProds[selectedProdIndex];
         player.ownedPumpProd.next = tmp;
 
-        pumpProds[selectedProd].isBought = true;
-        pumpProds[selectedProd].ownership = player;
+        pumpProds[selectedProdIndex].isBought = true;
+        pumpProds[selectedProdIndex].ownership = player;
 
-        player.balance -= pumpProds[selectedProd].getPrice();
+        player.balance -= pumpProds[selectedProdIndex].getPrice();
 
         // Inform user about purchase
         System.out.println("Jesteś właścicielem fabryki:");
-        System.out.println(pumpProds[selectedProd].getName());
+        System.out.println(pumpProds[selectedProdIndex].getName());
         System.out.println();
         System.out.println("Proszę podać swoją cenę pompy.");
 
@@ -138,7 +140,7 @@ public class PumpProd {
         }
 
         // Set the price
-        pumpProds[selectedProd].pumpPrice = proposedPrice;
+        pumpProds[selectedProdIndex].pumpPrice = proposedPrice;
 
     }
 }
