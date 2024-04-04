@@ -30,6 +30,14 @@ public class Game {
                 // Drill productions
                 DrillProd.buyProd(player, scanner, drillProds);
             }
+            if (action == 'B') {
+                // Pump productions
+                PumpProd.buyProd(player, scanner, pumpProds);
+            }
+            if (action == 'C') {
+                // Cars productions
+                CarsProd.buyProd(player, scanner, carsProds);
+            }
         }
     }
 

@@ -46,6 +46,7 @@ public class DrillProd {
         return drillProds;
     }
 
+    // Menu for buying drill productions
     public static void buyProd(Player player, Scanner scanner, DrillProd[] drillProds) {
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "SPRZEDAŻ WIERTEŁ" + ANSI.RESET);
         System.out.println();
@@ -104,6 +105,7 @@ public class DrillProd {
         System.out.println("Którą firmę chcesz kupić?");  
         char action = ' ';
         while (Arrays.binarySearch(possibleActions, action) < 0) {
+            System.out.print("  ? ");
             action = scanner.nextLine().toUpperCase().charAt(0);
         }
 
