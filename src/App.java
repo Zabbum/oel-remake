@@ -54,7 +54,7 @@ public class App {
         System.out.println();
 
         // Play
-        Game.playRound(players, scanner);
+        Game.playRound(players, scanner, oilfields, carsProds, pumpProds, drillProds);
 
         // Close scanner object
         scanner.close();

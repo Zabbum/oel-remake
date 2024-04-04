@@ -5,9 +5,31 @@ public class Game {
     public static int roundCount;
     public static int currentRound;
 
-    public static void playRound(Player[] players, Scanner scanner) {
+    public static void playRound(Player[] players, Scanner scanner,
+                                 Oilfield[] oilfields, CarsProd[] carsProds,
+                                 PumpProd[] pumpProds, DrillProd[] drillProds
+                                 ) {
         for (Player player : players) {
+            // Display the main menu
             mainMenu(player, scanner);
+
+            // Get the action
+            char action = ' ';
+            char[] possibleActions = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'};
+            // Verify that the action is correct,
+            // if not then wait for another
+            while (Arrays.binarySearch(possibleActions, action) < 0) {
+                String input = scanner.nextLine().toUpperCase();
+                if (input.length() >= 1) {
+                    action = input.charAt(0);
+                }
+            }
+
+            // Redirect to the valid menu
+            if (action == 'A') {
+                // Drill productions
+                DrillProd.buyProd(player, scanner, drillProds);
+            }
         }
     }
 
@@ -32,15 +54,5 @@ public class Game {
         System.out.println("K = Przeczekanie");
         System.out.println();
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK + "PRZYCIŚNIJ DOWOLNY KLAWISZ" + ANSI.RESET);
-        
-        // Get the action
-        char action = ' ';
-        char[] possibleActions = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'};
-        // Verify that the action is correct,
-        // if not then wait for another
-        while (Arrays.binarySearch(possibleActions, action) < 0) {
-            action = scanner.nextLine().toUpperCase().charAt(0);
-        }
-        
     }
 }

@@ -1,3 +1,7 @@
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class DrillProd {
 
     // Local variables
@@ -6,6 +10,7 @@ public class DrillProd {
     public boolean isBought;
     public Player ownership;
     public int amount;
+    public double pipePrize500m;
 
     // Reference to the next object
     // (stricte for ownership data structure)
@@ -39,5 +44,100 @@ public class DrillProd {
         drillProds[2] = new DrillProd("PET SHOP&BOYS", 32919, 49);
 
         return drillProds;
+    }
+
+    public static void buyProd(Player player, Scanner scanner, DrillProd[] drillProds) {
+        System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "SPRZEDAŻ WIERTEŁ" + ANSI.RESET);
+        System.out.println();
+
+        // Calculate how many actions are possible
+        // e.g. if there is production that is already
+        // bought, don't make it possible to buy it.
+        int possibleActionsLength = 0;
+        for (DrillProd drillProd : drillProds) {
+            if (!drillProd.isBought) {
+                possibleActionsLength += 1;
+            }
+        }
+
+        // Create possible actions array
+        // Every 'uninitialized' slot's value is '0'
+        char[] possibleActions = new char[possibleActionsLength];
+        for (int i = 0; i < possibleActions.length; i++) {
+            possibleActions[i] = '0';
+        }
+
+        // Display every available Drill production
+        for (int i = 0; i < drillProds.length; i++) {
+            // If Drill production is bought, skip it
+            if (drillProds[i].isBought) {
+                System.out.println("\n");
+                continue;
+            }
+
+            // Display production info
+            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + (i+1) + ANSI.RESET);
+            System.out.print("\t");
+            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + drillProds[i].getName() + " " + ANSI.RESET);
+            System.out.print("\t");
+            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + drillProds[i].amount+ ANSI.RESET);
+            System.out.print("\t");
+            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + drillProds[i].getPrize() + ANSI.RESET);
+            System.out.print(" ");
+            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "$" + ANSI.RESET);
+            System.out.println("\n");
+
+            // Add production to array
+            //     Find the latest 'uninitialized' slot
+            for (int j = 0; j < possibleActions.length; j++) {
+                if (possibleActions[j] == '0') {
+                    possibleActions[j] = (char) (i+1+48);
+                    break;
+                }
+            }
+        }
+        System.out.println();
+
+        // Get the action and
+        // verify that the action is correct,
+        // if not then wait for another
+        System.out.println("Którą firmę chcesz kupić?");  
+        char action = ' ';
+        while (Arrays.binarySearch(possibleActions, action) < 0) {
+            action = scanner.nextLine().toUpperCase().charAt(0);
+        }
+
+        int selectedProd = (int) (action-48-1);
+
+        // Note purchase
+        DrillProd tmp = player.ownedDrillProd;
+        player.ownedDrillProd = drillProds[selectedProd];
+        player.ownedDrillProd.next = tmp;
+
+        drillProds[selectedProd].isBought = true;
+        drillProds[selectedProd].ownership = player;
+
+        player.balance -= drillProds[selectedProd].getPrize();
+
+        // Inform user about purchase
+        System.out.println("Jesteś właścicielem fabryki:");
+        System.out.println(drillProds[selectedProd].getName());
+        System.out.println();
+        System.out.println("Proszę podać swoją cenę na rury o długości 500m.");
+
+        // Get prize from user
+        double proposedPrize = -1;
+        while (proposedPrize < 0) {
+            System.out.print("  ? ");
+            try {
+                proposedPrize = scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                scanner.next();
+            }
+        }
+
+        // Set the prize
+        drillProds[selectedProd].pipePrize500m = proposedPrize;
+
     }
 }
