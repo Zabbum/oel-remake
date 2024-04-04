@@ -52,4 +52,14 @@ public class Oil {
             System.out.print("\n");
         }
     }
+
+    // Reduce prizes when the graph has been drawn
+    public static double[] reducePrizes(double[] oilPrizes) {
+        // Divide each price by 10
+        for (int i = 0; i < oilPrizes.length; i++) {
+            oilPrizes[i] /= 10;
+        }
+
+        return oilPrizes;
+    }
 }

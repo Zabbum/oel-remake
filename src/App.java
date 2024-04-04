@@ -3,7 +3,8 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) {
         // Global variables
-        int roundCount = 34;
+        Game.roundCount = 34;
+        Game.currentRound = 1;
 
         // Scanner class
         Scanner scanner = new Scanner(System.in);
@@ -26,7 +27,7 @@ public class App {
         DrillProd[] drillProds = DrillProd.initialize();
 
         // Generate oil prizes
-        double[] oilPrizes = Oil.generatePrizes(roundCount);
+        double[] oilPrizes = Oil.generatePrizes(Game.roundCount);
         
         // Info for player
         System.out.println("Znajdujemy się obecnie w roku:");
@@ -48,6 +49,12 @@ public class App {
 
         // Draw graph
         Oil.printGraph(oilPrizes, ANSI.PURPLE_BACKGROUND);
+        oilPrizes = Oil.reducePrizes(oilPrizes);
+
+        System.out.println();
+
+        // Play
+        Game.playRound(players, scanner);
 
         // Close scanner object
         scanner.close();
