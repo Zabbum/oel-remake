@@ -8,7 +8,7 @@ public class Oil {
 
         // Initialize every value
         for (int i = 0; i < oilPrizes.length; i++) {
-            oilPrizes[i] = -1;
+            oilPrizes[i] = 0;
         }
 
         // First value
@@ -18,8 +18,8 @@ public class Oil {
         // Rest of values
         for (int i = 1; i < oilPrizes.length; i++) {
             // Ensure value is correct
-            //   Regenerate if less than 0
-            while (oilPrizes[i] < 0) {
+            //   Regenerate if less than 1
+            while (oilPrizes[i] < 1) {
                 oilPrizes[i] = oilPrizes[i-1] + random.nextInt(14) - 7;
             }
             //   If greater than 20, set to 20
