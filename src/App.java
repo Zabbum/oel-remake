@@ -10,11 +10,12 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         // Intro
-        // TODO: fancy OEL logo
-        System.out.println(ANSI.PURPLE + "OEL");
-        System.out.println("CR. COMP. & TRANSL. BY " + ANSI.PURPLE_BACKGROUND + ANSI.RED + " MI$ AL " + ANSI.RESET + ANSI.PURPLE);
-        System.out.println("Rewritten in Java by " + ANSI.PURPLE_BACKGROUND + ANSI.RED + " Zabbum " + ANSI.RESET + ANSI.PURPLE);
-        System.out.println("\nThe big game and the big money.\n");
+        Game.oelLogo();
+        System.out.println(ANSI.RED_BACKGROUND + ANSI.BLUE_BRIGHT + "    CR. COMP. & TRANSL. BY " +
+                           ANSI.BLUE_BACKGROUND_BRIGHT + ANSI.RED + " MI$ AL " + ANSI.RED_BACKGROUND + "     " + ANSI.RESET);
+        System.out.println(ANSI.RED_BACKGROUND + ANSI.BLUE_BRIGHT + "     Rewritten in Java by " +
+                           ANSI.BLUE_BACKGROUND_BRIGHT + ANSI.RED + " Zabbum " + ANSI.RED_BACKGROUND + "      " + ANSI.RESET);
+        System.out.println(ANSI.BLUE_BRIGHT + "\nThe big game and the big money.\n");
 
         // Prompt for players amount
         int playerAmount = Prompt.playerAmount(scanner); // IOSC sz

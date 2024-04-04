@@ -52,9 +52,9 @@ public class Oilfield {
     }
 
     public static void buyField(Player player, Scanner scanner, Oilfield[] oilfields) {
-        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.PURPLE_BRIGHT + "WYPRZEDAŻ PÓL NAFTOWYCH" + ANSI.RESET);
-        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.PURPLE_BRIGHT + "Saldo konta:" + ANSI.RESET + " " +
-                           ANSI.YELLOW_BACKGROUND + ANSI.PURPLE_BRIGHT + player.balance + "$" + ANSI.RESET);
+        System.out.println(ANSI.YELLOW_BACKGROUND_BRIGHT + ANSI.PURPLE_BRIGHT + "WYPRZEDAŻ PÓL NAFTOWYCH" + ANSI.RESET);
+        System.out.println(ANSI.YELLOW_BACKGROUND_BRIGHT + ANSI.PURPLE_BRIGHT + "Saldo konta:" + ANSI.RESET + " " +
+                           ANSI.YELLOW_BACKGROUND_BRIGHT + ANSI.PURPLE_BRIGHT + player.balance + "$" + ANSI.RESET);
         System.out.println();
 
         // Calculate how many actions are possible

@@ -67,4 +67,173 @@ public class Game {
         System.out.println();
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK + "PRZYCIŚNIJ DOWOLNY KLAWISZ" + ANSI.RESET);
     }
+
+    public static void oelLogo() {
+        // Display the oel logo
+
+        // 1. row
+        System.out.print(ANSI.RED_BACKGROUND);
+        for (int i = 0; i < 40; i++) {
+            System.out.print(" ");
+        }
+        System.out.println(ANSI.RESET);
+
+        // 2. and 3. rows
+        for (int i = 0; i < 2; i++) {
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 12; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 12; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND);
+            for (int j = 0; j < 10; j++) {
+                System.out.print(" ");
+            }
+            System.out.println(ANSI.RESET);
+        }
+        
+        // 4. 5. 6. 7. 8. 9. and 10. rows
+        for (int i = 0; i < 7; i++) {
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND);
+            for (int j = 0; j < 6; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND);
+            for (int j = 0; j < 10; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND);
+            for (int j = 0; j < 10; j++) {
+                System.out.print(" ");
+            }
+            System.out.println(ANSI.RESET);
+        }
+
+        // 11. 12. and 13. rows
+        for (int i = 0; i < 3; i++) {
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND);
+            for (int j = 0; j < 6; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 8; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND);
+            for (int j = 0; j < 5; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND);
+            for (int j = 0; j < 10; j++) {
+                System.out.print(" ");
+            }
+            System.out.println(ANSI.RESET);            
+        }
+
+        // 14. 15. 16. 17. 18. 19. and 20. rows
+        for (int i = 0; i < 7; i++) {
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND);
+            for (int j = 0; j < 6; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND);
+            for (int j = 0; j < 10; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 3; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND);
+            for (int j = 0; j < 10; j++) {
+                System.out.print(" ");
+            }
+            System.out.println(ANSI.RESET);
+        }
+
+        // 21. 22. and 23. rows
+        for (int i = 0; i < 3; i++) {
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 12; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 12; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
+            for (int j = 0; j < 12; j++) {
+                System.out.print(" ");
+            }
+            System.out.print(ANSI.RED_BACKGROUND + " ");
+            System.out.println(ANSI.RESET);
+        }
+
+        // 24. row
+        System.out.print(ANSI.RED_BACKGROUND);
+        for (int i = 0; i < 40; i++) {
+            System.out.print(" ");
+        }
+        
+        System.out.println(ANSI.RESET);
+    }
 }
