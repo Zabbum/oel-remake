@@ -9,8 +9,11 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         // Intro
-        System.out.println("OEL");
-        System.out.println("The big game and the big money.\n");
+        // TODO: fancy OEL logo
+        System.out.println(ANSI.PURPLE + "OEL");
+        System.out.println("CR. COMP. & TRANSL. BY " + ANSI.PURPLE_BACKGROUND + ANSI.RED + " MI$ AL " + ANSI.RESET + ANSI.PURPLE);
+        System.out.println("Rewritten in Java by " + ANSI.PURPLE_BACKGROUND + ANSI.RED + " Zabbum " + ANSI.RESET + ANSI.PURPLE);
+        System.out.println("\nThe big game and the big money.\n");
 
         // Prompt for players amount
         int playerAmount = Prompt.playerAmount(scanner); // IOSC sz
@@ -37,12 +40,16 @@ public class App {
         
         // Info for player
         System.out.println("Każdy gracz posiada 124321$ kapitału.\n");
-        System.out.println("Wygrywa ten, kto osiągnie największy kapitał na końcu gry.");
+        System.out.println(ANSI.YELLOW + "Wygrywa ten, kto osiągnie największy kapitał na końcu gry.");
 
         // Info for player about oil prizes
-        System.out.println("Przewidywane ceny ropy na rynku");
+        System.out.println(ANSI.RED + "Przewidywane ceny ropy na rynku");
         System.out.println("(Jakie trendy w kolejnych latach :)");
 
+        // Draw graph
+        Oil.printGraph(oilPrizes, ANSI.PURPLE_BACKGROUND);
+
+        // Close scanner object
         scanner.close();
     }
 }

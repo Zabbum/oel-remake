@@ -1,6 +1,7 @@
 import java.util.Random;
 
 public class Oil {
+    // Generate oil prizes
     public static double[] generatePrizes(int roundCount) {
         double[] oilPrizes = new double[roundCount];
         Random random = new Random();
@@ -28,5 +29,27 @@ public class Oil {
         }
 
         return oilPrizes;
+    }
+
+    // Print out the graph of prizes
+    public static void printGraph(double[] oilPrizes, String ANSIGraphColor) {
+        // Maximum value is 20, so 20 rows
+        for (int i = 0; i < 20; i++) {
+            // For each prize
+            for (double prize : oilPrizes) {
+                // If the value is lesser
+                // or equal to current row,
+                // draw the color
+                if (prize <= i) {
+                    System.out.print(ANSIGraphColor + " " + ANSI.RESET);
+                }
+                // If not, leave empty space
+                else {
+                    System.out.print(" ");
+                }
+            }
+            // After row is completed, pass to the next line
+            System.out.print("\n");
+        }
     }
 }

@@ -18,6 +18,7 @@
 - `t` - ?
 - `l` - 54296 (kinda pointer) -> 15
                               -> t
+- `a` - 54277 (kinda pointer) -> 21
 - `si` - 54272
 - `rp` - oil prizes (?)
 - `r` - round(?)
