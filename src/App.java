@@ -1,11 +1,19 @@
+import java.util.Scanner;
+
 public class App {
     public static void main(String[] args) {
+        // Global variables
+        int roundCount = 34;
+
+        // Scanner class
+        Scanner scanner = new Scanner(System.in);
+
         // Intro
         System.out.println("OEL");
         System.out.println("The big game and the big money.\n");
 
         // Prompt for players amount
-        int playerAmount = Prompt.playerAmount(); // IOSC sz
+        int playerAmount = Prompt.playerAmount(scanner); // IOSC sz
         System.out.println();
 
         // Initialize industries
@@ -13,6 +21,9 @@ public class App {
         CarsProd[] carsProds = CarsProd.initialize();
         PumpProd[] pumpProds = PumpProd.initialize();
         DrillProd[] drillProds = DrillProd.initialize();
+
+        // Generate oil prizes
+        double[] oilPrizes = Oil.generatePrizes(roundCount);
         
         // Info for player
         System.out.println("Znajdujemy się obecnie w roku:");
@@ -20,9 +31,18 @@ public class App {
         System.out.println("Gra kończy się w roku 2020");
         System.out.println("i odbędzie się przy udziale:");
         System.out.println("Proszę wpisać imiona");
+
+        // Create players objects
+        Player[] players = Prompt.playerNames(playerAmount, scanner);
         
+        // Info for player
         System.out.println("Każdy gracz posiada 124321$ kapitału.\n");
         System.out.println("Wygrywa ten, kto osiągnie największy kapitał na końcu gry.");
-        
+
+        // Info for player about oil prizes
+        System.out.println("Przewidywane ceny ropy na rynku");
+        System.out.println("(Jakie trendy w kolejnych latach :)");
+
+        scanner.close();
     }
 }
