@@ -14,7 +14,7 @@ public class PumpProd {
 
     // Reference to the next object
     // (stricte for ownership data structure)
-    PumpProd next;
+    public PumpProd next;
 
     // Constructor
     public PumpProd(String name, int price, int amount) {

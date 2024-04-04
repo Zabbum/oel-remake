@@ -14,7 +14,7 @@ public class CarsProd {
 
     // Reference to the next object
     // (stricte for ownership data structure)
-    CarsProd next;
+    public CarsProd next;
 
     // Constructor
     public CarsProd(String name, int price, int amount) {

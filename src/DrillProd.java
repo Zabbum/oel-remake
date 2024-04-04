@@ -14,7 +14,7 @@ public class DrillProd {
 
     // Reference to the next object
     // (stricte for ownership data structure)
-    DrillProd next;
+    public DrillProd next;
 
     // Constructor
     public DrillProd(String name, int price, int amount) {
