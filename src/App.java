@@ -44,7 +44,7 @@ public class App {
 
         // Info for player about oil prizes
         System.out.println(ANSI.RED + "Przewidywane ceny ropy na rynku");
-        System.out.println("(Jakie trendy w kolejnych latach :)");
+        System.out.println("(Jakie trendy w kolejnych latach :)\n");
 
         // Draw graph
         Oil.printGraph(oilPrizes, ANSI.PURPLE_BACKGROUND);

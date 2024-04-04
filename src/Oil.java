@@ -34,13 +34,13 @@ public class Oil {
     // Print out the graph of prizes
     public static void printGraph(double[] oilPrizes, String ANSIGraphColor) {
         // Maximum value is 20, so 20 rows
-        for (int i = 0; i < 20; i++) {
+        for (int i = 20; i > 0; i--) {
             // For each prize
             for (double prize : oilPrizes) {
                 // If the value is lesser
                 // or equal to current row,
                 // draw the color
-                if (prize <= i) {
+                if (prize >= i) {
                     System.out.print(ANSIGraphColor + " " + ANSI.RESET);
                 }
                 // If not, leave empty space
