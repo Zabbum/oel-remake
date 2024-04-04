@@ -2,7 +2,7 @@ public class PumpProd {
 
     // Local variables
     private String name;
-    private int prize;
+    private int price;
     public boolean isBought;
     public Player ownership;
     public int amount;
@@ -12,9 +12,9 @@ public class PumpProd {
     PumpProd next;
 
     // Constructor
-    public PumpProd(String name, int prize, int amount) {
+    public PumpProd(String name, int price, int amount) {
         this.name = name;
-        this.prize = prize;
+        this.price = price;
         this.isBought = false;
         this.ownership = null;
         this.amount = amount;
@@ -25,9 +25,9 @@ public class PumpProd {
         return name;
     }
 
-    // Prize getter
-    public int getPrize() {
-        return prize;
+    // Price getter
+    public int getPrice() {
+        return price;
     }
 
     public static PumpProd[] initialize() {

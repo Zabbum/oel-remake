@@ -2,7 +2,7 @@ public class Oilfield {
 
     // Private variables
     private String name;
-    private int prize;
+    private int price;
     public boolean isBought;
     public Player ownership;
 
@@ -11,9 +11,9 @@ public class Oilfield {
     Oilfield next;
 
     // Constructor
-    public Oilfield(String name, int prize) {
+    public Oilfield(String name, int price) {
         this.name = name;
-        this.prize = prize;
+        this.price = price;
         this.isBought = false;
         this.ownership = null;
     }
@@ -23,9 +23,9 @@ public class Oilfield {
         return name;
     }
 
-    // Prize getter
-    public int getPrize() {
-        return prize;
+    // Price getter
+    public int getPrice() {
+        return price;
     }
 
     public static Oilfield[] initialize() {

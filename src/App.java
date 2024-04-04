@@ -26,8 +26,8 @@ public class App {
         PumpProd[] pumpProds = PumpProd.initialize();
         DrillProd[] drillProds = DrillProd.initialize();
 
-        // Generate oil prizes
-        double[] oilPrizes = Oil.generatePrizes(Game.roundCount);
+        // Generate oil prices
+        double[] oilPrices = Oil.generatePrices(Game.roundCount);
         
         // Info for player
         System.out.println("Znajdujemy się obecnie w roku:");
@@ -43,13 +43,13 @@ public class App {
         System.out.println("Każdy gracz posiada 124321$ kapitału.\n");
         System.out.println(ANSI.YELLOW + "Wygrywa ten, kto osiągnie największy kapitał na końcu gry.");
 
-        // Info for player about oil prizes
+        // Info for player about oil prices
         System.out.println(ANSI.RED + "Przewidywane ceny ropy na rynku");
         System.out.println("(Jakie trendy w kolejnych latach :)\n");
 
         // Draw graph
-        Oil.printGraph(oilPrizes, ANSI.PURPLE_BACKGROUND);
-        oilPrizes = Oil.reducePrizes(oilPrizes);
+        Oil.printGraph(oilPrices, ANSI.PURPLE_BACKGROUND);
+        oilPrices = Oil.reducePrices(oilPrices);
 
         System.out.println();
 

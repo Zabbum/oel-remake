@@ -6,20 +6,20 @@ public class DrillProd {
 
     // Local variables
     private String name;
-    private int prize;
+    private int price;
     public boolean isBought;
     public Player ownership;
     public int amount;
-    public double pipePrize500m;
+    public double pipePrice500m;
 
     // Reference to the next object
     // (stricte for ownership data structure)
     DrillProd next;
 
     // Constructor
-    public DrillProd(String name, int prize, int amount) {
+    public DrillProd(String name, int price, int amount) {
         this.name = name;
-        this.prize = prize;
+        this.price = price;
         this.isBought = false;
         this.ownership = null;
         this.amount = amount;
@@ -30,9 +30,9 @@ public class DrillProd {
         return name;
     }
 
-    // Prize getter
-    public int getPrize() {
-        return prize;
+    // Price getter
+    public int getPrice() {
+        return price;
     }
 
     public static DrillProd[] initialize() {
@@ -82,7 +82,7 @@ public class DrillProd {
             System.out.print("\t");
             System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + drillProds[i].amount+ ANSI.RESET);
             System.out.print("\t");
-            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + drillProds[i].getPrize() + ANSI.RESET);
+            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + drillProds[i].getPrice() + ANSI.RESET);
             System.out.print(" ");
             System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "$" + ANSI.RESET);
             System.out.println("\n");
@@ -117,7 +117,7 @@ public class DrillProd {
         drillProds[selectedProd].isBought = true;
         drillProds[selectedProd].ownership = player;
 
-        player.balance -= drillProds[selectedProd].getPrize();
+        player.balance -= drillProds[selectedProd].getPrice();
 
         // Inform user about purchase
         System.out.println("Jesteś właścicielem fabryki:");
@@ -125,19 +125,19 @@ public class DrillProd {
         System.out.println();
         System.out.println("Proszę podać swoją cenę na rury o długości 500m.");
 
-        // Get prize from user
-        double proposedPrize = -1;
-        while (proposedPrize < 0) {
+        // Get price from user
+        double proposedPrice = -1;
+        while (proposedPrice < 0) {
             System.out.print("  ? ");
             try {
-                proposedPrize = scanner.nextDouble();
+                proposedPrice = scanner.nextDouble();
             } catch (InputMismatchException e) {
                 scanner.next();
             }
         }
 
-        // Set the prize
-        drillProds[selectedProd].pipePrize500m = proposedPrize;
+        // Set the price
+        drillProds[selectedProd].pipePrice500m = proposedPrice;
 
     }
 }
