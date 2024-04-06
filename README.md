@@ -6,3 +6,4 @@ Project trying to rewrite OEL Pompowacze in java
 - `oel_pompowacze.txt` is original game sourcecode
 - `notes.md` are development notes on original sourcecode
 - `vice-snapshot-20240404095051.vsf` is a snapshot of VICE C64 emulator running the game
+- `vice-snapshot-drills.vsf` is a snapshot from drill buying menu

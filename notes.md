@@ -14,7 +14,6 @@
 - `pf()` - pump productions
 - `b()` - drill productions
 - `tg()` - cars productions
-- `k` - ?
 - `t` - ?
 - `l` - 54296 (kinda pointer) -> 15
                               -> t
