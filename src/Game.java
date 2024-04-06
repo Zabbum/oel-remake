@@ -28,53 +28,44 @@ public class Game {
             
             // Redirect to the valid menu
             switch (action) {
-                case 'A': {
+                case 'A' -> {
                     // Drill productions
                     DrillProd.buyIndustry(player, scanner, drillProds);
-                    break;
                 }
-                case 'B': {
+                case 'B' -> {
                     // Pump productions
                     PumpProd.buyIndustry(player, scanner, pumpProds);
-                    break;
                 }
-                case 'C': {
+                case 'C' -> {
                     // Cars productions
                     CarsProd.buyIndustry(player, scanner, carsProds);
-                    break;
                 }
-                case 'D': {
+                case 'D' -> {
                     // Oilfields
                     Oilfield.buyField(player, scanner, oilfields);
-                    break;
                 }
-                case 'E': {
+                case 'E' -> {
                     // Drills
                     DrillProd.buyProduct(player, scanner, drillProds, oilfields);
-                    break;
                 }
-                case 'F': {
+                case 'F' -> {
                     // Pumps
                     PumpProd.buyProduct(player, scanner, pumpProds, oilfields);
-                    break;
                 }
-                case 'G': {
+                case 'G' -> {
                     // Cars
                     CarsProd.buyProduct(player, scanner, carsProds, oilfields);
-                    break;
                 }
-                case 'H': {
+                case 'H' -> {
                     // Pass
-                    break;
                 }
-                case 'I': {
+                case 'I' -> {
                     // Sabotage
                     Sabotage.doSabotage(player, scanner, oilfields);
-                    break;
                 }
-                default:
+                default -> {
                     System.out.println(ANSI.RED + "No value provided. This could be an error.\n" + ANSI.RESET);
-                    break;
+                }
             }
 
             Game.currentRound += 1;

@@ -135,11 +135,11 @@ public class Sabotage {
                 // Reset amount of oil available to sell
                 oilfields[sabotedOilfieldIndex].oilAvailabletoSell = 0;
             }
-        }
-        else {
-            // Inform user about failure
-            for (int i = 0; i < 12; i++) {
-                System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.RED_BRIGHT + "Nie udało się!" + ANSI.RESET);
+            else {
+                // Inform user about failure
+                for (int i = 0; i < 12; i++) {
+                    System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.RED_BRIGHT + "Nie udało się!" + ANSI.RESET);
+                }
             }
         }
     }
