@@ -48,7 +48,7 @@ public class CarsProd {
     }
 
     // Menu for buying cars productions
-    public static void buyProd(Player player, Scanner scanner, CarsProd[] carsProds) {
+    public static void buyIndustry(Player player, Scanner scanner, CarsProd[] carsProds) {
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "SPRZEDAŻ WIERTEŁ" + ANSI.RESET);
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "Saldo konta:" + ANSI.RESET + " " +
                            ANSI.WHITE_BACKGROUND + ANSI.BLUE + player.balance + "$" + ANSI.RESET);

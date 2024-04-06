@@ -9,9 +9,14 @@ public class Oilfield {
     public boolean isBought;
     public Player ownership;
 
+    // Amounts of exploitation stuff
+    public int carsAmount;
+    public int drillAmount;
+    public int pumpAmount;
+
     // Reference to the next object
     // (stricte for ownership data structure)
-    Oilfield next;
+    public Oilfield next;
 
     // Constructor
     public Oilfield(String name, int price) {
@@ -19,6 +24,9 @@ public class Oilfield {
         this.price = price;
         this.isBought = false;
         this.ownership = null;
+        this.carsAmount = 0;
+        this.drillAmount = 0;
+        this.pumpAmount = 0;
     }
 
     // Name getter

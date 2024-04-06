@@ -28,20 +28,26 @@ public class Game {
             // Redirect to the valid menu
             if (action == 'A') {
                 // Drill productions
-                DrillProd.buyProd(player, scanner, drillProds);
+                DrillProd.buyIndustry(player, scanner, drillProds);
             }
             if (action == 'B') {
                 // Pump productions
-                PumpProd.buyProd(player, scanner, pumpProds);
+                PumpProd.buyIndustry(player, scanner, pumpProds);
             }
             if (action == 'C') {
                 // Cars productions
-                CarsProd.buyProd(player, scanner, carsProds);
+                CarsProd.buyIndustry(player, scanner, carsProds);
             }
             if (action == 'D') {
                 // Oilfields
                 Oilfield.buyField(player, scanner, oilfields);
             }
+            if (action == 'E') {
+                // Drills
+                DrillProd.buyProduct(player, scanner, drillProds, oilfields);
+            }
+
+            Game.currentRound += 1;
         }
     }
 

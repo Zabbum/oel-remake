@@ -46,7 +46,7 @@ public class PumpProd {
     }
 
     // Menu for buying pump productions
-    public static void buyProd(Player player, Scanner scanner, PumpProd[] pumpProds) {
+    public static void buyIndustry(Player player, Scanner scanner, PumpProd[] pumpProds) {
         System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "KUPOWANIE FABRYK POMP" + ANSI.RESET);
         System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "Saldo konta:" + ANSI.RESET + " " +
                            ANSI.YELLOW_BACKGROUND + ANSI.BLUE + player.balance + "$" + ANSI.RESET);

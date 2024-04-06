@@ -55,7 +55,9 @@ public class App {
         System.out.println();
 
         // Play
-        Game.playRound(players, scanner, oilfields, carsProds, pumpProds, drillProds);
+        for (int i = 0; i < Game.roundCount; i++) {
+            Game.playRound(players, scanner, oilfields, carsProds, pumpProds, drillProds);
+        }
 
         // Close scanner object
         scanner.close();

@@ -10,10 +10,10 @@
 
 ## Variable names
 - `sz` - amount of players
-- `bf$()` - oilfields
-- `pf$()` - pump productions
-- `b$()` - drill productions
-- `tg$()` - cars productions
+- `bf()` - oilfields
+- `pf()` - pump productions
+- `b()` - drill productions
+- `tg()` - cars productions
 - `k` - ?
 - `t` - ?
 - `l` - 54296 (kinda pointer) -> 15
@@ -21,4 +21,8 @@
 - `a` - 54277 (kinda pointer) -> 21
 - `si` - 54272
 - `rp` - oil prizes (?)
-- `r` - round(?)
+- `bd()` - price of drill from productions
+- `bw()` - amount of available drills in production
+- `bb()` - drill production ownership
+- `ks()` - players' balance
+- `r` - current round(?)
