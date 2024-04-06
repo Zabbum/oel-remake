@@ -1,4 +1,5 @@
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class PumpProd {
@@ -16,12 +17,14 @@ public class PumpProd {
     public PumpProd next;
 
     // Constructor
-    public PumpProd(String name, int industryPrice, int amount) {
+    public PumpProd(String name) {
+        Random random = new Random();
+
         this.name = name;
-        this.industryPrice = industryPrice;
+        this.industryPrice = random.nextInt(80000) + 36000;
         this.isBought = false;
         this.ownership = null;
-        this.amount = amount;
+        this.amount = (int)(this.industryPrice/10000) * 7 + 25;
     }
 
     // Name getter
@@ -38,8 +41,8 @@ public class PumpProd {
         PumpProd[] pumpProds = new PumpProd[2];
 
         // Pump productions initialization
-        pumpProds[0] = new PumpProd("ZASSANICKI GMBH", 59829, 60);
-        pumpProds[1] = new PumpProd("DR PUMPENER",     54754, 60);
+        pumpProds[0] = new PumpProd("ZASSANICKI GMBH");
+        pumpProds[1] = new PumpProd("DR PUMPENER");
 
         return pumpProds;
     }

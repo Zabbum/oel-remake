@@ -26,11 +26,15 @@
 - `mb()` - oilfields' remaining drill buffers
 - `bb()` - oilfields' available oil amount
 - `gg()` - oilfields' amount of oil to sell
-- `pf()` - pump productions
+- `pf$()` - pump productions names
+- `pf()` - pump productions' industry prices
+- `pw()` = pump productions' amounts of products
 - `b()` - drill productions
 - `bw()` - drill productions' amounts of products
 - `bg()` - drill productions' industry prices
 - `tg()` - cars productions
+- `tw()` - cars productions' amounts of products
+- `tp()` - cars productions' industry prices
 - `l` - 54296 (kinda pointer)
 - `a` - 54277 (kinda pointer)
 - `si` - 54272

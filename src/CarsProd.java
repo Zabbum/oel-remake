@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class CarsProd {
@@ -17,12 +18,14 @@ public class CarsProd {
     public CarsProd next;
 
     // Constructor
-    public CarsProd(String name, int industryPrice, int amount) {
+    public CarsProd(String name) {
+        Random random = new Random();
+
         this.name = name;
-        this.industryPrice = industryPrice;
+        this.industryPrice = random.nextInt(55000) + 45000;
         this.isBought = false;
         this.ownership = null;
-        this.amount = amount;
+        this.amount = ((int)(this.industryPrice/10000)) * 3  + 15;
     }
 
     // Name getter
@@ -39,10 +42,10 @@ public class CarsProd {
         CarsProd[] carsProds = new CarsProd[4];
 
         // Cars productions initialization
-        carsProds[0] = new CarsProd("WÓZ-PRZEWÓZ",     56700, 30);
-        carsProds[1] = new CarsProd("WAGONENSITZ",     94830, 42);
-        carsProds[2] = new CarsProd("WORLD CO.",       62596, 33);
-        carsProds[3] = new CarsProd("DRINK TANK INC.", 81217, 39);
+        carsProds[0] = new CarsProd("WÓZ-PRZEWÓZ");
+        carsProds[1] = new CarsProd("WAGONENSITZ");
+        carsProds[2] = new CarsProd("WORLD CO.");
+        carsProds[3] = new CarsProd("DRINK TANK INC.");
 
         return carsProds;
     }
