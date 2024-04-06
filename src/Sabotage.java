@@ -15,7 +15,7 @@ public class Sabotage {
         System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.YELLOW_BRIGHT + "4 - Sabotaż fabryki wierteł" + ANSI.RESET);
         System.out.println();
 
-        char possibleActions[] = {'0', '1', '2', '3', '4'};
+        String possibleActions[] = {"0", "1", "2", "3", "4"};
         int action = Prompt.promptInt(possibleActions, scanner);
         action++;
 
@@ -57,13 +57,13 @@ public class Sabotage {
             }
 
             // Generate the possible actions
-            char possibleActions[] = new char[oilfields.length + 1];
+            String possibleActions[] = new String[oilfields.length + 1];
             for (int i = 0; i < possibleActions.length; i++) {
                 if (i < oilfields.length) {
-                    possibleActions[i] = (char)(i+48+1);
+                    possibleActions[i] = String.valueOf(i+1);
                 }
                 else {
-                    possibleActions[i] = '0';
+                    possibleActions[i] = "0";
                 }
             }
 
@@ -93,7 +93,7 @@ public class Sabotage {
             System.out.println("(0 - anuluj, 1 - działaj)");
 
             // Prompt for an action
-            possibleActions = new char[]{'0', '1'};
+            possibleActions = new String[]{"0", "1"};
             int action = Prompt.promptInt(possibleActions, scanner);
 
             // If 0 selected, return
@@ -135,12 +135,11 @@ public class Sabotage {
                 // Reset amount of oil available to sell
                 oilfields[sabotedOilfieldIndex].oilAvailabletoSell = 0;
             }
-            System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.RED_BRIGHT + "Nie udało się!" + ANSI.RESET);
         }
         else {
             // Inform user about failure
             for (int i = 0; i < 12; i++) {
-                System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.BLACK + "Masz pecha!" + ANSI.RESET);
+                System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.RED_BRIGHT + "Nie udało się!" + ANSI.RESET);
             }
         }
     }

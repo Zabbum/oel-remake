@@ -42,18 +42,18 @@ public class Prompt {
     }
 
     // Prompt for a integer
-    public static int promptInt(char[] possibleActions, Scanner scanner) {
+    public static int promptInt(String[] possibleActions, Scanner scanner) {
         Arrays.sort(possibleActions);
-        char action = ' ';
+        String action = " ";
 
         // Get the action and
         // verify that the action is correct,
         // if not then wait for another
         while (Arrays.binarySearch(possibleActions, action) < 0) {
             System.out.print("  ? ");
-            action = scanner.nextLine().toUpperCase().charAt(0);
+            action = scanner.nextLine().toUpperCase();
         }
-        int result = (int) (action-48-1);
+        int result = Integer.parseInt(action) - 1;
 
         return result;
     }

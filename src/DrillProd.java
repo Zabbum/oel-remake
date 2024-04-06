@@ -68,9 +68,9 @@ public class DrillProd {
 
         // Create possible actions array
         // Every 'uninitialized' slot's value is '0'
-        char[] possibleActions = new char[possibleActionsLength];
+        String[] possibleActions = new String[possibleActionsLength];
         for (int i = 0; i < possibleActions.length; i++) {
-            possibleActions[i] = '0';
+            possibleActions[i] = "0";
         }
 
         // Display every available Drill production
@@ -96,8 +96,8 @@ public class DrillProd {
             // Add production to array
             //     Find the latest 'uninitialized' slot
             for (int j = 0; j < possibleActions.length; j++) {
-                if (possibleActions[j] == '0') {
-                    possibleActions[j] = (char) (i+1+48);
+                if (possibleActions[j] == "0") {
+                    possibleActions[j] = String.valueOf(i+1);
                     break;
                 }
             }
@@ -165,9 +165,9 @@ public class DrillProd {
 
         // Create possible actions array
         // Every 'uninitialized' slot's value is '0'
-        char[] possibleActions = new char[possibleActionsLength];
+        String[] possibleActions = new String[possibleActionsLength];
         for (int i = 0; i < possibleActions.length; i++) {
-            possibleActions[i] = '0';
+            possibleActions[i] = "0";
         }
 
         // Display every single Drill production
@@ -189,8 +189,8 @@ public class DrillProd {
                 // Add production to array
                 //     Find the latest 'uninitialized' slot
                 for (int j = 0; j < possibleActions.length; j++) {
-                    if (possibleActions[j] == '0') {
-                        possibleActions[j] = (char) (i+1+48);
+                    if (possibleActions[j] == "0") {
+                        possibleActions[j] = String.valueOf(i+1);
                         break;
                     }
                 }
