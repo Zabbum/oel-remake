@@ -63,6 +63,15 @@ public class Game {
                     CarsProd.buyProduct(player, scanner, carsProds, oilfields);
                     break;
                 }
+                case 'H': {
+                    // Pass
+                    break;
+                }
+                case 'I': {
+                    // Sabotage
+                    Sabotage.doSabotage(player, scanner, oilfields);
+                    break;
+                }
                 default:
                     System.out.println(ANSI.RED + "No value provided. This could be an error.\n" + ANSI.RESET);
                     break;

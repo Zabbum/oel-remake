@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -102,17 +101,9 @@ public class DrillProd {
         }
         System.out.println();
 
-        // Get the action and
-        // verify that the action is correct,
-        // if not then wait for another
-        System.out.println("Którą firmę chcesz kupić?");  
-        char action = ' ';
-        Arrays.sort(possibleActions);
-        while (Arrays.binarySearch(possibleActions, action) < 0) {
-            System.out.print("  ? ");
-            action = scanner.nextLine().toUpperCase().charAt(0);
-        }
-        int selectedIndustryIndex = (int) (action-48-1);
+        // Get the action
+        System.out.println("Którą firmę chcesz kupić?");
+        int selectedIndustryIndex = Prompt.promptInt(possibleActions, scanner);
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
@@ -208,17 +199,9 @@ public class DrillProd {
             System.out.println(ANSI.RESET + "\n");
         }
 
-        // Get the action and
-        // verify that the action is correct,
-        // if not then wait for another
+        // Get the action
         System.out.println(ANSI.RED + "Zakup z której firmy?" + ANSI.RESET);  
-        char action = ' ';
-        Arrays.sort(possibleActions);
-        while (Arrays.binarySearch(possibleActions, action) < 0) {
-            System.out.print("  ? ");
-            action = scanner.nextLine().toUpperCase().charAt(0);
-        }
-        int selectedIndustryIndex = (int) (action-48-1);
+        int selectedIndustryIndex = Prompt.promptInt(possibleActions, scanner);
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
@@ -230,8 +213,7 @@ public class DrillProd {
         int selectedDrillAmount = -1;
         while (selectedDrillAmount < 0 ||
                selectedDrillAmount > drillProds[selectedIndustryIndex].amount ||
-               selectedDrillAmount > 10 ||
-               player.balance < (drillProds[selectedIndustryIndex].productPrice * selectedDrillAmount)) {
+               selectedDrillAmount > 10) {
             
                 System.out.print("  ? ");
                 selectedDrillAmount = scanner.nextInt();
@@ -276,6 +258,6 @@ public class DrillProd {
             // didn't place them anywhere, return
             return;
         }
-        oilfields[selectedOilfieldIndex].drillAmount += selectedDrillAmount; // Place drills in the oilfield
+        oilfields[selectedOilfieldIndex].drillAmount += selectedDrillAmount * 500; // Place drills in the oilfield
     }
 }

@@ -1,9 +1,10 @@
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Prompt {
     // Prompt for player amount and ensure that provided number is correct
-    static public int playerAmount(Scanner scanner) {
+    public static int playerAmount(Scanner scanner) {
 
         int playerAmount = 0;
 
@@ -22,7 +23,7 @@ public class Prompt {
     }
 
     // Prompt for player names and create objects
-    static public Player[] playerNames(int playerAmount, Scanner scanner) {
+    public static Player[] playerNames(int playerAmount, Scanner scanner) {
 
         Player[] players = new Player[playerAmount];
 
@@ -38,5 +39,22 @@ public class Prompt {
             players[i] = new Player(name);
         }
         return players;
+    }
+
+    // Prompt for a integer
+    public static int promptInt(char[] possibleActions, Scanner scanner) {
+        Arrays.sort(possibleActions);
+        char action = ' ';
+
+        // Get the action and
+        // verify that the action is correct,
+        // if not then wait for another
+        while (Arrays.binarySearch(possibleActions, action) < 0) {
+            System.out.print("  ? ");
+            action = scanner.nextLine().toUpperCase().charAt(0);
+        }
+        int result = (int) (action-48-1);
+
+        return result;
     }
 }

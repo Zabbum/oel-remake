@@ -103,18 +103,8 @@ public class CarsProd {
         }
         System.out.println();
 
-        // Get the action and
-        // verify that the action is correct,
-        // if not then wait for another
-        System.out.println("Którą firmę chcesz kupić?");  
-        char action = ' ';
-        Arrays.sort(possibleActions);
-        while (Arrays.binarySearch(possibleActions, action) < 0) {
-            System.out.print("  ? ");
-            action = scanner.nextLine().toUpperCase().charAt(0);
-        }
-
-        int selectedIndustryIndex = (int) (action-48-1);
+        // Get the action
+        int selectedIndustryIndex = Prompt.promptInt(possibleActions, scanner);
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
@@ -210,17 +200,8 @@ public class CarsProd {
             System.out.println(ANSI.RESET + "\n");
         }
 
-        // Get the action and
-        // verify that the action is correct,
-        // if not then wait for another
-        System.out.println(ANSI.RED + "Zakup z której firmy?" + ANSI.RESET);  
-        char action = ' ';
-        Arrays.sort(possibleActions);
-        while (Arrays.binarySearch(possibleActions, action) < 0) {
-            System.out.print("  ? ");
-            action = scanner.nextLine().toUpperCase().charAt(0);
-        }
-        int selectedIndustryIndex = (int) (action-48-1);
+        // Get the action
+        int selectedIndustryIndex = Prompt.promptInt(possibleActions, scanner);
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
@@ -232,8 +213,7 @@ public class CarsProd {
         int selectedPumpAmount = -1;
         while (selectedPumpAmount < 0 ||
                selectedPumpAmount > pumpProds[selectedIndustryIndex].amount ||
-               selectedPumpAmount > 15 ||
-               player.balance < (pumpProds[selectedIndustryIndex].productPrice * selectedPumpAmount)) {
+               selectedPumpAmount > 15) {
             
                 System.out.print("  ? ");
                 selectedPumpAmount = scanner.nextInt();
@@ -361,8 +341,7 @@ public class CarsProd {
         int selectedCarsAmount = -1;
         while (selectedCarsAmount < 0 ||
                selectedCarsAmount > carsProds[selectedIndustryIndex].amount ||
-               selectedCarsAmount > 15 ||
-               player.balance < (carsProds[selectedIndustryIndex].productPrice * selectedCarsAmount)) {
+               selectedCarsAmount > 15) {
             
                 System.out.print("  ? ");
                 selectedCarsAmount = scanner.nextInt();
