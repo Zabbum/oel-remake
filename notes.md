@@ -28,6 +28,8 @@
 - `gg()` - oilfields' amount of oil to sell
 - `pf()` - pump productions
 - `b()` - drill productions
+- `bw()` - drill productions' amounts of products
+- `bg()` - drill productions' industry prices
 - `tg()` - cars productions
 - `l` - 54296 (kinda pointer)
 - `a` - 54277 (kinda pointer)

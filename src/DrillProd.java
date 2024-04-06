@@ -1,4 +1,5 @@
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class DrillProd {
@@ -16,12 +17,14 @@ public class DrillProd {
     public DrillProd next;
 
     // Constructor
-    public DrillProd(String name, int industryPrice, int amount) {
+    public DrillProd(String name) {
+        Random random = new Random();
+
         this.name = name;
-        this.industryPrice = industryPrice;
+        this.industryPrice = random.nextInt(50000) + 10000;
         this.isBought = false;
         this.ownership = null;
-        this.amount = amount;
+        this.amount = random.nextInt(((int)(this.industryPrice/10000)) * 8 + 25);
     }
 
     // Name getter
@@ -38,9 +41,9 @@ public class DrillProd {
         DrillProd[] drillProds = new DrillProd[3];
 
         // Dril productions initialization
-        drillProds[0] = new DrillProd("TURBOWIERT",    41124, 57);
-        drillProds[1] = new DrillProd("NA BŁYSK INC.", 43149, 57);
-        drillProds[2] = new DrillProd("PET SHOP&BOYS", 32919, 49);
+        drillProds[0] = new DrillProd("TURBOWIERT");
+        drillProds[1] = new DrillProd("NA BŁYSK INC.");
+        drillProds[2] = new DrillProd("PET SHOP&BOYS");
 
         return drillProds;
     }
