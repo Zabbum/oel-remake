@@ -96,7 +96,7 @@ public class DrillProd {
             // Add production to array
             //     Find the latest 'uninitialized' slot
             for (int j = 0; j < possibleActions.length; j++) {
-                if (possibleActions[j] == "0") {
+                if (possibleActions[j].equals("0")) {
                     possibleActions[j] = String.valueOf(i+1);
                     break;
                 }
@@ -189,7 +189,7 @@ public class DrillProd {
                 // Add production to array
                 //     Find the latest 'uninitialized' slot
                 for (int j = 0; j < possibleActions.length; j++) {
-                    if (possibleActions[j] == "0") {
+                    if (possibleActions[j].equals("0")) {
                         possibleActions[j] = String.valueOf(i+1);
                         break;
                     }
