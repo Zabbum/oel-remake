@@ -24,27 +24,48 @@ public class Game {
                     action = input.charAt(0);
                 }
             }
-
+            System.out.println();
+            
             // Redirect to the valid menu
-            if (action == 'A') {
-                // Drill productions
-                DrillProd.buyIndustry(player, scanner, drillProds);
-            }
-            if (action == 'B') {
-                // Pump productions
-                PumpProd.buyIndustry(player, scanner, pumpProds);
-            }
-            if (action == 'C') {
-                // Cars productions
-                CarsProd.buyIndustry(player, scanner, carsProds);
-            }
-            if (action == 'D') {
-                // Oilfields
-                Oilfield.buyField(player, scanner, oilfields);
-            }
-            if (action == 'E') {
-                // Drills
-                DrillProd.buyProduct(player, scanner, drillProds, oilfields);
+            switch (action) {
+                case 'A': {
+                    // Drill productions
+                    DrillProd.buyIndustry(player, scanner, drillProds);
+                    break;
+                }
+                case 'B': {
+                    // Pump productions
+                    PumpProd.buyIndustry(player, scanner, pumpProds);
+                    break;
+                }
+                case 'C': {
+                    // Cars productions
+                    CarsProd.buyIndustry(player, scanner, carsProds);
+                    break;
+                }
+                case 'D': {
+                    // Oilfields
+                    Oilfield.buyField(player, scanner, oilfields);
+                    break;
+                }
+                case 'E': {
+                    // Drills
+                    DrillProd.buyProduct(player, scanner, drillProds, oilfields);
+                    break;
+                }
+                case 'F': {
+                    // Pumps
+                    PumpProd.buyProduct(player, scanner, pumpProds, oilfields);
+                    break;
+                }
+                case 'G': {
+                    // Cars
+                    CarsProd.buyProduct(player, scanner, carsProds, oilfields);
+                    break;
+                }
+                default:
+                    System.out.println(ANSI.RED + "No value provided. This could be an error.\n" + ANSI.RESET);
+                    break;
             }
 
             Game.currentRound += 1;

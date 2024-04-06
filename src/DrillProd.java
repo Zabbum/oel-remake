@@ -62,6 +62,7 @@ public class DrillProd {
                 possibleActionsLength += 1;
             }
         }
+        possibleActionsLength++;
 
         // Create possible actions array
         // Every 'uninitialized' slot's value is '0'
@@ -106,26 +107,31 @@ public class DrillProd {
         // if not then wait for another
         System.out.println("Którą firmę chcesz kupić?");  
         char action = ' ';
+        Arrays.sort(possibleActions);
         while (Arrays.binarySearch(possibleActions, action) < 0) {
             System.out.print("  ? ");
             action = scanner.nextLine().toUpperCase().charAt(0);
         }
+        int selectedIndustryIndex = (int) (action-48-1);
 
-        int selectedProdIndex = (int) (action-48-1);
+        // If 0 selected, return
+        if (selectedIndustryIndex == -1) {
+            return;
+        }
 
         // Note purchase
         DrillProd tmp = player.ownedDrillProd;
-        player.ownedDrillProd = drillProds[selectedProdIndex];
+        player.ownedDrillProd = drillProds[selectedIndustryIndex];
         player.ownedDrillProd.next = tmp;
 
-        drillProds[selectedProdIndex].isBought = true;
-        drillProds[selectedProdIndex].ownership = player;
+        drillProds[selectedIndustryIndex].isBought = true;
+        drillProds[selectedIndustryIndex].ownership = player;
 
-        player.balance -= drillProds[selectedProdIndex].getIndustryPrice();
+        player.balance -= drillProds[selectedIndustryIndex].getIndustryPrice();
 
         // Inform user about purchase
         System.out.println("Jesteś właścicielem fabryki:");
-        System.out.println(drillProds[selectedProdIndex].getName());
+        System.out.println(drillProds[selectedIndustryIndex].getName());
         System.out.println();
         System.out.println("Proszę podać swoją cenę na rury o długości 500m.");
 
@@ -141,7 +147,7 @@ public class DrillProd {
         }
 
         // Set the price
-        drillProds[selectedProdIndex].productPrice = proposedPrice;
+        drillProds[selectedIndustryIndex].productPrice = proposedPrice;
     }
 
     // Menu for buying drills
@@ -161,6 +167,7 @@ public class DrillProd {
                 possibleActionsLength += 1;
             }
         }
+        possibleActionsLength++;
 
         // Create possible actions array
         // Every 'uninitialized' slot's value is '0'
@@ -206,11 +213,17 @@ public class DrillProd {
         // if not then wait for another
         System.out.println(ANSI.RED + "Zakup z której firmy?" + ANSI.RESET);  
         char action = ' ';
+        Arrays.sort(possibleActions);
         while (Arrays.binarySearch(possibleActions, action) < 0) {
             System.out.print("  ? ");
             action = scanner.nextLine().toUpperCase().charAt(0);
         }
         int selectedIndustryIndex = (int) (action-48-1);
+
+        // If 0 selected, return
+        if (selectedIndustryIndex == -1) {
+            return;
+        }
 
         // Prompt for drills amount
         System.out.println("Ile rur 500 metrowych kupujesz? (limit 10)");
