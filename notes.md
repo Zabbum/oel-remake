@@ -9,12 +9,12 @@
 - `POKE 53280,?`, `POKE 53281,? ` - change colors
 
 ## Variable names
+- `t`, `k` - iterations
 - `sz` - amount of players
 - `bf()` - oilfields
 - `pf()` - pump productions
 - `b()` - drill productions
 - `tg()` - cars productions
-- `t` - ?
 - `l` - 54296 (kinda pointer) -> 15
                               -> t
 - `a` - 54277 (kinda pointer) -> 21
