@@ -1,10 +1,11 @@
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Sabotage {
     
     // Do a sabotage
-    public static void doSabotage(Player player, Scanner scanner, Oilfield[] oilfields) {
+    public static void doSabotage(Player player, Scanner scanner, Oilfield[] oilfields, PumpProd[] pumpProds) {
         // Inform user where they are
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK_BRIGHT + "SABOTAŻ SABOTAŻ SABOTAŻ" + ANSI.RESET);
         System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.WHITE + "Masz teraz następujące możliwości:" + ANSI.RESET);
@@ -20,15 +21,19 @@ public class Sabotage {
         action++;
 
         switch (action) {
-            case 0:
+            case 0 -> {
                 // If 0 selected, return
                 return;
-            case 1:
+            }
+            case 1 -> {
                 // If 1 selected, attempt oilfield sabotage
                 attemptOilfieldSabotage(player, scanner, oilfields);
-                break;
-            default:
-                break;
+            }
+            case 2 -> {
+                // If 2 selected, attempt pump industry sabotage
+                attemptPumpIndustrySabotage(player, scanner, pumpProds);
+            }
+            default -> {}
         }
     }
 
@@ -141,6 +146,105 @@ public class Sabotage {
                     System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.RED_BRIGHT + "Nie udało się!" + ANSI.RESET);
                 }
             }
+        }
+    }
+
+    // Attempt a pump industry sabotage
+    static void attemptPumpIndustrySabotage(Player player, Scanner scanner, PumpProd[] pumpProds) {
+        Random random = new Random();
+
+        // Create possible actions array
+        int possibleActionsLength = 1;
+        for (PumpProd pumpProd : pumpProds) {
+            if (pumpProd.isBought) {
+                possibleActionsLength += 1;
+            }
+        }
+        String[] possibleActions = new String[possibleActionsLength];
+        for (int i = 0; i < possibleActions.length; i++) {
+            possibleActions[i] = "0";
+        }
+
+        // Inform user
+        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.BLACK + "Którą z następujących firm chcesz zasabotować?" + ANSI.RESET);
+        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.YELLOW_BRIGHT + "Twoje saldo\t" + player.balance + "$" + ANSI.RESET);
+        System.out.println();
+        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "\tFabryka\t\tCena\tWłasność" + ANSI.RESET);
+        
+        for (int i = 0; i < pumpProds.length; i++) {
+            System.out.print(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.BLACK + (i+1) + "\t");
+            System.out.print(pumpProds[i].getName() + "\t");
+            System.out.print(pumpProds[i].getIndustryPrice() + "$\t");
+            if (pumpProds[i].isBought) {
+                System.out.print(pumpProds[i].ownership.name);
+
+                // Find latest uninitialized slot in array and change its value
+                for (int j = 0; j < possibleActions.length; j++) {
+                    if (possibleActions[j].equals("0")) {
+                        possibleActions[j] = String.valueOf(i+1);
+                    }
+                }
+            }
+            System.out.println(ANSI.RESET);
+        }
+
+        // Get the action
+        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "Która firma?" + ANSI.RESET);
+        int sabotedPumpProdIndex = Prompt.promptInt(possibleActions, scanner);
+
+        // If 0 selected, return
+        if (sabotedPumpProdIndex == -1) {
+            return;
+        }
+
+        // Generate result
+        int[] results = new int[]{50, -20, 40, -10, 30, -30, 10, -40, 20, -50};
+        int resultIndex = 0;
+
+        try {
+            while (System.in.available() == 0) {
+                if (resultIndex < 9) {
+                    resultIndex++;
+                }
+                else {
+                    resultIndex = 0;
+                }
+                
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+                System.out.println(ANSI.BLACK + ANSI.WHITE + "Tu padnie rozstrzygnięcie!" + ANSI.RESET);
+                System.out.println(ANSI.BLACK + ANSI.WHITE + "Wciśnij ENTER w odpowiednim momencie" + ANSI.RESET);
+                System.out.println(results[resultIndex]);
+                Thread.sleep(60);
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Interrupted");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        // Inform user about the result
+        System.out.print(ANSI.BLACK_BACKGROUND + ANSI.WHITE + "Wynik sabotażu: ");
+        if (results[resultIndex] > 0) {
+            System.out.print("+");
+        }
+        System.out.println(results[resultIndex] + "%" + ANSI.RESET);
+        if (results[resultIndex] > 0) {
+            System.out.println(ANSI.BLACK_BACKGROUND + ANSI.RED_BRIGHT + "Dopłacasz do interesu!" + ANSI.RESET);
+        }
+        else {
+            System.out.println(ANSI.BLACK_BACKGROUND + ANSI.GREEN_BRIGHT + "Udane przedsięwzięcie!" + ANSI.RESET);
+        }
+
+        // Take actions
+        int finalResult = results[resultIndex] + 100;
+        player.balance -= pumpProds[sabotedPumpProdIndex].getIndustryPrice() * finalResult / 100;
+        if (finalResult < 100) {
+            pumpProds[sabotedPumpProdIndex].ownership = null;
+            pumpProds[sabotedPumpProdIndex].isBought = false;
+            pumpProds[sabotedPumpProdIndex].setIndustryPriceSabotage(random.nextInt(100000)+1);
+            pumpProds[sabotedPumpProdIndex].productPrice = 0;
+            return;
         }
     }
 }

@@ -9,6 +9,7 @@
 - `GOSUB21104` - wait
 - `POKEl,15` - ?
 - `POKE 53280,?`, `POKE 53281,? ` - change colors
+- `z(x)` = `INT(RND(1)*x)+1`
 
 ## Variable names
 - `t`, `k` - iterations
@@ -28,7 +29,9 @@
 - `gg()` - oilfields' amount of oil to sell
 - `pf$()` - pump productions names
 - `pf()` - pump productions' industry prices
-- `pw()` = pump productions' amounts of products
+- `pw()` - pump productions' amounts of products
+- `p()` - pump productions' product prices
+- `pp()` - pump productions' ownerships
 - `b()` - drill productions
 - `bw()` - drill productions' amounts of products
 - `bg()` - drill productions' industry prices

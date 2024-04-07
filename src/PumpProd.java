@@ -32,9 +32,14 @@ public class PumpProd {
         return name;
     }
 
-    // Price getter
+    // Industry price getter
     public int getIndustryPrice() {
         return industryPrice;
+    }
+
+    // Industry price setter (ONLY FOR SABOTAGE PURPOSES)
+    public void setIndustryPriceSabotage(int industryPrice) {
+        this.industryPrice = industryPrice;
     }
 
     public static PumpProd[] initialize() {
