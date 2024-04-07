@@ -72,11 +72,11 @@ public class Game {
                 }
             }
         }
-        endRound(players, scanner, oilfields, carsProds, pumpProds, drillProds, oilPrices);
+        endRound(players, scanner, oilfields, oilPrices);
     }
 
     // Actions to take at end of the round
-    static void endRound(Player[] players, Scanner scanner, Oilfield[] oilfields, CarsProd[] carsProds, PumpProd[] pumpProds, DrillProd[] drillProds, double[] oilPrices) {
+    static void endRound(Player[] players, Scanner scanner, Oilfield[] oilfields, double[] oilPrices) {
         Random random = new Random();
 
         // Actions for every player
@@ -167,6 +167,39 @@ public class Game {
                     System.out.println();
                 }
             }
+
+            // Debt system
+            debt(player);
+
+        }
+    }
+
+    static void debt(Player player) {
+        // If user has a loan, pay it off
+        if (player.debt > 0) {
+            player.balance -= 5000;
+            player.debt -= 3000;
+
+            // Menu of loans
+            System.out.println(ANSI.BLUE_BACKGROUND_BRIGHT + ANSI.BLACK + " \"Sons & Fathers\" : Karta kredytowa " + ANSI.RESET);
+            System.out.println();
+            System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLUE_BRIGHT + "Dłużnik: " + player.name + ANSI.RESET);
+            System.out.println();
+            System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLUE_BRIGHT + "Do spłacenia:\t" + player.debt + "$" + ANSI.RESET);
+            System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLUE_BRIGHT + "Kolejna spłata:\t5000$" + ANSI.RESET);
+            System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLUE_BRIGHT + "Twój kapitał:\t" + player.balance + "$" + ANSI.RESET);
+            System.out.println();
+        }
+
+        // If user has problems with money, take actions
+        if (player.balance < 0) {
+            System.out.println(ANSI.BLACK_BACKGROUND + ANSI.WHITE + "Jest kiepsko !!! " + player.name + ANSI.RESET);
+            System.out.println(ANSI.BLACK_BACKGROUND + ANSI.WHITE + "Aby grać dalej, musisz zapożyczyć się w banku \"Sons & Fathers\" na sumę 20000 dolarów." + ANSI.RESET);
+            System.out.println(ANSI.BLACK_BACKGROUND + ANSI.WHITE + "Spłata kredytu na rok wynosi 5000$ (spłaca 3000$ długu)." + ANSI.RESET);
+            System.out.println();
+
+            player.balance += 20000;
+            player.debt += 20000;
         }
     }
 

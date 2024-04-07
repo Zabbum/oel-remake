@@ -15,6 +15,7 @@
 ## Variable names
 - `t`, `k` - iterations
 - `sz` - amount of players
+- `bk()` - debts
 - `bf()` - oilfields names
 - `bp()` - oilfields prices
 - `fm()` - oil amount in oilfields

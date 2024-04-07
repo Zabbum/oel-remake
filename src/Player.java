@@ -3,6 +3,7 @@ public class Player {
     // Local variables
     public String name;
     public double balance;
+    public int debt;
 
     // Ownerships
     CarsProd ownedCarsProd;
@@ -14,6 +15,7 @@ public class Player {
     Player(String name) {
         this.balance = 124321;
         this.name = name;
+        this.debt = 0;
 
         // Set ownerships to null
         this.ownedCarsProd = null;
