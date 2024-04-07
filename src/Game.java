@@ -15,7 +15,7 @@ public class Game {
 
             // Get the action
             char action = ' ';
-            char[] possibleActions = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'};
+            char[] possibleActions = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
             // Verify that the action is correct,
             // if not then wait for another
             while (Arrays.binarySearch(possibleActions, action) < 0) {
@@ -60,8 +60,12 @@ public class Game {
                     // Pass
                 }
                 case 'I' -> {
-                    // Sabotage
+                    // Attempt sabotage
                     Sabotage.doSabotage(player, scanner, oilfields, pumpProds, carsProds, drillProds);
+                }
+                case 'J' -> {
+                    // Change prices
+                    ChangePrices.menu(player, scanner, pumpProds, carsProds, drillProds);
                 }
                 default -> {
                     System.out.println(ANSI.RED + "No value provided. This could be an error.\n" + ANSI.RESET);
@@ -90,7 +94,6 @@ public class Game {
         System.out.println("H = Następny gracz");
         System.out.println("I = Próba sabotażu");
         System.out.println("J = Zmiana ceny");
-        System.out.println("K = Przeczekanie");
         System.out.println();
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK + "PRZYCIŚNIJ DOWOLNY KLAWISZ" + ANSI.RESET);
     }

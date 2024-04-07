@@ -3,13 +3,10 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
-public class CarsProd {
+public class CarsProd extends Industry {
 
     // Local variables
-    private String name;
     private int industryPrice;
-    public boolean isBought;
-    public Player ownership;
     public int amount;
     public double productPrice;
 
@@ -19,18 +16,11 @@ public class CarsProd {
 
     // Constructor
     public CarsProd(String name) {
+        super(name);
         Random random = new Random();
 
-        this.name = name;
         this.industryPrice = random.nextInt(55000) + 45000;
-        this.isBought = false;
-        this.ownership = null;
         this.amount = ((int)(this.industryPrice/10000)) * 3  + 15;
-    }
-
-    // Name getter
-    public String getName() {
-        return name;
     }
 
     // Industry price getter

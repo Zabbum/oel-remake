@@ -41,7 +41,7 @@ public class Prompt {
         return players;
     }
 
-    // Prompt for a integer
+    // Prompt for an integer
     public static int promptInt(String[] possibleActions, Scanner scanner) {
         Arrays.sort(possibleActions);
         String action = " ";
@@ -56,5 +56,20 @@ public class Prompt {
         int result = Integer.parseInt(action) - 1;
 
         return result;
+    }
+
+    // Prompt for a product price
+    public static double promptPrice(Scanner scanner) {
+        System.out.println(ANSI.RED_BACKGROUND_BRIGHT + ANSI.WHITE + "\nNowa cena?" + ANSI.RESET);
+        double proposedPrice = -1;
+        while (proposedPrice < 0) {
+            System.out.print("  ? ");
+            try {
+                proposedPrice = scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                scanner.next();
+            }
+        }
+        return proposedPrice;
     }
 }

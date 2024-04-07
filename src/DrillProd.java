@@ -2,13 +2,10 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
-public class DrillProd {
+public class DrillProd extends Industry {
 
     // Local variables
-    private String name;
     private int industryPrice;
-    public boolean isBought;
-    public Player ownership;
     public int amount;
     public double productPrice;
 
@@ -18,18 +15,11 @@ public class DrillProd {
 
     // Constructor
     public DrillProd(String name) {
+        super(name);
         Random random = new Random();
 
-        this.name = name;
         this.industryPrice = random.nextInt(50000) + 10000;
-        this.isBought = false;
-        this.ownership = null;
         this.amount = random.nextInt(((int)(this.industryPrice/10000)) * 8 + 25);
-    }
-
-    // Name getter
-    public String getName() {
-        return name;
     }
 
     // Industry price getter
