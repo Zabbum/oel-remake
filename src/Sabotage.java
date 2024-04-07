@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Sabotage {
     
     // Do a sabotage
-    public static void doSabotage(Player player, Scanner scanner, Oilfield[] oilfields, PumpProd[] pumpProds, DrillProd[] drillProds) {
+    public static void doSabotage(Player player, Scanner scanner, Oilfield[] oilfields, PumpProd[] pumpProds, CarsProd[] carsProds, DrillProd[] drillProds) {
         // Inform user where they are
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK_BRIGHT + "SABOTAŻ SABOTAŻ SABOTAŻ" + ANSI.RESET);
         System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.WHITE + "Masz teraz następujące możliwości:" + ANSI.RESET);
@@ -34,6 +34,10 @@ public class Sabotage {
                 attemptPumpIndustrySabotage(player, scanner, pumpProds);
             }
             case 3 -> {
+                // If 3 selected attempt cars industry sabotage
+                attemptCarsIndustrySabotage(player, scanner, carsProds);
+            }
+            case 4 -> {
                 // If 3 selected attempt drill industry sabotage
                 attemptDrillIndustrySabotage(player, scanner, drillProds);
             }
