@@ -61,7 +61,7 @@ public class Game {
                 }
                 case 'I' -> {
                     // Sabotage
-                    Sabotage.doSabotage(player, scanner, oilfields, pumpProds);
+                    Sabotage.doSabotage(player, scanner, oilfields, pumpProds, drillProds);
                 }
                 default -> {
                     System.out.println(ANSI.RED + "No value provided. This could be an error.\n" + ANSI.RESET);

@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Sabotage {
     
     // Do a sabotage
-    public static void doSabotage(Player player, Scanner scanner, Oilfield[] oilfields, PumpProd[] pumpProds) {
+    public static void doSabotage(Player player, Scanner scanner, Oilfield[] oilfields, PumpProd[] pumpProds, DrillProd[] drillProds) {
         // Inform user where they are
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK_BRIGHT + "SABOTAŻ SABOTAŻ SABOTAŻ" + ANSI.RESET);
         System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.WHITE + "Masz teraz następujące możliwości:" + ANSI.RESET);
@@ -32,6 +32,10 @@ public class Sabotage {
             case 2 -> {
                 // If 2 selected, attempt pump industry sabotage
                 attemptPumpIndustrySabotage(player, scanner, pumpProds);
+            }
+            case 3 -> {
+                // If 3 selected attempt drill industry sabotage
+                attemptDrillIndustrySabotage(player, scanner, drillProds);
             }
             default -> {}
         }
@@ -267,6 +271,68 @@ public class Sabotage {
             carsProds[sabotedCarsProdIndex].setIndustryPriceSabotage(random.nextInt(200000)+1);
             carsProds[sabotedCarsProdIndex].productPrice = 0;
             carsProds[sabotedCarsProdIndex].amount = (int)(carsProds[sabotedCarsProdIndex].getIndustryPrice()/10000);
+            return;
+        }
+    }
+
+    // Attempt a drill industry sabotage
+    static void attemptDrillIndustrySabotage(Player player, Scanner scanner, DrillProd[] drillProds) {
+        Random random = new Random();
+
+        // Create possible actions array
+        int possibleActionsLength = 1;
+        for (DrillProd drillProd : drillProds) {
+            if (drillProd.isBought) {
+                possibleActionsLength += 1;
+            }
+        }
+        String[] possibleActions = new String[possibleActionsLength];
+        for (int i = 0; i < possibleActions.length; i++) {
+            possibleActions[i] = "0";
+        }
+
+        // Inform user
+        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.BLACK + "Którą z następujących fabryk wierteł będziesz sabotował?" + ANSI.RESET);
+        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.CYAN_BRIGHT + "Twoje saldo\t" + player.balance + "$" + ANSI.RESET);
+        System.out.println();
+        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "\tFabryka\t\tCena\tWłasność" + ANSI.RESET);
+
+        for (int i = 0; i < drillProds.length; i++) {
+            System.out.print(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.BLACK + (i+1) + "\t");
+            System.out.print(drillProds[i].getName() + "\t");
+            System.out.print(drillProds[i].getIndustryPrice() + "$\t");
+            if (drillProds[i].isBought) {
+                System.out.print(drillProds[i].ownership.name);
+
+                // Find latest uninitialized slot in array and change its value
+                for (int j = 0; j < possibleActions.length; j++) {
+                    if (possibleActions[j].equals("0")) {
+                        possibleActions[j] = String.valueOf(i+1);
+                    }
+                }
+            }
+            System.out.println(ANSI.RESET);
+        }
+
+        // Get the action
+        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "Która firma?" + ANSI.RESET);
+        int sabotedDrillProdIndex = Prompt.promptInt(possibleActions, scanner);
+
+        // If 0 selected, return
+        if (sabotedDrillProdIndex == -1) {
+            return;
+        }
+
+
+        // Generate result and Take actions
+        int finalResult = sabotageGenerateResult() + 100;
+        player.balance -= drillProds[sabotedDrillProdIndex].getIndustryPrice() * finalResult / 100;
+        if (finalResult < 100) {
+            drillProds[sabotedDrillProdIndex].ownership = null;
+            drillProds[sabotedDrillProdIndex].isBought = false;
+            drillProds[sabotedDrillProdIndex].setIndustryPriceSabotage(random.nextInt(100000)+1);
+            drillProds[sabotedDrillProdIndex].productPrice = 0;
+            drillProds[sabotedDrillProdIndex].amount = (int)(drillProds[sabotedDrillProdIndex].getIndustryPrice()/10000);
             return;
         }
     }

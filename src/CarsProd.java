@@ -33,7 +33,7 @@ public class CarsProd {
         return name;
     }
 
-    // Price getter
+    // Industry price getter
     public int getIndustryPrice() {
         return industryPrice;
     }
