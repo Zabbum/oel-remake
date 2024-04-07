@@ -321,13 +321,7 @@ public class CarsProd extends Industry {
         // verify that the action is correct,
         // if not then wait for another
         System.out.println(ANSI.RED + "Zakup z której firmy?" + ANSI.RESET);  
-        char action = ' ';
-        Arrays.sort(possibleActions);
-        while (Arrays.binarySearch(possibleActions, action) < 0) {
-            System.out.print("  ? ");
-            action = scanner.nextLine().toUpperCase().charAt(0);
-        }
-        int selectedIndustryIndex = (int) (action-48-1);
+        int selectedIndustryIndex = Prompt.promptInt(possibleActions, scanner);
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
@@ -384,6 +378,6 @@ public class CarsProd extends Industry {
             // didn't place them anywhere, return
             return;
         }
-        oilfields[selectedOilfieldIndex].drillAmount += selectedCarsAmount; // Place cars in the oilfield
+        oilfields[selectedOilfieldIndex].carsAmount += selectedCarsAmount; // Place cars in the oilfield
     }
 }

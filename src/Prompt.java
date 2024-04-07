@@ -72,4 +72,18 @@ public class Prompt {
         }
         return proposedPrice;
     }
+
+    // Prompt for oil amount
+    public static int oilAmount(Scanner scanner, int carsAmount, int oilAvailabletoSell) {
+        int proposedAmount = -1;
+        while (proposedAmount < 0 || proposedAmount > carsAmount * 7000 || proposedAmount > oilAvailabletoSell) {
+            System.out.print("  ? ");
+            try {
+                proposedAmount = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                scanner.next();
+            }
+        }
+        return proposedAmount;
+    }
 }

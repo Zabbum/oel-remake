@@ -56,7 +56,7 @@ public class App {
 
         // Play
         for (int i = 0; i < Game.roundCount; i++) {
-            Game.playRound(players, scanner, oilfields, carsProds, pumpProds, drillProds);
+            Game.playRound(players, scanner, oilfields, carsProds, pumpProds, drillProds, oilPrices);
         }
 
         // Close scanner object

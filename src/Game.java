@@ -6,7 +6,7 @@ public class Game {
     public static int roundCount;
     public static int currentRound;
 
-    public static void playRound(Player[] players, Scanner scanner, Oilfield[] oilfields, CarsProd[] carsProds, PumpProd[] pumpProds, DrillProd[] drillProds) {
+    public static void playRound(Player[] players, Scanner scanner, Oilfield[] oilfields, CarsProd[] carsProds, PumpProd[] pumpProds, DrillProd[] drillProds, double[] oilPrices) {
         Game.currentRound += 1;
 
         for (Player player : players) {
@@ -72,11 +72,11 @@ public class Game {
                 }
             }
         }
-        endRound(players, scanner, oilfields, carsProds, pumpProds, drillProds);
+        endRound(players, scanner, oilfields, carsProds, pumpProds, drillProds, oilPrices);
     }
 
     // Actions to take at end of the round
-    static void endRound(Player[] players, Scanner scanner, Oilfield[] oilfields, CarsProd[] carsProds, PumpProd[] pumpProds, DrillProd[] drillProds) {
+    static void endRound(Player[] players, Scanner scanner, Oilfield[] oilfields, CarsProd[] carsProds, PumpProd[] pumpProds, DrillProd[] drillProds, double[] oilPrices) {
         Random random = new Random();
 
         // Actions for every player
@@ -91,14 +91,44 @@ public class Game {
 
                 // If oilfield is able to pump oil
                 if (oilfield.canExtractOil) {
+                    // Routine actions
+                    if (oilfield.oilExtracted <= oilfield.oilAmount) {
+                        oilfield.oilAvailabletoSell += 8000 * oilfield.pumpAmount;
+                        oilfield.oilExtracted += 8000 * oilfield.pumpAmount;
+                    }
+
+                    // Inform user
                     System.out.println(ANSI.BLACK_BACKGROUND + ANSI.YELLOW + "Pole naftowe:" + ANSI.RESET);
-                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLACK + oilfield.getName() + ANSI.RESET);
+                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + oilfield.getName() + ANSI.RESET);
                     System.out.println(ANSI.BLACK_BACKGROUND + ANSI.YELLOW + "Właściciel pola: "+ ANSI.RESET);
                     System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLACK + player.name + ANSI.RESET);
                     System.out.println();
                     System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLACK + "Rok: " + ANSI.WHITE + (Game.currentRound + 1986) + ANSI.RESET);
+                    System.out.println();
+                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "Miś & Ryś & Sons" + ANSI.RESET);
+                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "Cena sprzedaży ropy = " + oilPrices[Game.currentRound - 1] + ANSI.RESET);
+                    System.out.println();
+                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLACK + "Ilość pomp\t" + oilfield.pumpAmount + ANSI.RESET);
+                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.GREEN_BRIGHT + "Wypompowano\t" + oilfield.oilAvailabletoSell + ANSI.RESET);
+                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLACK + "Ilość wagonów\t" + oilfield.carsAmount + ANSI.RESET);
+                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.GREEN_BRIGHT + "Max wywóz\t" + (oilfield.carsAmount*7000) + ANSI.RESET);
+                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLACK + "Twój kapitał\t" + player.balance + "$" + ANSI.RESET);
+                    
+                    // If oilfield is out of oil, inform user
+                    if (oilfield.oilExtracted > oilfield.oilAmount) {
+                        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLACK + "Źródło wyczerpane!" + ANSI.RESET);
+                    }
 
-                    // TODO: Finish this
+                    // If can sell oil
+                    if (oilfield.oilAvailabletoSell > 0) {
+                        // Ask for amount of oil
+                        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLACK + "Ile litrów ropy sprzedajesz?" + ANSI.RESET);
+                        int oilAmount = Prompt.oilAmount(scanner, oilfield.carsAmount, oilfield.oilAvailabletoSell);
+
+                        // Take actions
+                        player.balance += oilAmount * oilPrices[Game.currentRound - 1];
+                        oilfield.oilAvailabletoSell -= oilAmount;
+                    }
                 }
 
                 // If oilfield is not able to pump oil

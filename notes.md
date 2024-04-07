@@ -23,12 +23,12 @@
 - `ra()` - oilfields' old owners
 - `fb()` - oilfields' ownerships
 - `pa()` - oilfields' amount of pumps
-- `gf()` - oilfields' amount of oil pumped out
+- `gf()` - oilfields' amount of oil to sell
 - `ta()` - oilfields' amount of cars
 - `ab()` - oilfields' current digging depth
 - `bm()` - oilfields' remaining drill buffers
 - `bb()` - oilfields' available oil amount
-- `gg()` - oilfields' amount of oil to sell
+- `gg()` - oilfields' amount of oil pumped out
 - `pf$()` - pump productions names
 - `pf()` - pump productions' industry prices
 - `pw()` - pump productions' amounts of products

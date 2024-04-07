@@ -217,8 +217,6 @@ public class PumpProd extends Industry {
             return;
         }
 
-        // Prompt for oilfield
-
         // Display all of the oilfields
         for (int j = 0; j < oilfields.length; j++) {
             // Display index
@@ -253,6 +251,6 @@ public class PumpProd extends Industry {
             // didn't place them anywhere, return
             return;
         }
-        oilfields[selectedOilfieldIndex].drillAmount += selectedPumpAmount; // Place pumps in the oilfield
+        oilfields[selectedOilfieldIndex].pumpAmount += selectedPumpAmount; // Place pumps in the oilfield
     }
 }
