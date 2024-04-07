@@ -1,14 +1,14 @@
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
     public static int roundCount;
     public static int currentRound;
 
-    public static void playRound(Player[] players, Scanner scanner,
-                                 Oilfield[] oilfields, CarsProd[] carsProds,
-                                 PumpProd[] pumpProds, DrillProd[] drillProds
-                                 ) {
+    public static void playRound(Player[] players, Scanner scanner, Oilfield[] oilfields, CarsProd[] carsProds, PumpProd[] pumpProds, DrillProd[] drillProds) {
+        Game.currentRound += 1;
+
         for (Player player : players) {
             // Display the main menu
             mainMenu(player, scanner);
@@ -71,8 +71,72 @@ public class Game {
                     System.out.println(ANSI.RED + "No value provided. This could be an error.\n" + ANSI.RESET);
                 }
             }
+        }
+        endRound(players, scanner, oilfields, carsProds, pumpProds, drillProds);
+    }
 
-            Game.currentRound += 1;
+    // Actions to take at end of the round
+    static void endRound(Player[] players, Scanner scanner, Oilfield[] oilfields, CarsProd[] carsProds, PumpProd[] pumpProds, DrillProd[] drillProds) {
+        Random random = new Random();
+
+        // Actions for every player
+        for (Player player : players) {
+            
+            // Oilfields overview
+            for (Oilfield oilfield : oilfields) {
+                // If user is not owner of the field, move on to the next
+                if (oilfield.ownership != player) {
+                    continue;
+                }
+
+                // If oilfield is able to pump oil
+                if (oilfield.canExtractOil) {
+                    System.out.println(ANSI.BLACK_BACKGROUND + ANSI.YELLOW + "Pole naftowe:" + ANSI.RESET);
+                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLACK + oilfield.getName() + ANSI.RESET);
+                    System.out.println(ANSI.BLACK_BACKGROUND + ANSI.YELLOW + "Właściciel pola: "+ ANSI.RESET);
+                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLACK + player.name + ANSI.RESET);
+                    System.out.println();
+                    System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLACK + "Rok: " + ANSI.WHITE + (Game.currentRound + 1986) + ANSI.RESET);
+
+                    // TODO: Finish this
+                }
+
+                // If oilfield is not able to pump oil
+                else {
+                    System.out.println(ANSI.WHITE_BACKGROUND + ANSI.RED + "Wiercenie na polu:" + ANSI.RESET);
+                    System.out.println(ANSI.WHITE_BACKGROUND + ANSI.GREEN_BRIGHT + oilfield.getName() + ANSI.RESET);
+                    System.out.println();
+                    System.out.println(ANSI.WHITE_BACKGROUND + ANSI.PURPLE_BRIGHT + "Właśność: " + ANSI.BLACK + player.name + ANSI.RESET);
+                    System.out.println();
+                    System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK + "Twoi ludzie z pola naftowego meldują co następuje:" + ANSI.RESET);
+                    System.out.println();
+
+                    // If no drills, inform user
+                    if (oilfield.drillAmount <= 0) { 
+                        System.out.println(ANSI.WHITE_BACKGROUND + ANSI.RED + "Wiercenia niemożliwe - brak wierteł!" + ANSI.RESET);
+                        System.out.println(ANSI.WHITE_BACKGROUND + ANSI.RED + "Trzeba coś przedsięwziąć!" + ANSI.RESET);
+                        System.out.println();
+                    }
+
+                    // If there are drills, drill
+                    else {
+                        oilfield.drillAmount -= 500;
+                        oilfield.currentDepth += 500 - (random.nextInt(30)+1);
+                    }
+
+                    // In both cases
+                    System.out.println(ANSI.WHITE_BACKGROUND + ANSI.GREEN + "Aktualna głębokość wierceń: " + oilfield.currentDepth + "m" + ANSI.RESET);
+                    System.out.println(ANSI.WHITE_BACKGROUND + ANSI.GREEN + "Jeszcze starczy ci na: " + oilfield.drillAmount + "m" + ANSI.RESET);
+                    
+                    // If reached the point that makes it available to extract oil,
+                    // take actions
+                    if (oilfield.currentDepth >= oilfield.requiredDepth) {
+                        System.out.println(ANSI.WHITE_BACKGROUND + ANSI.GREEN + "Trysnęło!!!" + ANSI.RESET);
+                        oilfield.canExtractOil = true;
+                    }
+                    System.out.println();
+                }
+            }
         }
     }
 

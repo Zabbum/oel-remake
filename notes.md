@@ -7,6 +7,7 @@
 
 ## Code to understandable speech
 - `GOSUB21104` - wait
+- `GOSUB21006` - press any key
 - `POKEl,15` - ?
 - `POKE 53280,?`, `POKE 53281,? ` - change colors
 - `z(x)` = `INT(RND(1)*x)+1`
@@ -19,12 +20,13 @@
 - `fm()` - oil amount in oilfields
 - `f()` - oilfields' abilities to pump oil
 - `bt()` - oilfields' required depth to unlock ability to pump oil
+- `ra()` - oilfields' old owners
 - `fb()` - oilfields' ownerships
 - `pa()` - oilfields' amount of pumps
 - `gf()` - oilfields' amount of oil pumped out
 - `ta()` - oilfields' amount of cars
 - `ab()` - oilfields' current digging depth
-- `mb()` - oilfields' remaining drill buffers
+- `bm()` - oilfields' remaining drill buffers
 - `bb()` - oilfields' available oil amount
 - `gg()` - oilfields' amount of oil to sell
 - `pf$()` - pump productions names

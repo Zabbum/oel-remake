@@ -4,7 +4,7 @@ public class App {
     public static void main(String[] args) {
         // Global variables
         Game.roundCount = 34;
-        Game.currentRound = 1;
+        Game.currentRound = 0;
 
         // Scanner class
         Scanner scanner = new Scanner(System.in);
