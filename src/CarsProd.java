@@ -38,6 +38,11 @@ public class CarsProd {
         return industryPrice;
     }
 
+    // Industry price setter (ONLY FOR SABOTAGE PURPOSES)
+    public void setIndustryPriceSabotage(int industryPrice) {
+        this.industryPrice = industryPrice;
+    }
+
     public static CarsProd[] initialize() {
         CarsProd[] carsProds = new CarsProd[4];
 

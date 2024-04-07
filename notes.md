@@ -38,6 +38,7 @@
 - `tg()` - cars productions
 - `tw()` - cars productions' amounts of products
 - `tp()` - cars productions' industry prices
+- `tb()` - cars productions' ownerships
 - `l` - 54296 (kinda pointer)
 - `a` - 54277 (kinda pointer)
 - `si` - 54272

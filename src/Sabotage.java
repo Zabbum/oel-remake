@@ -197,7 +197,81 @@ public class Sabotage {
             return;
         }
 
-        // Generate result
+        // Generate result and Take actions
+        int finalResult = sabotageGenerateResult() + 100;
+        player.balance -= pumpProds[sabotedPumpProdIndex].getIndustryPrice() * finalResult / 100;
+        if (finalResult < 100) {
+            pumpProds[sabotedPumpProdIndex].ownership = null;
+            pumpProds[sabotedPumpProdIndex].isBought = false;
+            pumpProds[sabotedPumpProdIndex].setIndustryPriceSabotage(random.nextInt(100000)+1);
+            pumpProds[sabotedPumpProdIndex].productPrice = 0;
+            pumpProds[sabotedPumpProdIndex].amount = (int)(pumpProds[sabotedPumpProdIndex].getIndustryPrice()/10000);
+            return;
+        }
+    }
+
+    // Attempt a car industry sabotage
+    static void attemptCarsIndustrySabotage(Player player, Scanner scanner, CarsProd[] carsProds) {
+        Random random = new Random();
+
+        // Create possible actions array
+        int possibleActionsLength = 1;
+        for (CarsProd carsProd : carsProds) {
+            if (carsProd.isBought) {
+                possibleActionsLength += 1;
+            }
+        }
+        String[] possibleActions = new String[possibleActionsLength];
+        for (int i = 0; i < possibleActions.length; i++) {
+            possibleActions[i] = "0";
+        }
+
+        // Inform user
+        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.YELLOW_BRIGHT + "Którą z następujących fabryk wagonów będziesz sabotował?" + ANSI.RESET);
+        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.CYAN_BRIGHT + "Twoje saldo\t" + player.balance + "$" + ANSI.RESET);
+        System.out.println();
+        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "\tFabryka\t\tCena\tWłasność" + ANSI.RESET);
+
+        for (int i = 0; i < carsProds.length; i++) {
+            System.out.print(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.WHITE + (i+1) + "\t");
+            System.out.print(carsProds[i].getName() + "\t");
+            System.out.print(carsProds[i].getIndustryPrice() + "$\t");
+            if (carsProds[i].isBought) {
+                System.out.print(carsProds[i].ownership.name);
+
+                // Find latest uninitialized slot in array and change its value
+                for (int j = 0; j < possibleActions.length; j++) {
+                    if (possibleActions[j].equals("0")) {
+                        possibleActions[j] = String.valueOf(i+1);
+                    }
+                }
+            }
+            System.out.println(ANSI.RESET);
+        }
+
+        // Get the action
+        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "Która firma?" + ANSI.RESET);
+        int sabotedCarsProdIndex = Prompt.promptInt(possibleActions, scanner);
+
+        // If 0 selected, return
+        if (sabotedCarsProdIndex == -1) {
+            return;
+        }
+
+        // Generate result and Take actions
+        int finalResult = sabotageGenerateResult() + 100;
+        player.balance -= carsProds[sabotedCarsProdIndex].getIndustryPrice() * finalResult / 100;
+        if (finalResult < 100) {
+            carsProds[sabotedCarsProdIndex].ownership = null;
+            carsProds[sabotedCarsProdIndex].isBought = false;
+            carsProds[sabotedCarsProdIndex].setIndustryPriceSabotage(random.nextInt(200000)+1);
+            carsProds[sabotedCarsProdIndex].productPrice = 0;
+            carsProds[sabotedCarsProdIndex].amount = (int)(carsProds[sabotedCarsProdIndex].getIndustryPrice()/10000);
+            return;
+        }
+    }
+
+    static int sabotageGenerateResult() {
         int[] results = new int[]{50, -20, 40, -10, 30, -30, 10, -40, 20, -50};
         int resultIndex = 0;
 
@@ -236,15 +310,6 @@ public class Sabotage {
             System.out.println(ANSI.BLACK_BACKGROUND + ANSI.GREEN_BRIGHT + "Udane przedsięwzięcie!" + ANSI.RESET);
         }
 
-        // Take actions
-        int finalResult = results[resultIndex] + 100;
-        player.balance -= pumpProds[sabotedPumpProdIndex].getIndustryPrice() * finalResult / 100;
-        if (finalResult < 100) {
-            pumpProds[sabotedPumpProdIndex].ownership = null;
-            pumpProds[sabotedPumpProdIndex].isBought = false;
-            pumpProds[sabotedPumpProdIndex].setIndustryPriceSabotage(random.nextInt(100000)+1);
-            pumpProds[sabotedPumpProdIndex].productPrice = 0;
-            return;
-        }
+        return results[resultIndex];
     }
 }
