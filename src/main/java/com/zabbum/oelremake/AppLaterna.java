@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.awt.Font;
 import java.awt.FontFormatException;
 
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.gui2.BasicWindow;
@@ -39,6 +40,7 @@ public class AppLaterna {
 
         // Config terminal
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
+        terminalFactory.setInitialTerminalSize(new TerminalSize(47, 32));
         terminalFactory.setTerminalEmulatorFontConfiguration(SwingTerminalFontConfiguration.newInstance(font));
 
         Screen screen = null;
@@ -56,9 +58,10 @@ public class AppLaterna {
             final WindowBasedTextGUI gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLACK));
 
             // Create window
-            final Window window = new BasicWindow();
+            Window window = new BasicWindow();
             window.setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.RED));
             window.setHints(Arrays.asList(Hint.CENTERED, Hint.NO_POST_RENDERING));
+            gameProperties.window = window;
 
             // Create content panel
             Panel contentPanel = new Panel(new GridLayout(2));
@@ -67,13 +70,11 @@ public class AppLaterna {
             GridLayout gridLayout = (GridLayout)contentPanel.getLayoutManager();
             gridLayout.setHorizontalSpacing(2);
 
-
             // Display oel logo
             Game.oelLogo(contentPanel);
             
-
+            // Start an app
             Game.promptPlayerAmount(contentPanel, gameProperties);
-            
 
             // Set contentPanel to be displayed
             window.setComponent(contentPanel);

@@ -14,12 +14,16 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.BasicTextImage;
+import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.graphics.TextImage;
 import com.googlecode.lanterna.gui2.Button;
+import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
+import com.googlecode.lanterna.gui2.ImageComponent;
 import com.googlecode.lanterna.gui2.Label;
+import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.Window;
@@ -273,22 +277,20 @@ public class Game {
         contentPanel.addComponent(new Label("ILU BEDZIE KAPITALISTOW (2-6)"));
             TextBox playerAmountTextBox = new TextBox().setValidationPattern(Pattern.compile("[0-9]"));
             contentPanel.addComponent(playerAmountTextBox);
+
             contentPanel.addComponent(new EmptySpace());
             
             contentPanel.addComponent(
-                new Button("GOTOWE", new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            gameProperties.playerAmount = Integer.parseInt(playerAmountTextBox.getText());
-                            if (gameProperties.playerAmount > 1 && gameProperties.playerAmount < 7) {
-                                System.out.println(gameProperties.playerAmount);
-                                contentPanel.removeAllComponents();
-                                introInfo(contentPanel, gameProperties);
-                            }
-                            
-                        } catch (NumberFormatException e) {}
-                    }
+                new Button("GOTOWE", () -> {
+                    try {
+                        gameProperties.playerAmount = Integer.parseInt(playerAmountTextBox.getText());
+                        if (gameProperties.playerAmount > 1 && gameProperties.playerAmount < 7) {
+                            System.out.println(gameProperties.playerAmount);
+                            contentPanel.removeAllComponents();
+                            introInfo(contentPanel, gameProperties);
+                        }
+                        
+                    } catch (NumberFormatException e) {}
                 })
             );
     }
@@ -334,10 +336,60 @@ public class Game {
                         System.out.println(playerNames[i].getText());
                         gameProperties.players[i] = new Player(playerNames[i].getText());
                         contentPanel.removeAllComponents();
+                        // Inform about money amount
+                        contentPanel.addComponent(new Label("KAZDY GRACZ POSIADA 124321 $ KAPITA£U"));
+                        contentPanel.addComponent(new EmptySpace());
+                        Button confirmButton = new Button("GOTOWE", () -> {
+                            contentPanel.removeAllComponents();
+                            furtherInfo(contentPanel, gameProperties);
+                        });
+                        contentPanel.addComponent(confirmButton);
+                        confirmButton.takeFocus();
                     }
                 }
             })
         );
+    }
+
+    // Inform about money amount and oil prices
+    public static void furtherInfo(Panel contentPanel, GameProperties gameProperties) {
+        // Inform about money amount
+        gameProperties.window.setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE_BRIGHT));
+        contentPanel.addComponent(new Label("WYGRYWA TEN, KTO OSIAGNIE NAJWIEKSZY"));
+        contentPanel.addComponent(new Label("KAPITAL NA KONCU GRY"));
+        contentPanel.addComponent(new EmptySpace());
+        Button confirmButton = new Button("GOTOWE", () -> {
+            contentPanel.removeAllComponents();
+            gameProperties.window.setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.RED));
+
+            Panel titlePanel = new Panel(new LinearLayout(Direction.VERTICAL));
+            titlePanel.setTheme(new SimpleTheme(TextColor.ANSI.RED, TextColor.ANSI.YELLOW_BRIGHT));
+            titlePanel.addComponent(new Label("PRZEWIDYWANE CENY ROPY NA RYNKU"));
+            titlePanel.addComponent(new Label("(JAKIE TRENDY W KOLEJNYCH LATACH :)"));
+
+            contentPanel.addComponent(titlePanel);
+            contentPanel.addComponent(new EmptySpace());
+            contentPanel.addComponent(new EmptySpace());
+
+            ImageComponent oilGraph = new ImageComponent();
+            oilGraph.setTextImage(Oil.oilGraph(gameProperties, TextColor.ANSI.MAGENTA_BRIGHT, TextColor.ANSI.RED));
+            contentPanel.addComponent(oilGraph);
+
+            contentPanel.addComponent(new EmptySpace());
+
+            Button confirmButton1 = new Button("GOTOWE", () -> {
+                contentPanel.removeAllComponents();
+                gameProperties.window.close();
+
+                // TODO: Redirect to playing menu
+            });
+
+            contentPanel.addComponent(confirmButton1);
+            confirmButton1.takeFocus();
+        });
+        contentPanel.addComponent(confirmButton);
+        confirmButton.takeFocus();
+        
     }
 
 }
