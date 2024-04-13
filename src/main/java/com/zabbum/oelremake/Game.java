@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.lang.NumberFormatException;
 
+import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
@@ -13,16 +16,16 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.BasicTextImage;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.graphics.TextImage;
+import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.screen.Screen;
 
 public class Game {
-    public static int roundCount;
-    public static int currentRound;
 
     public static void playRound(Player[] players, Scanner scanner, Oilfield[] oilfields, CarsProd[] carsProds, PumpProd[] pumpProds, DrillProd[] drillProds, double[] oilPrices) {
         Game.currentRound += 1;
@@ -251,180 +254,90 @@ public class Game {
         return emptySpace;
     }
 
-    // Display the oel logo
-    public static TextImage oelLogo() {
-        // Object to operate on
-        TextImage textImage = new BasicTextImage(new TerminalSize(38, 23), TextCharacter.fromCharacter(' ', null, TextColor.ANSI.RED)[0]);
-        TextGraphics tg = textImage.newTextGraphics();
-
-        // 1. and 2. rows
-        tg.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(12, 2),
-                         TextCharacter.fromCharacter(' ', null, TextColor.ANSI.BLUE_BRIGHT)[0]);
-
-        // Return image
-        return textImage;
+    // Display shitty OEL logo
+    // TODO: Display pretty OEL logo
+    public static void oelLogo(Panel contentPanel) {
+        Label oelLogo = new Label("OEL");
+            oelLogo.setLayoutData(GridLayout.createLayoutData(
+                GridLayout.Alignment.BEGINNING, GridLayout.Alignment.BEGINNING,
+                true,
+                false,
+                2,
+                1));
+            contentPanel.addComponent(oelLogo);
+            contentPanel.addComponent(Game.emptyLine(2));
     }
 
-    public static void oelLogoOld(Panel panel) {
-        // Display the oel logo
-        
-
-        // 2. and 3. rows
-        for (int i = 0; i < 2; i++) {
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 12; j++) {
-                System.out.print(" ");
-            }
-
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 12; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND);
-            for (int j = 0; j < 10; j++) {
-                System.out.print(" ");
-            }
-            System.out.println(ANSI.RESET);
-        }
-        
-        // 4. 5. 6. 7. 8. 9. and 10. rows
-        for (int i = 0; i < 7; i++) {
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND);
-            for (int j = 0; j < 6; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND);
-            for (int j = 0; j < 10; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND);
-            for (int j = 0; j < 10; j++) {
-                System.out.print(" ");
-            }
-            System.out.println(ANSI.RESET);
-        }
-
-        // 11. 12. and 13. rows
-        for (int i = 0; i < 3; i++) {
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND);
-            for (int j = 0; j < 6; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 8; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND);
-            for (int j = 0; j < 5; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND);
-            for (int j = 0; j < 10; j++) {
-                System.out.print(" ");
-            }
-            System.out.println(ANSI.RESET);            
-        }
-
-        // 14. 15. 16. 17. 18. 19. and 20. rows
-        for (int i = 0; i < 7; i++) {
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND);
-            for (int j = 0; j < 6; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND);
-            for (int j = 0; j < 10; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 3; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND);
-            for (int j = 0; j < 10; j++) {
-                System.out.print(" ");
-            }
-            System.out.println(ANSI.RESET);
-        }
-
-        // 21. 22. and 23. rows
-        for (int i = 0; i < 3; i++) {
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 12; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 12; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
-            for (int j = 0; j < 12; j++) {
-                System.out.print(" ");
-            }
-            System.out.print(ANSI.RED_BACKGROUND + " ");
-            System.out.println(ANSI.RESET);
-        }
-
-        // 24. row
-        System.out.print(ANSI.RED_BACKGROUND);
-        for (int i = 0; i < 40; i++) {
-            System.out.print(" ");
-        }
-        
-        System.out.println(ANSI.RESET);
+    // Prompt for players amount
+    public static void promptPlayerAmount(Panel contentPanel, GameProperties gameProperties) {
+        contentPanel.addComponent(new Label("ILU BEDZIE KAPITALISTOW (2-6)"));
+            TextBox playerAmountTextBox = new TextBox().setValidationPattern(Pattern.compile("[0-9]"));
+            contentPanel.addComponent(playerAmountTextBox);
+            contentPanel.addComponent(new EmptySpace());
+            
+            contentPanel.addComponent(
+                new Button("GOTOWE", new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            gameProperties.playerAmount = Integer.parseInt(playerAmountTextBox.getText());
+                            if (gameProperties.playerAmount > 1 && gameProperties.playerAmount < 7) {
+                                System.out.println(gameProperties.playerAmount);
+                                contentPanel.removeAllComponents();
+                                introInfo(contentPanel, gameProperties);
+                            }
+                            
+                        } catch (NumberFormatException e) {}
+                    }
+                })
+            );
     }
+
+    // Intro info for player
+    public static void introInfo(Panel contentPanel, GameProperties gameProperties) {
+        contentPanel.setLayoutManager(new GridLayout(1));
+        contentPanel.addComponent(new Label("ZNAJDUJEMY SIE OBECNIE W ROKU:"));
+
+        // TODO: Fancy 1986
+        contentPanel.addComponent(new Label("1986"));
+        contentPanel.addComponent(new EmptySpace());
+
+        contentPanel.addComponent(new Label("GRA KONCZY SIE W ROKU 2020"));
+        contentPanel.addComponent(new Label("I ODBEDZIE SIE PRZY UDZIALE:"));
+        contentPanel.addComponent(new EmptySpace());
+        contentPanel.addComponent(new Label("PROSZE WPISAC IMIONA"));
+
+        // Prompt for names
+        Panel promptPanel = new Panel(new GridLayout(2));
+        TextBox[] playerNames = new TextBox[gameProperties.playerAmount];
+        
+        // Display correct amount of textboxes
+        for (int i = 0; i < gameProperties.playerAmount; i++) {
+            promptPanel.addComponent(new Label("?"));
+            playerNames[i] = new TextBox("Gracz " + String.valueOf(i+1));
+            promptPanel.addComponent(playerNames[i]);
+        }
+
+        contentPanel.addComponent(promptPanel);
+        // Set focus to first textbox
+        playerNames[0].takeFocus();
+
+        // Confirmation button
+        contentPanel.addComponent(
+            new Button("GOTOWE", new Runnable() {
+                @Override
+                public void run() {
+                    gameProperties.players = new Player[gameProperties.playerAmount];
+
+                    // Create player objects
+                    for (int i = 0; i < playerNames.length; i++) {
+                        System.out.println(playerNames[i].getText());
+                        gameProperties.players[i] = new Player(playerNames[i].getText());
+                        contentPanel.removeAllComponents();
+                    }
+                }
+            })
+        );
+    }
+
 }
