@@ -1,8 +1,24 @@
 package com.zabbum.oelremake;
 
+import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.BasicTextImage;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.graphics.TextImage;
+import com.googlecode.lanterna.gui2.EmptySpace;
+import com.googlecode.lanterna.gui2.GridLayout;
+import com.googlecode.lanterna.gui2.Label;
+import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.Window;
+import com.googlecode.lanterna.screen.Screen;
 
 public class Game {
     public static int roundCount;
@@ -227,23 +243,39 @@ public class Game {
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK + "PRZYCIŚNIJ DOWOLNY KLAWISZ" + ANSI.RESET);
     }
 
-    public static void oelLogo() {
-        // Display the oel logo
+    // Insert empty space
+    public static EmptySpace emptyLine(int horizontalSpan) {
+        EmptySpace emptySpace = new EmptySpace();
+        emptySpace.setLayoutData(GridLayout.createHorizontallyFilledLayoutData(horizontalSpan));
 
-        // 1. row
-        System.out.print(ANSI.RED_BACKGROUND);
-        for (int i = 0; i < 40; i++) {
-            System.out.print(" ");
-        }
-        System.out.println(ANSI.RESET);
+        return emptySpace;
+    }
+
+    // Display the oel logo
+    public static TextImage oelLogo() {
+        // Object to operate on
+        TextImage textImage = new BasicTextImage(new TerminalSize(38, 23), TextCharacter.fromCharacter(' ', null, TextColor.ANSI.RED)[0]);
+        TextGraphics tg = textImage.newTextGraphics();
+
+        // 1. and 2. rows
+        tg.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(12, 2),
+                         TextCharacter.fromCharacter(' ', null, TextColor.ANSI.BLUE_BRIGHT)[0]);
+
+        // Return image
+        return textImage;
+    }
+
+    public static void oelLogoOld(Panel panel) {
+        // Display the oel logo
+        
 
         // 2. and 3. rows
         for (int i = 0; i < 2; i++) {
-            System.out.print(ANSI.RED_BACKGROUND + " ");
             System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
             for (int j = 0; j < 12; j++) {
                 System.out.print(" ");
             }
+
             System.out.print(ANSI.RED_BACKGROUND + " ");
             System.out.print(ANSI.BLUE_BACKGROUND_BRIGHT);
             for (int j = 0; j < 12; j++) {

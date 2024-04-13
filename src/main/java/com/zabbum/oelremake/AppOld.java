@@ -2,7 +2,7 @@ package com.zabbum.oelremake;
 
 import java.util.Scanner;
 
-public class App {
+public class AppOld {
     public static void main(String[] args) {
         // Global variables
         Game.roundCount = 34;
@@ -65,4 +65,3 @@ public class App {
         scanner.close();
     }
 }
-
