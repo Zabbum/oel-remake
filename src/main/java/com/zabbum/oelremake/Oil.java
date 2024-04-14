@@ -60,20 +60,14 @@ public class Oil {
             }
         }
 
-        for (double price : gameProperties.oilPrices) {
-            System.out.println(price);
-        }
-
         return oilGraphImage;
     }
 
     // Reduce prices when the graph has been drawn
-    public static double[] reducePrices(double[] oilPrices) {
+    public static void reducePrices(GameProperties gameProperties) {
         // Divide each price by 10
-        for (int i = 0; i < oilPrices.length; i++) {
-            oilPrices[i] /= 10;
+        for (int i = 0; i < gameProperties.oilPrices.length; i++) {
+            gameProperties.oilPrices[i] /= 10;
         }
-
-        return oilPrices;
     }
 }

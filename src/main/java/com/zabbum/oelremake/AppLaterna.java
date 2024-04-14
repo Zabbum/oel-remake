@@ -15,6 +15,8 @@ import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.SeparateTextGUIThread;
+import com.googlecode.lanterna.gui2.TextGUIThreadFactory;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.gui2.Window.Hint;
@@ -44,6 +46,7 @@ public class AppLaterna {
         terminalFactory.setTerminalEmulatorFontConfiguration(SwingTerminalFontConfiguration.newInstance(font));
 
         Screen screen = null;
+        SeparateTextGUIThread textGUIThread = null;
 
         // Program
         try {
@@ -55,7 +58,13 @@ public class AppLaterna {
             screen.startScreen();
 
             // Create gui
-            final WindowBasedTextGUI gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLACK));
+            WindowBasedTextGUI gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLACK));
+
+            TextGUIThreadFactory textGUIThreadFactory = new SeparateTextGUIThread.Factory();
+            textGUIThread = (SeparateTextGUIThread)(textGUIThreadFactory.createTextGUIThread(gui));
+            textGUIThread.start();
+            gameProperties.textGUIThread = textGUIThread;
+            System.out.println(textGUIThread.getState());
 
             // Create window
             Window window = new BasicWindow();
@@ -63,26 +72,32 @@ public class AppLaterna {
             window.setHints(Arrays.asList(Hint.CENTERED, Hint.NO_POST_RENDERING));
             gameProperties.window = window;
 
+            // Display
+            gui.addWindow(window);
+
             // Create content panel
-            Panel contentPanel = new Panel(new GridLayout(2));
+            gameProperties.contentPanel = new Panel(new GridLayout(2));
+            Panel contentPanel = gameProperties.contentPanel;
 
             // Create window manager
             GridLayout gridLayout = (GridLayout)contentPanel.getLayoutManager();
             gridLayout.setHorizontalSpacing(2);
 
-            // Display oel logo
-            Game.oelLogo(contentPanel);
-            
-            // Start an app
-            Game.promptPlayerAmount(contentPanel, gameProperties);
-
             // Set contentPanel to be displayed
             window.setComponent(contentPanel);
 
-            // Display
-            gui.addWindowAndWait(window);
+            // Display oel logo
+            Game.oelLogo(gameProperties);
+            
+            // Get a player number
+            Game.promptPlayerAmount(gameProperties);
 
-            screen.close();
+            // Intro info for player and prompt for names
+            Game.promptPlayerNames(gameProperties);
+
+            // Inform about money amount and oil prices
+            Game.moneyInfo(gameProperties);
+
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,11 +105,12 @@ public class AppLaterna {
             if(screen != null) {
                 try {
                     screen.stopScreen();
+                    textGUIThread.stop();
                 }
                 catch(IOException e) {
                     e.printStackTrace();
                 }
             }
-        }  
+        }
     }
 }
