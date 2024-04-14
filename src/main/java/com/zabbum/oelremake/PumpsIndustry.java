@@ -3,35 +3,29 @@ package com.zabbum.oelremake;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.SimpleTheme;
+import com.googlecode.lanterna.gui2.Button;
+import com.googlecode.lanterna.gui2.EmptySpace;
+import com.googlecode.lanterna.gui2.GridLayout;
+import com.googlecode.lanterna.gui2.Label;
+import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.TextBox;
+import com.googlecode.lanterna.gui2.table.Table;
 
 public class PumpsIndustry extends AbstractIndustry {
-
-    // Local variables
-    private int industryPrice;
-    public int amount;
-    public double productPrice;
-
-    // Reference to the next object
-    // (stricte for ownership data structure)
-    public PumpsIndustry next;
 
     // Constructor
     public PumpsIndustry(String name) {
         super(name);
+
         Random random = new Random();
 
         this.industryPrice = random.nextInt(80000) + 36000;
-        this.amount = (int)(this.industryPrice/10000) * 7 + 25;
-    }
-
-    // Industry price getter
-    public int getIndustryPrice() {
-        return industryPrice;
-    }
-
-    // Industry price setter (ONLY FOR SABOTAGE PURPOSES)
-    public void setIndustryPriceSabotage(int industryPrice) {
-        this.industryPrice = industryPrice;
+        this.productsAmount = (int)(this.industryPrice/10000) * 7 + 25;
     }
 
     public static PumpsIndustry[] initialize() {
@@ -44,99 +38,114 @@ public class PumpsIndustry extends AbstractIndustry {
         return pumpProds;
     }
 
-    // Menu for buying pump productions
-    public static void buyIndustry(Player player, Scanner scanner, PumpsIndustry[] pumpProds) {
-        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "KUPOWANIE FABRYK POMP" + ANSI.RESET);
-        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "Saldo konta:" + ANSI.RESET + " " +
-                           ANSI.YELLOW_BACKGROUND + ANSI.BLUE + player.balance + "$" + ANSI.RESET);
-        System.out.println();
+    // Menu for buying pumps productions
+    public static void buyIndustry(Player player, GameProperties gameProperties) {
+        // Prepare new graphical settings
+        Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new GridLayout(1));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false, TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE,
+            TextColor.ANSI.BLUE, TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN, TextColor.ANSI.BLUE)
+            );
 
-        // Calculate how many actions are possible
-        // e.g. if there is production that is already
-        // bought, don't make it possible to buy it.
-        int possibleActionsLength = 0;
-        for (PumpsIndustry pumpProd : pumpProds) {
-            if (!pumpProd.isBought) {
-                possibleActionsLength += 1;
-            }
+        // Display title
+        Panel titlePanel = new Panel(new GridLayout(1));
+        Game.timeBuffor();
+        titlePanel.setTheme(new SimpleTheme(TextColor.ANSI.BLUE, TextColor.ANSI.YELLOW_BRIGHT));
+        titlePanel.addComponent(new EmptySpace());
+        Game.timeBuffor();
+        titlePanel.addComponent(new Label("SPRZEDAZ FABRYK POMP"));
+        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.balance) + "$"));
+        titlePanel.addComponent(new EmptySpace());
+        contentPanel.addComponent(titlePanel);
+
+        contentPanel.addComponent(new EmptySpace());
+
+        // Create table
+        Table<String> industryTable = new Table<String>("NR", "NAZWA FIRMY", "L. PROD.", "CENA");
+
+        // Add every available pumps industry to table
+        industryTable.getTableModel().addRow("0","-","-","-");
+        for (int industryIndex = 0; industryIndex < gameProperties.pumpIndustries.length; industryIndex++) {
+            if (gameProperties.pumpIndustries[industryIndex].isBought) {}
+            // If industry is not bought, make it possible to buy it
+            industryTable.getTableModel().addRow(
+                String.valueOf(industryIndex+1),
+                gameProperties.pumpIndustries[industryIndex].name,
+                String.valueOf(gameProperties.pumpIndustries[industryIndex].productsAmount),
+                String.valueOf(gameProperties.pumpIndustries[industryIndex].industryPrice)+"$"
+                );
         }
-        possibleActionsLength++;
 
-        // Create possible actions array
-        // Every 'uninitialized' slot's value is '0'
-        String[] possibleActions = new String[possibleActionsLength];
-        for (int i = 0; i < possibleActions.length; i++) {
-            possibleActions[i] = "0";
-        }
+        industryTable.setSelectAction(() -> {
+            gameProperties.tmpActionInt = Integer.parseInt(industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))-1;
+            gameProperties.tmpConfirm = true;
+        });
 
-        // Display every available pump production
-        for (int i = 0; i < pumpProds.length; i++) {
-            // If pump production is bought, skip it
-            if (pumpProds[i].isBought) {
-                System.out.println("\n");
-                continue;
-            }
+        // Display table
+        contentPanel.addComponent(industryTable);
+        contentPanel.addComponent(new EmptySpace());
+        contentPanel.addComponent(new Label("KTORA FIRME CHCESZ KUPIC?"));
 
-            // Display production info
-            System.out.print(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + " " + (i+1) + ANSI.RESET);
-            System.out.print("\t");
-            System.out.print(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + " " + pumpProds[i].getName() + " " + ANSI.RESET);
-            System.out.print("\t");
-            System.out.print(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + " " + pumpProds[i].amount+ ANSI.RESET);
-            System.out.print("\t");
-            System.out.print(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + " " + pumpProds[i].getIndustryPrice() + ANSI.RESET);
-            System.out.print(" ");
-            System.out.print(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "$" + ANSI.RESET);
-            System.out.println("\n");
-
-            // Add production to array
-            //     Find the latest 'uninitialized' slot
-            for (int j = 0; j < possibleActions.length; j++) {
-                if (possibleActions[j].equals("0")) {
-                    possibleActions[j] = String.valueOf(i+1);
-                    break;
-                }
-            }
-        }
-        System.out.println();
-
-        // Get the action
-        int selectedIndustryIndex = Prompt.promptInt(possibleActions, scanner);
+        // Wait for selection
+        Game.waitForConfirm(gameProperties);
+        int selectedIndustryIndex = gameProperties.tmpActionInt;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
+            // Clean up
+            contentPanel.removeAllComponents();
             return;
         }
 
         // Note purchase
-        PumpsIndustry tmp = player.ownedPumpProd;
-        player.ownedPumpProd = pumpProds[selectedIndustryIndex];
-        player.ownedPumpProd.next = tmp;
+        gameProperties.pumpIndustries[selectedIndustryIndex].isBought = true;
+        gameProperties.pumpIndustries[selectedIndustryIndex].ownership = player;
 
-        pumpProds[selectedIndustryIndex].isBought = true;
-        pumpProds[selectedIndustryIndex].ownership = player;
-
-        player.balance -= pumpProds[selectedIndustryIndex].getIndustryPrice();
+        player.balance -= gameProperties.pumpIndustries[selectedIndustryIndex].industryPrice;
 
         // Inform user about purchase
-        System.out.println("Jesteś właścicielem fabryki:");
-        System.out.println(pumpProds[selectedIndustryIndex].getName());
-        System.out.println();
-        System.out.println("Proszę podać swoją cenę pompy.");
+        contentPanel.addComponent(new EmptySpace());
+        contentPanel.addComponent(new Label("JESTE$ W£A$CICIELEM FABRYKI: "));
+        contentPanel.addComponent(new Label(gameProperties.pumpIndustries[selectedIndustryIndex].name));
+        contentPanel.addComponent(new EmptySpace());
+        contentPanel.addComponent(new Label("PROSZE PODAC SWOJA CENE POMPY."));
+    
+        // Prompt for price until provided value is valid
+        TextBox productPriceBox = null;
+        gameProperties.tmpActionInt = -1;
+        while (gameProperties.tmpActionInt < 0 || gameProperties.tmpActionInt > 50000) {
+            // Prompt for price
+            contentPanel.addComponent(new EmptySpace());
+            productPriceBox = new TextBox(new TerminalSize(6, 1));
+            productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
+            contentPanel.addComponent(productPriceBox);
+            contentPanel.addComponent(
+                new Button("GOTOWE", new Runnable() {
+                    @Override
+                    public void run() {
+                        gameProperties.tmpConfirm = true;
+                    }
+                })
+            );
 
-        // Get price from user
-        double proposedPrice = -1;
-        while (proposedPrice < 0 || proposedPrice > 50000) {
-            System.out.print("  ? ");
+            // Wait for selection
+            productPriceBox.takeFocus();
+            Game.waitForConfirm(gameProperties);
             try {
-                proposedPrice = scanner.nextDouble();
-            } catch (InputMismatchException e) {
-                scanner.next();
+                gameProperties.tmpActionInt = Integer.parseInt(productPriceBox.getText());
+            } catch (Exception e) {
+                // If a bad value has been provided
+                gameProperties.tmpActionInt = -1;
             }
+            
         }
 
         // Set the price
-        pumpProds[selectedIndustryIndex].productPrice = proposedPrice;
+        gameProperties.pumpIndustries[selectedIndustryIndex].productPrice = gameProperties.tmpActionInt;
+
+        // Clean up
+        contentPanel.removeAllComponents();
     }
 
     // Menu for buying pumps

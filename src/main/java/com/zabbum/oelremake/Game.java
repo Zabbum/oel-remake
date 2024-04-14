@@ -213,14 +213,16 @@ public class Game {
             // Redirect to the valid menu
             switch (gameProperties.tmpAction) {
                 case "A" -> {
-                    // Drill productions
+                    // Drills productions
                     DrillsIndustry.buyIndustry(player, gameProperties);
                 }
                 case "B" -> {
-                    // Pump productions
+                    // Pumps productions
+                    PumpsIndustry.buyIndustry(player, gameProperties);
                 }
                 case "C" -> {
                     // Cars productions
+                    CarsIndustry.buyIndustry(player, gameProperties);
                 }
                 case "D" -> {
                     // Oilfields

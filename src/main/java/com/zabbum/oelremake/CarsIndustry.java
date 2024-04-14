@@ -3,42 +3,36 @@ package com.zabbum.oelremake;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.SimpleTheme;
+import com.googlecode.lanterna.gui2.Button;
+import com.googlecode.lanterna.gui2.EmptySpace;
+import com.googlecode.lanterna.gui2.GridLayout;
+import com.googlecode.lanterna.gui2.Label;
+import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.TextBox;
+import com.googlecode.lanterna.gui2.table.Table;
 
 public class CarsIndustry extends AbstractIndustry {
-
-    // Local variables
-    private int industryPrice;
-    public int amount;
-    public double productPrice;
-
-    // Reference to the next object
-    // (stricte for ownership data structure)
-    public CarsIndustry next;
 
     // Constructor
     public CarsIndustry(String name) {
         super(name);
+
         Random random = new Random();
 
         this.industryPrice = random.nextInt(55000) + 45000;
-        this.amount = ((int)(this.industryPrice/10000)) * 3  + 15;
-    }
-
-    // Industry price getter
-    public int getIndustryPrice() {
-        return industryPrice;
-    }
-
-    // Industry price setter (ONLY FOR SABOTAGE PURPOSES)
-    public void setIndustryPriceSabotage(int industryPrice) {
-        this.industryPrice = industryPrice;
+        this.productsAmount = ((int)(this.industryPrice/10000)) * 3  + 15;
     }
 
     public static CarsIndustry[] initialize() {
         CarsIndustry[] carsProds = new CarsIndustry[4];
 
         // Cars productions initialization
-        carsProds[0] = new CarsIndustry("WÓZ-PRZEWÓZ");
+        carsProds[0] = new CarsIndustry("WOZ-PRZEWOZ");
         carsProds[1] = new CarsIndustry("WAGONENSITZ");
         carsProds[2] = new CarsIndustry("WORLD CO.");
         carsProds[3] = new CarsIndustry("DRINK TANK INC.");
@@ -47,102 +41,117 @@ public class CarsIndustry extends AbstractIndustry {
     }
 
     // Menu for buying cars productions
-    public static void buyIndustry(Player player, Scanner scanner, CarsIndustry[] carsProds) {
-        System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "SPRZEDAŻ WIERTEŁ" + ANSI.RESET);
-        System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "Saldo konta:" + ANSI.RESET + " " +
-                           ANSI.WHITE_BACKGROUND + ANSI.BLUE + player.balance + "$" + ANSI.RESET);
-        System.out.println();
+    public static void buyIndustry(Player player, GameProperties gameProperties) {
+        // Prepare new graphical settings
+        Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new GridLayout(1));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false, TextColor.ANSI.BLUE, TextColor.ANSI.BLUE_BRIGHT,
+            TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.BLUE, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT)
+            );
 
-        // Calculate how many actions are possible
-        // e.g. if there is production that is already
-        // bought, don't make it possible to buy it.
-        int possibleActionsLength = 0;
-        for (CarsIndustry carsProd : carsProds) {
-            if (!carsProd.isBought) {
-                possibleActionsLength += 1;
-            }
+        // Display title
+        Panel titlePanel = new Panel(new GridLayout(1));
+        Game.timeBuffor();
+        titlePanel.setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.BLUE));
+        titlePanel.addComponent(new EmptySpace());
+        Game.timeBuffor();
+        titlePanel.addComponent(new Label("SPRZEDAZ FABRYK WAGONOW"));
+        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.balance) + "$"));
+        titlePanel.addComponent(new EmptySpace());
+        contentPanel.addComponent(titlePanel);
+
+        contentPanel.addComponent(new EmptySpace());
+
+        // Create table
+        Table<String> industryTable = new Table<String>("NR", "NAZWA FIRMY", "L. PROD.", "CENA");
+
+        // Add every available cars industry to table
+        industryTable.getTableModel().addRow("0","-","-","-");
+        for (int industryIndex = 0; industryIndex < gameProperties.carsIndustries.length; industryIndex++) {
+            if (gameProperties.carsIndustries[industryIndex].isBought) {}
+            // If industry is not bought, make it possible to buy it
+            industryTable.getTableModel().addRow(
+                String.valueOf(industryIndex+1),
+                gameProperties.carsIndustries[industryIndex].name,
+                String.valueOf(gameProperties.carsIndustries[industryIndex].productsAmount),
+                String.valueOf(gameProperties.carsIndustries[industryIndex].industryPrice)+"$"
+                );
         }
 
-        // Create possible actions array
-        // Every 'uninitialized' slot's value is '0'
-        String[] possibleActions = new String[possibleActionsLength];
-        for (int i = 0; i < possibleActions.length; i++) {
-            possibleActions[i] = "0";
-        }
-        possibleActionsLength++;
+        industryTable.setSelectAction(() -> {
+            gameProperties.tmpActionInt = Integer.parseInt(industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))-1;
+            gameProperties.tmpConfirm = true;
+        });
 
-        // Display every available cars production
-        for (int i = 0; i < carsProds.length; i++) {
-            // If cars production is bought, skip it
-            if (carsProds[i].isBought) {
-                System.out.println("\n");
-                continue;
-            }
+        // Display table
+        contentPanel.addComponent(industryTable);
+        contentPanel.addComponent(new EmptySpace());
+        contentPanel.addComponent(new Label("KTORA FIRME CHCESZ KUPIC?"));
 
-            // Display production info
-            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + (i+1) + ANSI.RESET);
-            System.out.print("\t");
-            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + carsProds[i].getName() + " " + ANSI.RESET);
-            System.out.print("\t");
-            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + carsProds[i].amount+ ANSI.RESET);
-            System.out.print("\t");
-            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + carsProds[i].getIndustryPrice() + ANSI.RESET);
-            System.out.print(" ");
-            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "$" + ANSI.RESET);
-            System.out.println("\n");
-
-            // Add production to array
-            //     Find the latest 'uninitialized' slot
-            for (int j = 0; j < possibleActions.length; j++) {
-                if (possibleActions[j].equals("0")) {
-                    possibleActions[j] = String.valueOf(i+1);
-                    break;
-                }
-            }
-        }
-        System.out.println();
-
-        // Get the action
-        int selectedIndustryIndex = Prompt.promptInt(possibleActions, scanner);
+        // Wait for selection
+        Game.waitForConfirm(gameProperties);
+        int selectedIndustryIndex = gameProperties.tmpActionInt;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
+            // Clean up
+            contentPanel.removeAllComponents();
             return;
         }
 
         // Note purchase
-        CarsIndustry tmp = player.ownedCarsProd;
-        player.ownedCarsProd = carsProds[selectedIndustryIndex];
-        player.ownedCarsProd.next = tmp;
+        gameProperties.carsIndustries[selectedIndustryIndex].isBought = true;
+        gameProperties.carsIndustries[selectedIndustryIndex].ownership = player;
 
-        carsProds[selectedIndustryIndex].isBought = true;
-        carsProds[selectedIndustryIndex].ownership = player;
-
-        player.balance -= carsProds[selectedIndustryIndex].getIndustryPrice();
+        player.balance -= gameProperties.carsIndustries[selectedIndustryIndex].industryPrice;
 
         // Inform user about purchase
-        System.out.println("Jesteś właścicielem fabryki:");
-        System.out.println(carsProds[selectedIndustryIndex].getName());
-        System.out.println();
-        System.out.println("Proszę podać swoją cenę za wagon.");
+        contentPanel.addComponent(new EmptySpace());
+        contentPanel.addComponent(new Label("JESTE$ W£A$CICIELEM FABRYKI: "));
+        contentPanel.addComponent(new Label(gameProperties.carsIndustries[selectedIndustryIndex].name));
+        contentPanel.addComponent(new EmptySpace());
+        contentPanel.addComponent(new Label("PROSZE PODAC SWOJA CENE WAGONU."));
+    
+        // Prompt for price until provided value is valid
+        TextBox productPriceBox = null;
+        gameProperties.tmpActionInt = -1;
+        while (gameProperties.tmpActionInt < 0 || gameProperties.tmpActionInt > 50000) {
+            // Prompt for price
+            contentPanel.addComponent(new EmptySpace());
+            productPriceBox = new TextBox(new TerminalSize(6, 1));
+            productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
+            contentPanel.addComponent(productPriceBox);
+            contentPanel.addComponent(
+                new Button("GOTOWE", new Runnable() {
+                    @Override
+                    public void run() {
+                        gameProperties.tmpConfirm = true;
+                    }
+                })
+            );
 
-        // Get price from user
-        double proposedPrice = -1;
-        while (proposedPrice < 0) {
-            System.out.print("  ? ");
+            // Wait for selection
+            productPriceBox.takeFocus();
+            Game.waitForConfirm(gameProperties);
             try {
-                proposedPrice = scanner.nextDouble();
-            } catch (InputMismatchException e) {
-                scanner.next();
+                gameProperties.tmpActionInt = Integer.parseInt(productPriceBox.getText());
+            } catch (Exception e) {
+                // If a bad value has been provided
+                gameProperties.tmpActionInt = -1;
             }
+            
         }
 
         // Set the price
-        carsProds[selectedIndustryIndex].productPrice = proposedPrice;
+        gameProperties.carsIndustries[selectedIndustryIndex].productPrice = gameProperties.tmpActionInt;
+
+        // Clean up
+        contentPanel.removeAllComponents();
     }
 
-        // Menu for buying pumps
-    public static void buyProduct(Player player, Scanner scanner, PumpsIndustry[] pumpProds, Oilfield[] oilfields) {
+        // Menu for buying cars
+    public static void buyProduct(Player player, Scanner scanner, CarsIndustry[] pumpProds, Oilfield[] oilfields) {
         // Inform user where they are
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK_BRIGHT + " **   SPRZEDAŻ POMP   ** " + ANSI.RESET );
         System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.WHITE + "SALDO KONTA:\t" + player.balance + "$" + ANSI.RESET);

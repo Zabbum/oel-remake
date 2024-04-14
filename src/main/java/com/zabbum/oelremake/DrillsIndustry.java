@@ -5,21 +5,19 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.gui2.Button;
-import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
-import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.table.Table;
 
 public class DrillsIndustry extends AbstractIndustry {
+
     // Constructor
     public DrillsIndustry(String name) {
         super(name);
@@ -41,7 +39,7 @@ public class DrillsIndustry extends AbstractIndustry {
         return drillProds;
     }
 
-    // Menu for buying drill productions
+    // Menu for buying drills productions
     public static void buyIndustry(Player player, GameProperties gameProperties) {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
@@ -67,11 +65,11 @@ public class DrillsIndustry extends AbstractIndustry {
         // Create table
         Table<String> industryTable = new Table<String>("NR", "NAZWA FIRMY", "L. PROD.", "CENA");
 
-        // Add every available drill production to table
+        // Add every available drills industry to table
         industryTable.getTableModel().addRow("0","-","-","-");
         for (int industryIndex = 0; industryIndex < gameProperties.drillIndustries.length; industryIndex++) {
             if (gameProperties.drillIndustries[industryIndex].isBought) {}
-            // If table is not bought, make it possible to buy it
+            // If industry is not bought, make it possible to buy it
             industryTable.getTableModel().addRow(
                 String.valueOf(industryIndex+1),
                 gameProperties.drillIndustries[industryIndex].name,
