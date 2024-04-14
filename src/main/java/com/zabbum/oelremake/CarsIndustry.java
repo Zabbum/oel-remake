@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
-public class CarsProd extends Industry {
+public class CarsIndustry extends AbstractIndustry {
 
     // Local variables
     private int industryPrice;
@@ -13,10 +13,10 @@ public class CarsProd extends Industry {
 
     // Reference to the next object
     // (stricte for ownership data structure)
-    public CarsProd next;
+    public CarsIndustry next;
 
     // Constructor
-    public CarsProd(String name) {
+    public CarsIndustry(String name) {
         super(name);
         Random random = new Random();
 
@@ -34,20 +34,20 @@ public class CarsProd extends Industry {
         this.industryPrice = industryPrice;
     }
 
-    public static CarsProd[] initialize() {
-        CarsProd[] carsProds = new CarsProd[4];
+    public static CarsIndustry[] initialize() {
+        CarsIndustry[] carsProds = new CarsIndustry[4];
 
         // Cars productions initialization
-        carsProds[0] = new CarsProd("WÓZ-PRZEWÓZ");
-        carsProds[1] = new CarsProd("WAGONENSITZ");
-        carsProds[2] = new CarsProd("WORLD CO.");
-        carsProds[3] = new CarsProd("DRINK TANK INC.");
+        carsProds[0] = new CarsIndustry("WÓZ-PRZEWÓZ");
+        carsProds[1] = new CarsIndustry("WAGONENSITZ");
+        carsProds[2] = new CarsIndustry("WORLD CO.");
+        carsProds[3] = new CarsIndustry("DRINK TANK INC.");
 
         return carsProds;
     }
 
     // Menu for buying cars productions
-    public static void buyIndustry(Player player, Scanner scanner, CarsProd[] carsProds) {
+    public static void buyIndustry(Player player, Scanner scanner, CarsIndustry[] carsProds) {
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "SPRZEDAŻ WIERTEŁ" + ANSI.RESET);
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "Saldo konta:" + ANSI.RESET + " " +
                            ANSI.WHITE_BACKGROUND + ANSI.BLUE + player.balance + "$" + ANSI.RESET);
@@ -57,7 +57,7 @@ public class CarsProd extends Industry {
         // e.g. if there is production that is already
         // bought, don't make it possible to buy it.
         int possibleActionsLength = 0;
-        for (CarsProd carsProd : carsProds) {
+        for (CarsIndustry carsProd : carsProds) {
             if (!carsProd.isBought) {
                 possibleActionsLength += 1;
             }
@@ -111,7 +111,7 @@ public class CarsProd extends Industry {
         }
 
         // Note purchase
-        CarsProd tmp = player.ownedCarsProd;
+        CarsIndustry tmp = player.ownedCarsProd;
         player.ownedCarsProd = carsProds[selectedIndustryIndex];
         player.ownedCarsProd.next = tmp;
 
@@ -142,7 +142,7 @@ public class CarsProd extends Industry {
     }
 
         // Menu for buying pumps
-    public static void buyProduct(Player player, Scanner scanner, PumpProd[] pumpProds, Oilfield[] oilfields) {
+    public static void buyProduct(Player player, Scanner scanner, PumpsIndustry[] pumpProds, Oilfield[] oilfields) {
         // Inform user where they are
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK_BRIGHT + " **   SPRZEDAŻ POMP   ** " + ANSI.RESET );
         System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.WHITE + "SALDO KONTA:\t" + player.balance + "$" + ANSI.RESET);
@@ -153,7 +153,7 @@ public class CarsProd extends Industry {
         // e.g. if there is production that is not bought yet,
         // don't make it possible to buy its product.
         int possibleActionsLength = 0;
-        for (PumpProd pumpProd : pumpProds) {
+        for (PumpsIndustry pumpProd : pumpProds) {
             if (pumpProd.isBought) {
                 possibleActionsLength += 1;
             }
@@ -261,7 +261,7 @@ public class CarsProd extends Industry {
     }
 
     // Menu for buying cars
-    public static void buyProduct(Player player, Scanner scanner, CarsProd[] carsProds, Oilfield[] oilfields) {
+    public static void buyProduct(Player player, Scanner scanner, CarsIndustry[] carsProds, Oilfield[] oilfields) {
         // Inform user where they are
         System.out.println(ANSI.YELLOW_BACKGROUND_BRIGHT + ANSI.RED + " **   SPRZEDAŻ WAGONÓW   ** " + ANSI.RESET );
         System.out.println(ANSI.RED_BACKGROUND + ANSI.YELLOW_BRIGHT + "SALDO KONTA:\t" + player.balance + "$" + ANSI.RESET);
@@ -272,7 +272,7 @@ public class CarsProd extends Industry {
         // e.g. if there is production that is not bought yet,
         // don't make it possible to buy its product.
         int possibleActionsLength = 0;
-        for (CarsProd carsProd : carsProds) {
+        for (CarsIndustry carsProd : carsProds) {
             if (carsProd.isBought) {
                 possibleActionsLength += 1;
             }

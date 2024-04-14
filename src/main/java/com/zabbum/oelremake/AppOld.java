@@ -25,9 +25,9 @@ public class AppOld {
 
         // Initialize industries
         Oilfield[] oilfields = Oilfield.initialize();
-        CarsProd[] carsProds = CarsProd.initialize();
-        PumpProd[] pumpProds = PumpProd.initialize();
-        DrillProd[] drillProds = DrillProd.initialize();
+        CarsIndustry[] carsProds = CarsIndustry.initialize();
+        PumpsIndustry[] pumpProds = PumpsIndustry.initialize();
+        DrillsIndustry[] drillProds = DrillsIndustry.initialize();
 
         // Generate oil prices
         double[] oilPrices = Oil.generatePrices(Game.roundCount);

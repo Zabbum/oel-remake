@@ -3,7 +3,7 @@ package com.zabbum.oelremake;
 import java.util.Scanner;
 
 public class ChangePrices {
-    public static void menu(Player player, Scanner scanner, PumpProd[] pumpProds, CarsProd[] carsProds, DrillProd[] drillProds) {
+    public static void menu(Player player, Scanner scanner, PumpsIndustry[] pumpProds, CarsIndustry[] carsProds, DrillsIndustry[] drillProds) {
         // Inform user
         System.out.println(ANSI.RED_BACKGROUND_BRIGHT + ANSI.WHITE + "Jaką cenę będziesz zmieniać?" + ANSI.RESET);
         System.out.println(ANSI.RED_BACKGROUND_BRIGHT + ANSI.WHITE + "1\tCeny pomp" + ANSI.RESET);
@@ -34,7 +34,7 @@ public class ChangePrices {
     }
     
     // Change pumps prices
-    static void pumps(Player player, Scanner scanner, PumpProd[] pumpProds) {
+    static void pumps(Player player, Scanner scanner, PumpsIndustry[] pumpProds) {
         // Inform user
         int possibleActionsLength = 1;
 
@@ -73,7 +73,7 @@ public class ChangePrices {
     }
 
     // Change cars prices
-    static void cars(Player player, Scanner scanner, CarsProd[] carsProds) {
+    static void cars(Player player, Scanner scanner, CarsIndustry[] carsProds) {
         // Inform user
         int possibleActionsLength = 1;
 
@@ -109,7 +109,7 @@ public class ChangePrices {
     }
 
     // Change drills prices
-    static void drills(Player player, Scanner scanner, DrillProd[] drillProds) {
+    static void drills(Player player, Scanner scanner, DrillsIndustry[] drillProds) {
         // Inform user
         int possibleActionsLength = 1;
 
@@ -148,7 +148,7 @@ public class ChangePrices {
     }
 
     // Generate possible actions
-    static String[] generatePossibleActions(int possibleActionsLength, Industry[] industries, Player player) {
+    static String[] generatePossibleActions(int possibleActionsLength, AbstractIndustry[] industries, Player player) {
         String[] possibleActions = new String[possibleActionsLength];
         for (int i = 0; i < possibleActions.length; i++) {
             possibleActions[i] = "0";

@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Sabotage {
     
     // Do a sabotage
-    public static void doSabotage(Player player, Scanner scanner, Oilfield[] oilfields, PumpProd[] pumpProds, CarsProd[] carsProds, DrillProd[] drillProds) {
+    public static void doSabotage(Player player, Scanner scanner, Oilfield[] oilfields, PumpsIndustry[] pumpProds, CarsIndustry[] carsProds, DrillsIndustry[] drillProds) {
         // Inform user where they are
         System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK_BRIGHT + "SABOTAŻ SABOTAŻ SABOTAŻ" + ANSI.RESET);
         System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.WHITE + "Masz teraz następujące możliwości:" + ANSI.RESET);
@@ -160,12 +160,12 @@ public class Sabotage {
     }
 
     // Attempt a pump industry sabotage
-    static void attemptPumpIndustrySabotage(Player player, Scanner scanner, PumpProd[] pumpProds) {
+    static void attemptPumpIndustrySabotage(Player player, Scanner scanner, PumpsIndustry[] pumpProds) {
         Random random = new Random();
 
         // Create possible actions array
         int possibleActionsLength = 1;
-        for (PumpProd pumpProd : pumpProds) {
+        for (PumpsIndustry pumpProd : pumpProds) {
             if (pumpProd.isBought) {
                 possibleActionsLength += 1;
             }
@@ -221,12 +221,12 @@ public class Sabotage {
     }
 
     // Attempt a car industry sabotage
-    static void attemptCarsIndustrySabotage(Player player, Scanner scanner, CarsProd[] carsProds) {
+    static void attemptCarsIndustrySabotage(Player player, Scanner scanner, CarsIndustry[] carsProds) {
         Random random = new Random();
 
         // Create possible actions array
         int possibleActionsLength = 1;
-        for (CarsProd carsProd : carsProds) {
+        for (CarsIndustry carsProd : carsProds) {
             if (carsProd.isBought) {
                 possibleActionsLength += 1;
             }
@@ -282,12 +282,12 @@ public class Sabotage {
     }
 
     // Attempt a drill industry sabotage
-    static void attemptDrillIndustrySabotage(Player player, Scanner scanner, DrillProd[] drillProds) {
+    static void attemptDrillIndustrySabotage(Player player, Scanner scanner, DrillsIndustry[] drillProds) {
         Random random = new Random();
 
         // Create possible actions array
         int possibleActionsLength = 1;
-        for (DrillProd drillProd : drillProds) {
+        for (DrillsIndustry drillProd : drillProds) {
             if (drillProd.isBought) {
                 possibleActionsLength += 1;
             }

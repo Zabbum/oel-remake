@@ -14,15 +14,17 @@ public class GameProperties {
     public int playerAmount;
 
     public Oilfield[] oilfields;
-    public CarsProd[] carsProds;
-    public PumpProd[] pumpProds;
-    public DrillProd[] drillProds;
+    public CarsIndustry[] carsIndustries;
+    public PumpsIndustry[] pumpIndustries;
+    public DrillsIndustry[] drillIndustries;
 
     public double[] oilPrices;
 
     public Player[] players;
 
     public boolean tmpConfirm;
+    public String tmpAction;
+    public int tmpActionInt;
 
 
     public GameProperties(int roundCount) {
@@ -31,9 +33,9 @@ public class GameProperties {
 
         // Initialize industries
         this.oilfields = Oilfield.initialize();
-        this.carsProds = CarsProd.initialize();
-        this.pumpProds = PumpProd.initialize();
-        this.drillProds = DrillProd.initialize();
+        this.carsIndustries = CarsIndustry.initialize();
+        this.pumpIndustries = PumpsIndustry.initialize();
+        this.drillIndustries = DrillsIndustry.initialize();
 
         // Generate oil prices
         oilPrices = Oil.generatePrices(roundCount);

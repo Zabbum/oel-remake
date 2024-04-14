@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
-public class DrillProd extends Industry {
+public class PumpsIndustry extends AbstractIndustry {
 
     // Local variables
     private int industryPrice;
@@ -13,15 +13,15 @@ public class DrillProd extends Industry {
 
     // Reference to the next object
     // (stricte for ownership data structure)
-    public DrillProd next;
+    public PumpsIndustry next;
 
     // Constructor
-    public DrillProd(String name) {
+    public PumpsIndustry(String name) {
         super(name);
         Random random = new Random();
 
-        this.industryPrice = random.nextInt(50000) + 10000;
-        this.amount = random.nextInt(((int)(this.industryPrice/10000)) * 8 + 25);
+        this.industryPrice = random.nextInt(80000) + 36000;
+        this.amount = (int)(this.industryPrice/10000) * 7 + 25;
     }
 
     // Industry price getter
@@ -34,30 +34,29 @@ public class DrillProd extends Industry {
         this.industryPrice = industryPrice;
     }
 
-    public static DrillProd[] initialize() {
-        DrillProd[] drillProds = new DrillProd[3];
+    public static PumpsIndustry[] initialize() {
+        PumpsIndustry[] pumpProds = new PumpsIndustry[2];
 
-        // Dril productions initialization
-        drillProds[0] = new DrillProd("TURBOWIERT");
-        drillProds[1] = new DrillProd("NA BŁYSK INC.");
-        drillProds[2] = new DrillProd("PET SHOP&BOYS");
+        // Pump productions initialization
+        pumpProds[0] = new PumpsIndustry("ZASSANICKI GMBH");
+        pumpProds[1] = new PumpsIndustry("DR PUMPENER");
 
-        return drillProds;
+        return pumpProds;
     }
 
-    // Menu for buying drill productions
-    public static void buyIndustry(Player player, Scanner scanner, DrillProd[] drillProds) {
-        System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "SPRZEDAŻ WIERTEŁ" + ANSI.RESET);
-        System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "Saldo konta:" + ANSI.RESET + " " +
-                           ANSI.WHITE_BACKGROUND + ANSI.BLUE + player.balance + "$" + ANSI.RESET);
+    // Menu for buying pump productions
+    public static void buyIndustry(Player player, Scanner scanner, PumpsIndustry[] pumpProds) {
+        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "KUPOWANIE FABRYK POMP" + ANSI.RESET);
+        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "Saldo konta:" + ANSI.RESET + " " +
+                           ANSI.YELLOW_BACKGROUND + ANSI.BLUE + player.balance + "$" + ANSI.RESET);
         System.out.println();
 
         // Calculate how many actions are possible
         // e.g. if there is production that is already
         // bought, don't make it possible to buy it.
         int possibleActionsLength = 0;
-        for (DrillProd drillProd : drillProds) {
-            if (!drillProd.isBought) {
+        for (PumpsIndustry pumpProd : pumpProds) {
+            if (!pumpProd.isBought) {
                 possibleActionsLength += 1;
             }
         }
@@ -70,24 +69,24 @@ public class DrillProd extends Industry {
             possibleActions[i] = "0";
         }
 
-        // Display every available Drill production
-        for (int i = 0; i < drillProds.length; i++) {
-            // If Drill production is bought, skip it
-            if (drillProds[i].isBought) {
+        // Display every available pump production
+        for (int i = 0; i < pumpProds.length; i++) {
+            // If pump production is bought, skip it
+            if (pumpProds[i].isBought) {
                 System.out.println("\n");
                 continue;
             }
 
             // Display production info
-            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + (i+1) + ANSI.RESET);
+            System.out.print(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + " " + (i+1) + ANSI.RESET);
             System.out.print("\t");
-            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + drillProds[i].getName() + " " + ANSI.RESET);
+            System.out.print(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + " " + pumpProds[i].getName() + " " + ANSI.RESET);
             System.out.print("\t");
-            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + drillProds[i].amount+ ANSI.RESET);
+            System.out.print(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + " " + pumpProds[i].amount+ ANSI.RESET);
             System.out.print("\t");
-            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + " " + drillProds[i].getIndustryPrice() + ANSI.RESET);
+            System.out.print(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + " " + pumpProds[i].getIndustryPrice() + ANSI.RESET);
             System.out.print(" ");
-            System.out.print(ANSI.WHITE_BACKGROUND + ANSI.BLUE + "$" + ANSI.RESET);
+            System.out.print(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "$" + ANSI.RESET);
             System.out.println("\n");
 
             // Add production to array
@@ -102,7 +101,6 @@ public class DrillProd extends Industry {
         System.out.println();
 
         // Get the action
-        System.out.println("Którą firmę chcesz kupić?");
         int selectedIndustryIndex = Prompt.promptInt(possibleActions, scanner);
 
         // If 0 selected, return
@@ -111,24 +109,24 @@ public class DrillProd extends Industry {
         }
 
         // Note purchase
-        DrillProd tmp = player.ownedDrillProd;
-        player.ownedDrillProd = drillProds[selectedIndustryIndex];
-        player.ownedDrillProd.next = tmp;
+        PumpsIndustry tmp = player.ownedPumpProd;
+        player.ownedPumpProd = pumpProds[selectedIndustryIndex];
+        player.ownedPumpProd.next = tmp;
 
-        drillProds[selectedIndustryIndex].isBought = true;
-        drillProds[selectedIndustryIndex].ownership = player;
+        pumpProds[selectedIndustryIndex].isBought = true;
+        pumpProds[selectedIndustryIndex].ownership = player;
 
-        player.balance -= drillProds[selectedIndustryIndex].getIndustryPrice();
+        player.balance -= pumpProds[selectedIndustryIndex].getIndustryPrice();
 
         // Inform user about purchase
         System.out.println("Jesteś właścicielem fabryki:");
-        System.out.println(drillProds[selectedIndustryIndex].getName());
+        System.out.println(pumpProds[selectedIndustryIndex].getName());
         System.out.println();
-        System.out.println("Proszę podać swoją cenę na rury o długości 500m.");
+        System.out.println("Proszę podać swoją cenę pompy.");
 
         // Get price from user
         double proposedPrice = -1;
-        while (proposedPrice < 0 || proposedPrice > 60000) {
+        while (proposedPrice < 0 || proposedPrice > 50000) {
             System.out.print("  ? ");
             try {
                 proposedPrice = scanner.nextDouble();
@@ -138,23 +136,23 @@ public class DrillProd extends Industry {
         }
 
         // Set the price
-        drillProds[selectedIndustryIndex].productPrice = proposedPrice;
+        pumpProds[selectedIndustryIndex].productPrice = proposedPrice;
     }
 
-    // Menu for buying drills
-    public static void buyProduct(Player player, Scanner scanner, DrillProd[] drillProds, Oilfield[] oilfields) {
+    // Menu for buying pumps
+    public static void buyProduct(Player player, Scanner scanner, PumpsIndustry[] pumpProds, Oilfield[] oilfields) {
         // Inform user where they are
-        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.WHITE + "TU MOŻESZ KUPIĆ WIERTŁA:" + ANSI.RESET );
-        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.WHITE + "SALDO KONTA:\t" + player.balance + "$" + ANSI.RESET);
+        System.out.println(ANSI.WHITE_BACKGROUND + ANSI.BLACK_BRIGHT + " **   SPRZEDAŻ POMP   ** " + ANSI.RESET );
+        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.WHITE + "SALDO KONTA:\t" + player.balance + "$" + ANSI.RESET);
         System.out.println();
-        System.out.println(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + "Nr\tFirma\t\tSzt.\tCena" + ANSI.RESET);
+        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.WHITE + "Nr\tFirma\t\tSzt.\tCena" + ANSI.RESET);
 
         // Calculate how many actions are possible
         // e.g. if there is production that is not bought yet,
         // don't make it possible to buy its product.
         int possibleActionsLength = 0;
-        for (DrillProd drillProd : drillProds) {
-            if (drillProd.isBought) {
+        for (PumpsIndustry pumpProd : pumpProds) {
+            if (pumpProd.isBought) {
                 possibleActionsLength += 1;
             }
         }
@@ -167,19 +165,19 @@ public class DrillProd extends Industry {
             possibleActions[i] = "0";
         }
 
-        // Display every single Drill production
-        for (int i = 0; i < drillProds.length; i++) {
+        // Display every single Pump production
+        for (int i = 0; i < pumpProds.length; i++) {
             // Display production info
-            System.out.print(ANSI.YELLOW_BACKGROUND + ANSI.BLUE + " " + (i+1));
+            System.out.print(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.WHITE + " " + (i+1));
             System.out.print("\t");
-            System.out.print(" " + drillProds[i].getName() + " ");
+            System.out.print(" " + pumpProds[i].getName() + " ");
             System.out.print("\t");
-            System.out.print(" " + drillProds[i].amount);
+            System.out.print(" " + pumpProds[i].amount);
             System.out.print("\t");
             System.out.print(" ");
 
-            if (drillProds[i].isBought) { // If industry is not bought, do not display price
-                System.out.print(drillProds[i].productPrice);
+            if (pumpProds[i].isBought) { // If industry is not bought, do not display price
+                System.out.print(pumpProds[i].productPrice);
                 System.out.print(" ");
                 System.out.print("$");
 
@@ -200,7 +198,6 @@ public class DrillProd extends Industry {
         }
 
         // Get the action
-        System.out.println(ANSI.RED + "Zakup z której firmy?" + ANSI.RESET);  
         int selectedIndustryIndex = Prompt.promptInt(possibleActions, scanner);
 
         // If 0 selected, return
@@ -208,21 +205,19 @@ public class DrillProd extends Industry {
             return;
         }
 
-        // Prompt for drills amount
-        System.out.println("Ile rur 500 metrowych kupujesz? (limit 10)");
-        int selectedDrillAmount = -1;
-        while (selectedDrillAmount < 0 ||
-               selectedDrillAmount > drillProds[selectedIndustryIndex].amount ||
-               selectedDrillAmount > 10) {
+        // Prompt for pumps amount
+        System.out.println("Ile pomp kupujesz? (limit 15)");
+        int selectedPumpAmount = -1;
+        while (selectedPumpAmount < 0 ||
+               selectedPumpAmount > pumpProds[selectedIndustryIndex].amount ||
+               selectedPumpAmount > 15) {
             
                 System.out.print("  ? ");
-                selectedDrillAmount = scanner.nextInt();
+                selectedPumpAmount = scanner.nextInt();
         }
-        if (selectedDrillAmount == 0) {
+        if (selectedPumpAmount == 0) {
             return;
         }
-
-        // Prompt for oilfield
 
         // Display all of the oilfields
         for (int j = 0; j < oilfields.length; j++) {
@@ -242,22 +237,22 @@ public class DrillProd extends Industry {
         }
 
         // Take actions
-        drillProds[selectedIndustryIndex].amount -= selectedDrillAmount; // Reduce amount of available drills in industry
-        player.balance -= selectedDrillAmount * drillProds[selectedIndustryIndex].productPrice; // Reduce player's balance
-        if (drillProds[selectedIndustryIndex].ownership == player) {
+        pumpProds[selectedIndustryIndex].amount -= selectedPumpAmount; // Reduce amount of available pumps in industry
+        player.balance -= selectedPumpAmount * pumpProds[selectedIndustryIndex].productPrice; // Reduce player's balance
+        if (pumpProds[selectedIndustryIndex].ownership == player) {
             // If player is buying product from theirself, give them the money * 0.2
-            player.balance += 0.2 * selectedDrillAmount * drillProds[selectedIndustryIndex].productPrice;
+            player.balance += 0.2 * selectedPumpAmount * pumpProds[selectedIndustryIndex].productPrice;
         }
         else {
             // Give owner of industry the money
-            drillProds[selectedIndustryIndex].ownership.balance += selectedDrillAmount * drillProds[selectedIndustryIndex].productPrice;
+            pumpProds[selectedIndustryIndex].ownership.balance += selectedPumpAmount * pumpProds[selectedIndustryIndex].productPrice;
         }
 
         if (selectedOilfieldIndex == -1) {
-            // If player entered 0, so bought drills and
+            // If player entered 0, so bought pumps and
             // didn't place them anywhere, return
             return;
         }
-        oilfields[selectedOilfieldIndex].drillAmount += selectedDrillAmount * 500; // Place drills in the oilfield
+        oilfields[selectedOilfieldIndex].pumpAmount += selectedPumpAmount; // Place pumps in the oilfield
     }
 }

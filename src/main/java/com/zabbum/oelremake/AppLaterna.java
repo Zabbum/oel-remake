@@ -98,7 +98,10 @@ public class AppLaterna {
             // Inform about money amount and oil prices
             Game.moneyInfo(gameProperties);
 
-            
+            // TODO: PLAY
+            for (int round = 0; round < gameProperties.roundCount; round++) {
+                Game.playRound(gameProperties);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

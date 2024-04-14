@@ -1,7 +1,6 @@
 package com.zabbum.oelremake;
 
 import java.util.regex.Pattern;
-import java.io.IOException;
 import java.lang.NumberFormatException;
 
 import com.googlecode.lanterna.TextColor;
@@ -80,11 +79,7 @@ public class Game {
         contentPanel.setLayoutManager(new GridLayout(1));
 
         contentPanel.addComponent(new Label("ZNAJDUJEMY SIE OBECNIE W ROKU:"));
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Game.timeBuffor();
         contentPanel.addComponent(new EmptySpace());
 
         // TODO: Fancy 1986
@@ -156,6 +151,7 @@ public class Game {
         // Inform about money amount
         gameProperties.window.setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE_BRIGHT));
         contentPanel.addComponent(new Label("WYGRYWA TEN, KTO OSIAGNIE NAJWIEKSZY"));
+        Game.timeBuffor();
         contentPanel.addComponent(new Label("KAPITAL NA KONCU GRY"));
         contentPanel.addComponent(new EmptySpace());
         Button confirmButton = new Button("GOTOWE", () -> {
@@ -184,14 +180,13 @@ public class Game {
         ImageComponent oilGraph = new ImageComponent();
         oilGraph.setTextImage(Oil.oilGraph(gameProperties, TextColor.ANSI.MAGENTA_BRIGHT, TextColor.ANSI.RED));
         contentPanel.addComponent(oilGraph);
+        contentPanel.addComponent(new EmptySpace());
 
         // Reduce oil prices
         Oil.reducePrices(gameProperties);
         for (double price : gameProperties.oilPrices) {
             System.out.println(price);
         }
-
-        contentPanel.addComponent(new EmptySpace());
 
         Button confirmButton1 = new Button("GOTOWE", () -> {
             gameProperties.tmpConfirm = true;
@@ -207,6 +202,139 @@ public class Game {
         contentPanel.removeAllComponents();
     }
 
+    // Play single round
+    public static void playRound(GameProperties gameProperties) {
+        gameProperties.currentRound++;
+
+        for (Player player : gameProperties.players) {
+            // Display the main menu
+            mainMenu(player, gameProperties);
+
+            // Redirect to the valid menu
+            switch (gameProperties.tmpAction) {
+                case "A" -> {
+                    // Drill productions
+                    DrillsIndustry.buyIndustry(player, gameProperties);
+                }
+                case "B" -> {
+                    // Pump productions
+                }
+                case "C" -> {
+                    // Cars productions
+                }
+                case "D" -> {
+                    // Oilfields
+                }
+                case "E" -> {
+                    // Drills
+                }
+                case "F" -> {
+                    // Pumps
+                }
+                case "G" -> {
+                    // Cars
+                }
+                case "H" -> {
+                    // Pass
+                }
+                case "I" -> {
+                    // Attempt sabotage
+                }
+                case "J" -> {
+                    // Change prices
+                }
+                default -> {
+                    System.out.println("No value provided. This could be an error.");
+                }
+            }
+        }
+    }
+
+    // Display main menu and get action
+    public static void mainMenu(Player player, GameProperties gameProperties) {
+        // Prepare new graphical settings
+        Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+        gameProperties.window.setTheme(new SimpleTheme(TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.MAGENTA));
+
+        // Display options
+        contentPanel.addComponent(new Label("DECYZJA NALEZY DO CIEBIE!")
+            .setTheme(new SimpleTheme(TextColor.ANSI.MAGENTA, TextColor.ANSI.WHITE_BRIGHT)));
+
+        contentPanel.addComponent(new EmptySpace());
+
+        contentPanel.addComponent(new Label("GRACZ: " + player.name + " $= " + player.balance)
+            .setTheme(new SimpleTheme(TextColor.ANSI.CYAN_BRIGHT, TextColor.ANSI.MAGENTA)));
+        
+        contentPanel.addComponent(new EmptySpace());
+        
+        // Options pt. 1
+        contentPanel.addComponent(new Label(" KUPOWANIE ")
+        .setTheme(new SimpleTheme(TextColor.ANSI.MAGENTA, TextColor.ANSI.BLUE)));
+
+        contentPanel.addComponent(new Button("FABRYKI WIERTE£", () -> {
+            gameProperties.tmpAction = "A";
+            gameProperties.tmpConfirm = true;
+            contentPanel.removeAllComponents();
+        }).setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA)));
+        contentPanel.addComponent(new Button("ZAK£ADY POMP", () -> {
+            gameProperties.tmpAction = "B";
+            gameProperties.tmpConfirm = true;
+            contentPanel.removeAllComponents();
+        }));
+        contentPanel.addComponent(new Button("FIRMY WAGONOWE", () -> {
+            gameProperties.tmpAction = "C";
+            gameProperties.tmpConfirm = true;
+            contentPanel.removeAllComponents();
+        }).setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA)));
+        contentPanel.addComponent(new Button("POLA NAFTOWE", () -> {
+            gameProperties.tmpAction = "D";
+            gameProperties.tmpConfirm = true;
+            contentPanel.removeAllComponents();
+        }));
+        contentPanel.addComponent(new Button("WIERT£A", () -> {
+            gameProperties.tmpAction = "E";
+            gameProperties.tmpConfirm = true;
+            contentPanel.removeAllComponents();
+        }).setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA)));
+        contentPanel.addComponent(new Button("POMPY", () -> {
+            gameProperties.tmpAction = "F";
+            gameProperties.tmpConfirm = true;
+            contentPanel.removeAllComponents();
+        }));
+        contentPanel.addComponent(new Button("WAGONY", () -> {
+            gameProperties.tmpAction = "G";
+            gameProperties.tmpConfirm = true;
+            contentPanel.removeAllComponents();
+        }).setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA)));
+
+        // Space
+        contentPanel.addComponent(new EmptySpace());
+
+        // Options pt. 2
+        contentPanel.addComponent(new Label(" POZOSTA£E MOZLIWO$CI ")
+        .setTheme(new SimpleTheme(TextColor.ANSI.MAGENTA, TextColor.ANSI.BLUE)));
+
+        contentPanel.addComponent(new Button("NASTEPNY GRACZ", () -> {
+            gameProperties.tmpAction = "H";
+            gameProperties.tmpConfirm = true;
+            contentPanel.removeAllComponents();
+        }));
+        contentPanel.addComponent(new Button("WAGONY", () -> {
+            gameProperties.tmpAction = "I";
+            gameProperties.tmpConfirm = true;
+            contentPanel.removeAllComponents();
+        }).setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA)));
+        contentPanel.addComponent(new Button("ZMIANA CENY", () -> {
+            gameProperties.tmpAction = "J";
+            gameProperties.tmpConfirm = true;
+            contentPanel.removeAllComponents();
+        }));
+
+        Game.waitForConfirm(gameProperties);
+        contentPanel.removeAllComponents();
+    }
+
     public static void waitForConfirm(GameProperties gameProperties) {
         while (!gameProperties.tmpConfirm) {
             try {
@@ -216,5 +344,13 @@ public class Game {
             }
         }
         gameProperties.tmpConfirm = false;
+    }
+
+    public static void timeBuffor() {
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
