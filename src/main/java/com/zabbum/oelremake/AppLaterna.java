@@ -42,7 +42,7 @@ public class AppLaterna {
 
         // Config terminal
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
-        terminalFactory.setInitialTerminalSize(new TerminalSize(47, 32));
+        terminalFactory.setInitialTerminalSize(new TerminalSize(53, 34));
         terminalFactory.setTerminalEmulatorFontConfiguration(SwingTerminalFontConfiguration.newInstance(font));
 
         Screen screen = null;

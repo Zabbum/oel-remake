@@ -226,6 +226,7 @@ public class Game {
                 }
                 case "D" -> {
                     // Oilfields
+                    Oilfield.buyField(player, gameProperties);
                 }
                 case "E" -> {
                     // Drills
