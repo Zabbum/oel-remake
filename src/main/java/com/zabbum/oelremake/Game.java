@@ -238,9 +238,11 @@ public class Game {
                 }
                 case "F" -> {
                     // Pumps
+                    PumpsIndustry.buyProduct(player, gameProperties);
                 }
                 case "G" -> {
                     // Cars
+                    CarsIndustry.buyProduct(player, gameProperties);
                 }
                 case "H" -> {
                     // Pass
