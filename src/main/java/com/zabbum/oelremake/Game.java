@@ -249,6 +249,7 @@ public class Game {
                 }
                 case "I" -> {
                     // Attempt sabotage
+                    Sabotage.doSabotage(player, gameProperties);
                 }
                 case "J" -> {
                     // Change prices
@@ -271,6 +272,7 @@ public class Game {
             TextColor.ANSI.MAGENTA, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN, TextColor.ANSI.MAGENTA)
             );
 
+        // Create theme for black buttons not to make them different when selected
         Theme blackButton = SimpleTheme.makeTheme(false, TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA,
         TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN, TextColor.ANSI.MAGENTA);
 
@@ -292,42 +294,33 @@ public class Game {
         Component firstButton = new Button("FABRYKI WIERTE£", () -> {
             gameProperties.tmpAction = "A";
             gameProperties.tmpConfirm = true;
-            contentPanel.removeAllComponents();
         }).setTheme(blackButton);
-
         contentPanel.addComponent(firstButton);
-
         ((Interactable)firstButton).takeFocus();
 
         contentPanel.addComponent(new Button("ZAK£ADY POMP", () -> {
             gameProperties.tmpAction = "B";
             gameProperties.tmpConfirm = true;
-            contentPanel.removeAllComponents();
         }));
         contentPanel.addComponent(new Button("FIRMY WAGONOWE", () -> {
             gameProperties.tmpAction = "C";
             gameProperties.tmpConfirm = true;
-            contentPanel.removeAllComponents();
         }).setTheme(blackButton));
         contentPanel.addComponent(new Button("POLA NAFTOWE", () -> {
             gameProperties.tmpAction = "D";
             gameProperties.tmpConfirm = true;
-            contentPanel.removeAllComponents();
         }));
         contentPanel.addComponent(new Button("WIERT£A", () -> {
             gameProperties.tmpAction = "E";
             gameProperties.tmpConfirm = true;
-            contentPanel.removeAllComponents();
         }).setTheme(blackButton));
         contentPanel.addComponent(new Button("POMPY", () -> {
             gameProperties.tmpAction = "F";
             gameProperties.tmpConfirm = true;
-            contentPanel.removeAllComponents();
         }));
         contentPanel.addComponent(new Button("WAGONY", () -> {
             gameProperties.tmpAction = "G";
             gameProperties.tmpConfirm = true;
-            contentPanel.removeAllComponents();
         }).setTheme(blackButton));
 
         // Space
@@ -335,22 +328,19 @@ public class Game {
 
         // Options pt. 2
         contentPanel.addComponent(new Label(" POZOSTA£E MOZLIWO$CI ")
-        .setTheme(blackButton));
+        .setTheme(new SimpleTheme(TextColor.ANSI.MAGENTA, TextColor.ANSI.BLUE)));
 
         contentPanel.addComponent(new Button("NASTEPNY GRACZ", () -> {
             gameProperties.tmpAction = "H";
             gameProperties.tmpConfirm = true;
-            contentPanel.removeAllComponents();
         }));
-        contentPanel.addComponent(new Button("WAGONY", () -> {
+        contentPanel.addComponent(new Button("PROBA SABOTAZU", () -> {
             gameProperties.tmpAction = "I";
             gameProperties.tmpConfirm = true;
-            contentPanel.removeAllComponents();
         }).setTheme(blackButton));
         contentPanel.addComponent(new Button("ZMIANA CENY", () -> {
             gameProperties.tmpAction = "J";
             gameProperties.tmpConfirm = true;
-            contentPanel.removeAllComponents();
         }));
 
         Game.waitForConfirm(gameProperties);

@@ -113,6 +113,7 @@ public abstract class AbstractIndustry {
         contentPanel.addComponent(new Label(industryPrompt));
 
         // Wait for selection
+        gameProperties.tmpActionInt = -1;
         Game.waitForConfirm(gameProperties);
         int selectedIndustryIndex = gameProperties.tmpActionInt;
 

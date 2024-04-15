@@ -3,6 +3,7 @@
 - 9670 - generating oil prizes
 - 10524 - showing expected oil prize trends
 - 11131 - choosing an action
+- 11215 - game finish
 - 15183 - sabotage
 
 ## Code to understandable speech
