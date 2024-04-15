@@ -26,8 +26,8 @@ public class Oilfield {
 
     // Amounts of exploitation stuff
     public int carsAmount;
-    public int drillAmount;
-    public int pumpAmount;
+    public int drillsAmount;
+    public int pumpsAmount;
 
     // Constructor
     public Oilfield(String name) {
@@ -44,8 +44,21 @@ public class Oilfield {
         this.oilExtracted = 0;
         this.oilAvailabletoSell = 0;
         this.carsAmount = 0;
-        this.drillAmount = 0;
-        this.pumpAmount = 0;
+        this.drillsAmount = 0;
+        this.pumpsAmount = 0;
+    }
+    
+    // Set product amount based on industry type
+    public void addProductAmount(Class<?> industryType, int productsAmount) {
+        if (industryType.equals(CarsIndustry.class)) {
+            this.carsAmount += productsAmount;
+        } else if (industryType.equals(DrillsIndustry.class)) {
+            this.drillsAmount += 500 * productsAmount;
+        } else if (industryType.equals(PumpsIndustry.class)) {
+            this.pumpsAmount += productsAmount;
+        } else {
+            return;
+        }
     }
 
     public static Oilfield[] initialize() {

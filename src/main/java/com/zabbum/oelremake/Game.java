@@ -5,11 +5,14 @@ import java.lang.NumberFormatException;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
+import com.googlecode.lanterna.graphics.Theme;
 import com.googlecode.lanterna.gui2.Button;
+import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.ImageComponent;
+import com.googlecode.lanterna.gui2.Interactable;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
@@ -29,6 +32,7 @@ public class Game {
     // TODO: Display pretty OEL logo
     public static void oelLogo(GameProperties gameProperties) {
         Panel contentPanel = gameProperties.contentPanel;
+        Game.timeBuffor();
 
         Label oelLogo = new Label("OEL");
             oelLogo.setLayoutData(GridLayout.createLayoutData(
@@ -230,6 +234,7 @@ public class Game {
                 }
                 case "E" -> {
                     // Drills
+                    DrillsIndustry.buyProduct(player, gameProperties);
                 }
                 case "F" -> {
                     // Pumps
@@ -259,6 +264,13 @@ public class Game {
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
         gameProperties.window.setTheme(new SimpleTheme(TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.MAGENTA));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.MAGENTA,
+            TextColor.ANSI.MAGENTA, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN, TextColor.ANSI.MAGENTA)
+            );
+
+        Theme blackButton = SimpleTheme.makeTheme(false, TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA,
+        TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN, TextColor.ANSI.MAGENTA);
 
         // Display options
         contentPanel.addComponent(new Label("DECYZJA NALEZY DO CIEBIE!")
@@ -275,11 +287,16 @@ public class Game {
         contentPanel.addComponent(new Label(" KUPOWANIE ")
         .setTheme(new SimpleTheme(TextColor.ANSI.MAGENTA, TextColor.ANSI.BLUE)));
 
-        contentPanel.addComponent(new Button("FABRYKI WIERTE£", () -> {
+        Component firstButton = new Button("FABRYKI WIERTE£", () -> {
             gameProperties.tmpAction = "A";
             gameProperties.tmpConfirm = true;
             contentPanel.removeAllComponents();
-        }).setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA)));
+        }).setTheme(blackButton);
+
+        contentPanel.addComponent(firstButton);
+
+        ((Interactable)firstButton).takeFocus();
+
         contentPanel.addComponent(new Button("ZAK£ADY POMP", () -> {
             gameProperties.tmpAction = "B";
             gameProperties.tmpConfirm = true;
@@ -289,7 +306,7 @@ public class Game {
             gameProperties.tmpAction = "C";
             gameProperties.tmpConfirm = true;
             contentPanel.removeAllComponents();
-        }).setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA)));
+        }).setTheme(blackButton));
         contentPanel.addComponent(new Button("POLA NAFTOWE", () -> {
             gameProperties.tmpAction = "D";
             gameProperties.tmpConfirm = true;
@@ -299,7 +316,7 @@ public class Game {
             gameProperties.tmpAction = "E";
             gameProperties.tmpConfirm = true;
             contentPanel.removeAllComponents();
-        }).setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA)));
+        }).setTheme(blackButton));
         contentPanel.addComponent(new Button("POMPY", () -> {
             gameProperties.tmpAction = "F";
             gameProperties.tmpConfirm = true;
@@ -309,14 +326,14 @@ public class Game {
             gameProperties.tmpAction = "G";
             gameProperties.tmpConfirm = true;
             contentPanel.removeAllComponents();
-        }).setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA)));
+        }).setTheme(blackButton));
 
         // Space
         contentPanel.addComponent(new EmptySpace());
 
         // Options pt. 2
         contentPanel.addComponent(new Label(" POZOSTA£E MOZLIWO$CI ")
-        .setTheme(new SimpleTheme(TextColor.ANSI.MAGENTA, TextColor.ANSI.BLUE)));
+        .setTheme(blackButton));
 
         contentPanel.addComponent(new Button("NASTEPNY GRACZ", () -> {
             gameProperties.tmpAction = "H";
@@ -327,7 +344,7 @@ public class Game {
             gameProperties.tmpAction = "I";
             gameProperties.tmpConfirm = true;
             contentPanel.removeAllComponents();
-        }).setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.MAGENTA)));
+        }).setTheme(blackButton));
         contentPanel.addComponent(new Button("ZMIANA CENY", () -> {
             gameProperties.tmpAction = "J";
             gameProperties.tmpConfirm = true;
