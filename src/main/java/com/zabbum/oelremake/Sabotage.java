@@ -126,6 +126,9 @@ public class Sabotage {
                 gameProperties.tmpActionInt = -1;
             }
         }
+        // Clean up
+        gameProperties.tmpActionInt = -1;
+        contentPanel.removeAllComponents();
     }
 
     // Attempt a oilfield sabotage
