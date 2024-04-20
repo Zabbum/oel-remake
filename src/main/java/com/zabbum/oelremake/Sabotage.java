@@ -1,6 +1,7 @@
 package com.zabbum.oelremake;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -419,17 +420,31 @@ public class Sabotage {
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
-        int selectedOilfieldIndex = gameProperties.tmpActionInt;
+        int selectedIndustryIndex = gameProperties.tmpActionInt;
 
         // If 0 selected, return
-        if (selectedOilfieldIndex == -1) {
+        if (selectedIndustryIndex == -1) {
             // Clean up
             gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
 
-        sabotageGenerateResult(gameProperties);
+        // Get result
+        double finalResult = sabotageGenerateResult(gameProperties) + 1;
+
+        // Take actions
+        Random random = new Random();
+
+        player.balance = gameProperties.pumpIndustries[selectedIndustryIndex].industryPrice * finalResult;
+        if (finalResult < 1) {
+            gameProperties.pumpIndustries[selectedIndustryIndex].ownership = null;
+            gameProperties.pumpIndustries[selectedIndustryIndex].isBought = false;
+            gameProperties.pumpIndustries[selectedIndustryIndex].industryPrice = random.nextInt(100000)+1;
+            gameProperties.pumpIndustries[selectedIndustryIndex].productPrice = 0;
+            gameProperties.pumpIndustries[selectedIndustryIndex].productsAmount =
+                (int)(gameProperties.pumpIndustries[selectedIndustryIndex].industryPrice/10000);
+        }
     }
 
     // Attempt a car industry sabotage
@@ -555,14 +570,14 @@ public class Sabotage {
         }
     }
 
-    static int sabotageGenerateResult(GameProperties gameProperties) {
+    static double sabotageGenerateResult(GameProperties gameProperties) {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
         gameProperties.window.setTheme(
             SimpleTheme.makeTheme(false,
-                TextColor.ANSI.WHITE, TextColor.ANSI.BLACK,
-                TextColor.ANSI.BLACK, TextColor.ANSI.WHITE,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK,
+                TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT,
                 TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
                 TextColor.ANSI.BLACK
             )
@@ -572,6 +587,7 @@ public class Sabotage {
         contentPanel.removeAllComponents();
 
         contentPanel.addComponent(new Label("TU PADNIE ROZSTRZYGNIECIE!"));
+        contentPanel.addComponent(new EmptySpace());
 
         // Create panel for generating options
         Table<String> optionsTable = new Table<String>(" ","  "," "," ");
@@ -585,7 +601,6 @@ public class Sabotage {
         );
 
         int[] results = new int[]{50, -20, 40, -10, 30, -30, 10, -40, 20, -50};
-        int resultIndex = 0;
 
         // Add elements to displayed grid
         for (int i = 0; i < results.length; i++) {
@@ -615,15 +630,6 @@ public class Sabotage {
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
-        // Thread to keep button for waiting for result
-        Thread buttonThread = new Thread(() -> {
-            // Wait for confirmation
-            Game.waitForConfirm(gameProperties);
-            gameProperties.tmpConfirm = true;
-        });
-
-        buttonThread.start();
-
         // Cycle through options until selection isn't selected
         while (!gameProperties.tmpConfirm) {
             // Cycle through options
@@ -637,15 +643,74 @@ public class Sabotage {
                 if (i == 0) {
                     optionsTable.getTableModel().setCell(3, results.length-1, " ");
                 }
-                optionsTable.getTableModel().setCell(3, i-1, " ");
+                else {
+                    optionsTable.getTableModel().setCell(3, i-1, " ");
+                }
 
                 // Add arrow to current option
-                optionsTable.getTableModel().setCell(3, i, "←");
+                optionsTable.getTableModel().setCell(3, i, "");
+            }
+        }
+        gameProperties.tmpConfirm = false;
+
+        double result = 0;
+
+        // Get the result
+        for (List<String> row : optionsTable.getTableModel().getRows()) {
+            if (row.get(3).equals("")) {
+                // Set the unsigned value
+                result = Integer.parseInt(row.get(1));
+                result /= 100;
+
+                // Set the sign
+                if (row.get(0).equals("-")) {
+                    result *= -1;
+                }
+                break;
             }
         }
 
-        
+        // Inform about result
+        Panel resultPanel = new Panel(new GridLayout(2));
+        resultPanel.addComponent(new Label("WYNIK SABOTAZU :"));
 
-        return 1;
+        // Format result
+        String resultString = "";
+
+        if (result < 0) {
+            resultString += "-";
+        }
+        else {
+            resultString += "+";
+        }
+        resultString += String.valueOf(Math.abs((int)(100*result)));
+        resultString += "%";
+        resultPanel.addComponent(new Label(resultString));
+
+        // Display result
+        contentPanel.addComponent(resultPanel);
+        
+        if (result > 0) {
+            contentPanel.addComponent(new Label("DOP£ACASZ DO INTERESU!"));
+        }
+        else {
+            contentPanel.addComponent(new Label("UDANE PRZEDSIEWZIECIE!"));
+        }
+
+        // Button for confirmation
+        confirmButton = new Button("GOTOWE", () -> {
+            gameProperties.tmpConfirm = true;
+        });
+        contentPanel.addComponent(confirmButton);
+        confirmButton.takeFocus();
+
+        // Wait for confirmation
+        Game.waitForConfirm(gameProperties);
+
+        // Clean up
+        contentPanel.removeAllComponents();
+
+        // Return
+        return result;
     }
 }
