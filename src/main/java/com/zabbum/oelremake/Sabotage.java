@@ -114,7 +114,7 @@ public class Sabotage {
             }
             case 1 -> {
                 gameProperties.tmpActionInt = -1;
-
+                attemptPumpIndustrySabotage(player, gameProperties);
             }
             case 2 -> {
                 gameProperties.tmpActionInt = -1;
@@ -186,7 +186,7 @@ public class Sabotage {
             // Display all of the oilfields
 
             // Create table
-            Table<String> oilfieldsTable = new Table<String>("NR", "NAZWA ", "W£ASNO$C");
+            Table<String> oilfieldsTable = new Table<String>("NR", "NAZWA", "W£ASNO$C");
 
             // Add every available oilfield to table
             oilfieldsTable.getTableModel().addRow("0","-","-");
@@ -366,64 +366,70 @@ public class Sabotage {
     }
 
     // Attempt a pump industry sabotage
-    static void attemptPumpIndustrySabotage(Player player, Scanner scanner, PumpsIndustry[] pumpProds) {
-        Random random = new Random();
+    static void attemptPumpIndustrySabotage(Player player, GameProperties gameProperties) {
+        // Prepare new graphical settings
+        Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new GridLayout(1));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.BLACK, TextColor.ANSI.BLACK_BRIGHT,
+                TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.BLACK,
+                TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.BLACK_BRIGHT
+            )
+        );
 
-        // Create possible actions array
-        int possibleActionsLength = 1;
-        for (PumpsIndustry pumpProd : pumpProds) {
-            if (pumpProd.isBought) {
-                possibleActionsLength += 1;
+        // Clean up
+        contentPanel.removeAllComponents();
+
+        contentPanel.addComponent(new Label("KTORA Z NASTEPUJACYCH FIRM CHCESZ ZASABOTOWAC?"));
+        contentPanel.addComponent(new EmptySpace());
+
+        // Display all of the drill industries
+
+        // Create table
+        Table<String> industriesTable = new Table<String>("NR", "NAZWA", "CENA", "W£ASNO$C");
+
+        // Add every available industry to table
+        industriesTable.getTableModel().addRow("0","-","-","-");
+        for (int industryIndex = 0; industryIndex < gameProperties.pumpIndustries.length; industryIndex++) {
+            // If industry is bought, display the name
+            String ownerName = "---";
+
+            if (gameProperties.pumpIndustries[industryIndex].isBought) {
+                ownerName = gameProperties.oilfields[industryIndex].ownership.name;
             }
-        }
-        String[] possibleActions = new String[possibleActionsLength];
-        for (int i = 0; i < possibleActions.length; i++) {
-            possibleActions[i] = "0";
-        }
 
-        // Inform user
-        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.BLACK + "Którą z następujących firm chcesz zasabotować?" + ANSI.RESET);
-        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.YELLOW_BRIGHT + "Twoje saldo\t" + player.balance + "$" + ANSI.RESET);
-        System.out.println();
-        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "\tFabryka\t\tCena\tWłasność" + ANSI.RESET);
-        
-        for (int i = 0; i < pumpProds.length; i++) {
-            System.out.print(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.BLACK + (i+1) + "\t");
-            System.out.print(pumpProds[i].getName() + "\t");
-            System.out.print(pumpProds[i].getIndustryPrice() + "$\t");
-            if (pumpProds[i].isBought) {
-                System.out.print(pumpProds[i].ownership.name);
-
-                // Find latest uninitialized slot in array and change its value
-                for (int j = 0; j < possibleActions.length; j++) {
-                    if (possibleActions[j].equals("0")) {
-                        possibleActions[j] = String.valueOf(i+1);
-                    }
-                }
-            }
-            System.out.println(ANSI.RESET);
+            industriesTable.getTableModel().addRow(
+                String.valueOf(industryIndex+1),
+                gameProperties.pumpIndustries[industryIndex].name,
+                String.valueOf(gameProperties.pumpIndustries[industryIndex].industryPrice) + " $",
+                ownerName
+            );
         }
 
-        // Get the action
-        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "Która firma?" + ANSI.RESET);
-        int sabotedPumpProdIndex = Prompt.promptInt(possibleActions, scanner);
+        industriesTable.setSelectAction(() -> {
+            gameProperties.tmpActionInt = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
+            gameProperties.tmpConfirm = true;
+        });
+
+        // Display table
+        contentPanel.addComponent(industriesTable);
+        industriesTable.takeFocus();
+
+        // Wait for selection
+        Game.waitForConfirm(gameProperties);
+        int selectedOilfieldIndex = gameProperties.tmpActionInt;
 
         // If 0 selected, return
-        if (sabotedPumpProdIndex == -1) {
+        if (selectedOilfieldIndex == -1) {
+            // Clean up
+            gameProperties.tmpActionInt = -1;
+            contentPanel.removeAllComponents();
             return;
         }
 
-        // Generate result and Take actions
-        int finalResult = sabotageGenerateResult() + 100;
-        player.balance -= pumpProds[sabotedPumpProdIndex].getIndustryPrice() * finalResult / 100;
-        if (finalResult < 100) {
-            pumpProds[sabotedPumpProdIndex].ownership = null;
-            pumpProds[sabotedPumpProdIndex].isBought = false;
-            pumpProds[sabotedPumpProdIndex].setIndustryPriceSabotage(random.nextInt(100000)+1);
-            pumpProds[sabotedPumpProdIndex].productPrice = 0;
-            pumpProds[sabotedPumpProdIndex].amount = (int)(pumpProds[sabotedPumpProdIndex].getIndustryPrice()/10000);
-            return;
-        }
+        sabotageGenerateResult(gameProperties);
     }
 
     // Attempt a car industry sabotage
@@ -549,45 +555,97 @@ public class Sabotage {
         }
     }
 
-    static int sabotageGenerateResult() {
+    static int sabotageGenerateResult(GameProperties gameProperties) {
+        // Prepare new graphical settings
+        Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new GridLayout(1));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.WHITE, TextColor.ANSI.BLACK,
+                TextColor.ANSI.BLACK, TextColor.ANSI.WHITE,
+                TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.BLACK
+            )
+        );
+
+        // Clean up
+        contentPanel.removeAllComponents();
+
+        contentPanel.addComponent(new Label("TU PADNIE ROZSTRZYGNIECIE!"));
+
+        // Create panel for generating options
+        Table<String> optionsTable = new Table<String>(" ","  "," "," ");
+        optionsTable.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK,
+                TextColor.ANSI.CYAN, TextColor.ANSI.WHITE_BRIGHT,
+                TextColor.ANSI.WHITE_BRIGHT
+            )
+        );
+
         int[] results = new int[]{50, -20, 40, -10, 30, -30, 10, -40, 20, -50};
         int resultIndex = 0;
 
-        try {
-            while (System.in.available() == 0) {
-                if (resultIndex < 9) {
-                    resultIndex++;
-                }
-                else {
-                    resultIndex = 0;
-                }
-                
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
-                System.out.println(ANSI.BLACK + ANSI.WHITE + "Tu padnie rozstrzygnięcie!" + ANSI.RESET);
-                System.out.println(ANSI.BLACK + ANSI.WHITE + "Wciśnij ENTER w odpowiednim momencie" + ANSI.RESET);
-                System.out.println(results[resultIndex]);
-                Thread.sleep(60);
+        // Add elements to displayed grid
+        for (int i = 0; i < results.length; i++) {
+            // Variable to store symbol
+            String symbol = "-";
+
+            // Add symbol
+            if (i % 2 == 0) {
+                symbol = "+";
             }
-        } catch (InterruptedException e) {
-            System.out.println("Interrupted");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        // Inform user about the result
-        System.out.print(ANSI.BLACK_BACKGROUND + ANSI.WHITE + "Wynik sabotażu: ");
-        if (results[resultIndex] > 0) {
-            System.out.print("+");
-        }
-        System.out.println(results[resultIndex] + "%" + ANSI.RESET);
-        if (results[resultIndex] > 0) {
-            System.out.println(ANSI.BLACK_BACKGROUND + ANSI.RED_BRIGHT + "Dopłacasz do interesu!" + ANSI.RESET);
-        }
-        else {
-            System.out.println(ANSI.BLACK_BACKGROUND + ANSI.GREEN_BRIGHT + "Udane przedsięwzięcie!" + ANSI.RESET);
+
+            // Add values to the table
+            optionsTable.getTableModel().addRow(symbol, String.valueOf(Math.abs(results[i])), "%", " ");
         }
 
-        return results[resultIndex];
+        // Display the table
+        contentPanel.addComponent(optionsTable);
+
+        contentPanel.addComponent(new EmptySpace());
+
+        contentPanel.addComponent(new Label("WCI$NIJ GUZIK W ODPOWIEDNIM MOMENCIE"));
+
+        // Button for confirmation
+        Button confirmButton = new Button("GOTOWE", () -> {
+            gameProperties.tmpConfirm = true;
+        });
+        contentPanel.addComponent(confirmButton);
+        confirmButton.takeFocus();
+
+        // Thread to keep button for waiting for result
+        Thread buttonThread = new Thread(() -> {
+            // Wait for confirmation
+            Game.waitForConfirm(gameProperties);
+            gameProperties.tmpConfirm = true;
+        });
+
+        buttonThread.start();
+
+        // Cycle through options until selection isn't selected
+        while (!gameProperties.tmpConfirm) {
+            // Cycle through options
+            for (int i = 0; i < results.length; i++) {
+                // If button is pressed, break
+                if (gameProperties.tmpConfirm) {
+                    break;
+                }
+
+                // Remove arrow from previous option
+                if (i == 0) {
+                    optionsTable.getTableModel().setCell(3, results.length-1, " ");
+                }
+                optionsTable.getTableModel().setCell(3, i-1, " ");
+
+                // Add arrow to current option
+                optionsTable.getTableModel().setCell(3, i, "←");
+            }
+        }
+
+        
+
+        return 1;
     }
 }
