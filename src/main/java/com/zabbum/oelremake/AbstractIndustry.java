@@ -51,11 +51,11 @@ public abstract class AbstractIndustry {
         AbstractIndustry industries[];
 
         if (industryType.equals(DrillsIndustry.class)) {
-            industries = gameProperties.drillIndustries;
+            industries = gameProperties.drillsIndustries;
         } else if (industryType.equals(CarsIndustry.class)) {
             industries = gameProperties.carsIndustries;
         } else if (industryType.equals(PumpsIndustry.class)) {
-            industries = gameProperties.pumpIndustries;
+            industries = gameProperties.pumpsIndustries;
         } else {
             return;
         }
@@ -134,7 +134,7 @@ public abstract class AbstractIndustry {
         // Inform user about purchase
         contentPanel.addComponent(new EmptySpace());
         contentPanel.addComponent(new Label("JESTE$ W£A$CICIELEM FABRYKI: "));
-        contentPanel.addComponent(new Label(gameProperties.drillIndustries[selectedIndustryIndex].name));
+        contentPanel.addComponent(new Label(gameProperties.drillsIndustries[selectedIndustryIndex].name));
         contentPanel.addComponent(new EmptySpace());
         contentPanel.addComponent(new Label(pricePrompt));
 
@@ -198,11 +198,11 @@ public abstract class AbstractIndustry {
         AbstractIndustry industries[];
 
         if (industryType.equals(DrillsIndustry.class)) {
-            industries = gameProperties.drillIndustries;
+            industries = gameProperties.drillsIndustries;
         } else if (industryType.equals(CarsIndustry.class)) {
             industries = gameProperties.carsIndustries;
         } else if (industryType.equals(PumpsIndustry.class)) {
-            industries = gameProperties.pumpIndustries;
+            industries = gameProperties.pumpsIndustries;
         } else {
             return;
         }

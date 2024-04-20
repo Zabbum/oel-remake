@@ -1,9 +1,7 @@
 package com.zabbum.oelremake;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
@@ -16,7 +14,6 @@ import com.googlecode.lanterna.gui2.Interactable;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.table.Table;
-import com.googlecode.lanterna.terminal.ansi.TelnetTerminal.NegotiationState;
 
 public class Sabotage {
     
@@ -119,11 +116,11 @@ public class Sabotage {
             }
             case 2 -> {
                 gameProperties.tmpActionInt = -1;
-
+                attemptCarsIndustrySabotage(player, gameProperties);
             }
             case 3 -> {
                 gameProperties.tmpActionInt = -1;
-
+                attemptDrillIndustrySabotage(player, gameProperties);
             }
             default -> {
                 gameProperties.tmpActionInt = -1;
@@ -386,25 +383,25 @@ public class Sabotage {
         contentPanel.addComponent(new Label("KTORA Z NASTEPUJACYCH FIRM CHCESZ ZASABOTOWAC?"));
         contentPanel.addComponent(new EmptySpace());
 
-        // Display all of the drill industries
+        // Display all of the industries
 
         // Create table
         Table<String> industriesTable = new Table<String>("NR", "NAZWA", "CENA", "W£ASNO$C");
 
         // Add every available industry to table
         industriesTable.getTableModel().addRow("0","-","-","-");
-        for (int industryIndex = 0; industryIndex < gameProperties.pumpIndustries.length; industryIndex++) {
+        for (int industryIndex = 0; industryIndex < gameProperties.pumpsIndustries.length; industryIndex++) {
             // If industry is bought, display the name
             String ownerName = "---";
 
-            if (gameProperties.pumpIndustries[industryIndex].isBought) {
+            if (gameProperties.pumpsIndustries[industryIndex].isBought) {
                 ownerName = gameProperties.oilfields[industryIndex].ownership.name;
             }
 
             industriesTable.getTableModel().addRow(
                 String.valueOf(industryIndex+1),
-                gameProperties.pumpIndustries[industryIndex].name,
-                String.valueOf(gameProperties.pumpIndustries[industryIndex].industryPrice) + " $",
+                gameProperties.pumpsIndustries[industryIndex].name,
+                String.valueOf(gameProperties.pumpsIndustries[industryIndex].industryPrice) + " $",
                 ownerName
             );
         }
@@ -436,137 +433,177 @@ public class Sabotage {
         // Take actions
         Random random = new Random();
 
-        player.balance = gameProperties.pumpIndustries[selectedIndustryIndex].industryPrice * finalResult;
+        player.balance -= gameProperties.pumpsIndustries[selectedIndustryIndex].industryPrice * finalResult;
         if (finalResult < 1) {
-            gameProperties.pumpIndustries[selectedIndustryIndex].ownership = null;
-            gameProperties.pumpIndustries[selectedIndustryIndex].isBought = false;
-            gameProperties.pumpIndustries[selectedIndustryIndex].industryPrice = random.nextInt(100000)+1;
-            gameProperties.pumpIndustries[selectedIndustryIndex].productPrice = 0;
-            gameProperties.pumpIndustries[selectedIndustryIndex].productsAmount =
-                (int)(gameProperties.pumpIndustries[selectedIndustryIndex].industryPrice/10000);
+            gameProperties.pumpsIndustries[selectedIndustryIndex].ownership = null;
+            gameProperties.pumpsIndustries[selectedIndustryIndex].isBought = false;
+            gameProperties.pumpsIndustries[selectedIndustryIndex].industryPrice = random.nextInt(100000)+1;
+            gameProperties.pumpsIndustries[selectedIndustryIndex].productPrice = 0;
+            gameProperties.pumpsIndustries[selectedIndustryIndex].productsAmount =
+                (int)(gameProperties.pumpsIndustries[selectedIndustryIndex].industryPrice/10000);
         }
     }
 
     // Attempt a car industry sabotage
-    static void attemptCarsIndustrySabotage(Player player, Scanner scanner, CarsIndustry[] carsProds) {
-        Random random = new Random();
+    static void attemptCarsIndustrySabotage(Player player, GameProperties gameProperties) {
+        // Prepare new graphical settings
+        Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new GridLayout(1));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.BLACK, TextColor.ANSI.BLACK_BRIGHT,
+                TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.BLACK,
+                TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.BLACK_BRIGHT
+            )
+        );
 
-        // Create possible actions array
-        int possibleActionsLength = 1;
-        for (CarsIndustry carsProd : carsProds) {
-            if (carsProd.isBought) {
-                possibleActionsLength += 1;
+        // Clean up
+        contentPanel.removeAllComponents();
+
+        contentPanel.addComponent(new Label("KTORA Z NASTEPUJACYCH FABRYK WAGONOW BEDZIESZ SABOTOWA£?")
+            .setTheme(new SimpleTheme(TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.YELLOW_BRIGHT)));
+        contentPanel.addComponent(new EmptySpace());
+
+        // Display all of the industries
+
+        // Create table
+        Table<String> industriesTable = new Table<String>("NR", "NAZWA", "CENA", "W£ASNO$C");
+
+        // Add every available industry to table
+        industriesTable.getTableModel().addRow("0","-","-","-");
+        for (int industryIndex = 0; industryIndex < gameProperties.carsIndustries.length; industryIndex++) {
+            // If industry is bought, display the name
+            String ownerName = "---";
+
+            if (gameProperties.carsIndustries[industryIndex].isBought) {
+                ownerName = gameProperties.oilfields[industryIndex].ownership.name;
             }
-        }
-        String[] possibleActions = new String[possibleActionsLength];
-        for (int i = 0; i < possibleActions.length; i++) {
-            possibleActions[i] = "0";
-        }
 
-        // Inform user
-        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.YELLOW_BRIGHT + "Którą z następujących fabryk wagonów będziesz sabotował?" + ANSI.RESET);
-        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.CYAN_BRIGHT + "Twoje saldo\t" + player.balance + "$" + ANSI.RESET);
-        System.out.println();
-        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "\tFabryka\t\tCena\tWłasność" + ANSI.RESET);
-
-        for (int i = 0; i < carsProds.length; i++) {
-            System.out.print(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.WHITE + (i+1) + "\t");
-            System.out.print(carsProds[i].getName() + "\t");
-            System.out.print(carsProds[i].getIndustryPrice() + "$\t");
-            if (carsProds[i].isBought) {
-                System.out.print(carsProds[i].ownership.name);
-
-                // Find latest uninitialized slot in array and change its value
-                for (int j = 0; j < possibleActions.length; j++) {
-                    if (possibleActions[j].equals("0")) {
-                        possibleActions[j] = String.valueOf(i+1);
-                    }
-                }
-            }
-            System.out.println(ANSI.RESET);
+            industriesTable.getTableModel().addRow(
+                String.valueOf(industryIndex+1),
+                gameProperties.carsIndustries[industryIndex].name,
+                String.valueOf(gameProperties.carsIndustries[industryIndex].industryPrice) + " $",
+                ownerName
+            );
         }
 
-        // Get the action
-        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "Która firma?" + ANSI.RESET);
-        int sabotedCarsProdIndex = Prompt.promptInt(possibleActions, scanner);
+        industriesTable.setSelectAction(() -> {
+            gameProperties.tmpActionInt = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
+            gameProperties.tmpConfirm = true;
+        });
+
+        // Display table
+        contentPanel.addComponent(industriesTable);
+        industriesTable.takeFocus();
+
+        // Wait for selection
+        Game.waitForConfirm(gameProperties);
+        int selectedIndustryIndex = gameProperties.tmpActionInt;
 
         // If 0 selected, return
-        if (sabotedCarsProdIndex == -1) {
+        if (selectedIndustryIndex == -1) {
+            // Clean up
+            gameProperties.tmpActionInt = -1;
+            contentPanel.removeAllComponents();
             return;
         }
 
-        // Generate result and Take actions
-        int finalResult = sabotageGenerateResult() + 100;
-        player.balance -= carsProds[sabotedCarsProdIndex].getIndustryPrice() * finalResult / 100;
-        if (finalResult < 100) {
-            carsProds[sabotedCarsProdIndex].ownership = null;
-            carsProds[sabotedCarsProdIndex].isBought = false;
-            carsProds[sabotedCarsProdIndex].setIndustryPriceSabotage(random.nextInt(200000)+1);
-            carsProds[sabotedCarsProdIndex].productPrice = 0;
-            carsProds[sabotedCarsProdIndex].amount = (int)(carsProds[sabotedCarsProdIndex].getIndustryPrice()/10000);
-            return;
+        // Get result
+        double finalResult = sabotageGenerateResult(gameProperties) + 1;
+
+        // Take actions
+        Random random = new Random();
+
+        player.balance -= gameProperties.carsIndustries[selectedIndustryIndex].industryPrice * finalResult;
+        if (finalResult < 1) {
+            gameProperties.carsIndustries[selectedIndustryIndex].ownership = null;
+            gameProperties.carsIndustries[selectedIndustryIndex].isBought = false;
+            gameProperties.carsIndustries[selectedIndustryIndex].industryPrice = random.nextInt(200000)+1;
+            gameProperties.carsIndustries[selectedIndustryIndex].productPrice = 0;
+            gameProperties.carsIndustries[selectedIndustryIndex].productsAmount =
+                (int)(gameProperties.carsIndustries[selectedIndustryIndex].industryPrice/10000);
         }
     }
 
     // Attempt a drill industry sabotage
-    static void attemptDrillIndustrySabotage(Player player, Scanner scanner, DrillsIndustry[] drillProds) {
-        Random random = new Random();
+    static void attemptDrillIndustrySabotage(Player player, GameProperties gameProperties) {
+        // Prepare new graphical settings
+        Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new GridLayout(1));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.BLACK, TextColor.ANSI.WHITE,
+                TextColor.ANSI.WHITE, TextColor.ANSI.BLACK,
+                TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.WHITE
+            )
+        );
 
-        // Create possible actions array
-        int possibleActionsLength = 1;
-        for (DrillsIndustry drillProd : drillProds) {
-            if (drillProd.isBought) {
-                possibleActionsLength += 1;
+        // Clean up
+        contentPanel.removeAllComponents();
+
+        contentPanel.addComponent(new Label("KTORA Z NASTEPUJACYCH FABRYK WIERTE£ BEDZIESZ SABOTOWAC?"));
+        contentPanel.addComponent(new EmptySpace());
+
+        // Display all of the industries
+
+        // Create table
+        Table<String> industriesTable = new Table<String>("NR", "NAZWA", "CENA", "W£ASNO$C");
+
+        // Add every available industry to table
+        industriesTable.getTableModel().addRow("0","-","-","-");
+        for (int industryIndex = 0; industryIndex < gameProperties.drillsIndustries.length; industryIndex++) {
+            // If industry is bought, display the name
+            String ownerName = "---";
+
+            if (gameProperties.drillsIndustries[industryIndex].isBought) {
+                ownerName = gameProperties.oilfields[industryIndex].ownership.name;
             }
-        }
-        String[] possibleActions = new String[possibleActionsLength];
-        for (int i = 0; i < possibleActions.length; i++) {
-            possibleActions[i] = "0";
-        }
 
-        // Inform user
-        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.BLACK + "Którą z następujących fabryk wierteł będziesz sabotował?" + ANSI.RESET);
-        System.out.println(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.CYAN_BRIGHT + "Twoje saldo\t" + player.balance + "$" + ANSI.RESET);
-        System.out.println();
-        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "\tFabryka\t\tCena\tWłasność" + ANSI.RESET);
-
-        for (int i = 0; i < drillProds.length; i++) {
-            System.out.print(ANSI.BLACK_BACKGROUND_BRIGHT + ANSI.BLACK + (i+1) + "\t");
-            System.out.print(drillProds[i].getName() + "\t");
-            System.out.print(drillProds[i].getIndustryPrice() + "$\t");
-            if (drillProds[i].isBought) {
-                System.out.print(drillProds[i].ownership.name);
-
-                // Find latest uninitialized slot in array and change its value
-                for (int j = 0; j < possibleActions.length; j++) {
-                    if (possibleActions[j].equals("0")) {
-                        possibleActions[j] = String.valueOf(i+1);
-                    }
-                }
-            }
-            System.out.println(ANSI.RESET);
+            industriesTable.getTableModel().addRow(
+                String.valueOf(industryIndex+1),
+                gameProperties.drillsIndustries[industryIndex].name,
+                String.valueOf(gameProperties.drillsIndustries[industryIndex].industryPrice) + " $",
+                ownerName
+            );
         }
 
-        // Get the action
-        System.out.println(ANSI.BLACK_BACKGROUND + ANSI.BLACK_BRIGHT + "Która firma?" + ANSI.RESET);
-        int sabotedDrillProdIndex = Prompt.promptInt(possibleActions, scanner);
+        industriesTable.setSelectAction(() -> {
+            gameProperties.tmpActionInt = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
+            gameProperties.tmpConfirm = true;
+        });
+
+        // Display table
+        contentPanel.addComponent(industriesTable);
+        industriesTable.takeFocus();
+
+        // Wait for selection
+        Game.waitForConfirm(gameProperties);
+        int selectedIndustryIndex = gameProperties.tmpActionInt;
 
         // If 0 selected, return
-        if (sabotedDrillProdIndex == -1) {
+        if (selectedIndustryIndex == -1) {
+            // Clean up
+            gameProperties.tmpActionInt = -1;
+            contentPanel.removeAllComponents();
             return;
         }
 
+        // Get result
+        double finalResult = sabotageGenerateResult(gameProperties) + 1;
 
-        // Generate result and Take actions
-        int finalResult = sabotageGenerateResult() + 100;
-        player.balance -= drillProds[sabotedDrillProdIndex].getIndustryPrice() * finalResult / 100;
-        if (finalResult < 100) {
-            drillProds[sabotedDrillProdIndex].ownership = null;
-            drillProds[sabotedDrillProdIndex].isBought = false;
-            drillProds[sabotedDrillProdIndex].setIndustryPriceSabotage(random.nextInt(100000)+1);
-            drillProds[sabotedDrillProdIndex].productPrice = 0;
-            drillProds[sabotedDrillProdIndex].amount = (int)(drillProds[sabotedDrillProdIndex].getIndustryPrice()/10000);
-            return;
+        // Take actions
+        Random random = new Random();
+
+        player.balance -= gameProperties.drillsIndustries[selectedIndustryIndex].industryPrice * finalResult;
+        if (finalResult < 1) {
+            gameProperties.drillsIndustries[selectedIndustryIndex].ownership = null;
+            gameProperties.drillsIndustries[selectedIndustryIndex].isBought = false;
+            gameProperties.drillsIndustries[selectedIndustryIndex].industryPrice = random.nextInt(100000)+1;
+            gameProperties.drillsIndustries[selectedIndustryIndex].productPrice = 0;
+            gameProperties.drillsIndustries[selectedIndustryIndex].productsAmount =
+                (int)(gameProperties.drillsIndustries[selectedIndustryIndex].industryPrice/10000);
         }
     }
 
