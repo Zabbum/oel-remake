@@ -288,7 +288,7 @@ public class Game {
                         oilfield.oilExtracted += 8000 * oilfield.pumpsAmount;
                     }
 
-                    // Inform user
+                    // TODO: Inform user
                 }
 
                 // If oilfield is not able to pump oil
