@@ -1,5 +1,6 @@
 package com.zabbum.oelremake;
 
+import java.util.Random;
 import java.util.regex.Pattern;
 import java.lang.NumberFormatException;
 
@@ -44,7 +45,7 @@ public class Game {
             contentPanel.addComponent(oelLogo);
             contentPanel.addComponent(Game.emptyLine(2));
     }
-
+    
     // Prompt for players amount
     public static void promptPlayerAmount(GameProperties gameProperties) {
         Panel contentPanel = gameProperties.contentPanel;
@@ -256,6 +257,119 @@ public class Game {
                 }
                 default -> {
                     System.out.println("No value provided. This could be an error.");
+                }
+            }
+        }
+        endRound(gameProperties);
+    }
+    // Actions to take at end of the round
+    static void endRound(GameProperties gameProperties) {
+        Panel contentPanel = gameProperties.contentPanel;
+        Random random = new Random();
+
+        // Actions for every player
+        for (Player player : gameProperties.players) {
+            
+            // Oilfields overview
+            for (Oilfield oilfield : gameProperties.oilfields) {
+                // Clean up
+                contentPanel.removeAllComponents();
+
+                // If user is not owner of the field, move on to the next
+                if (oilfield.ownership != player) {
+                    continue;
+                }
+
+                // If oilfield is able to pump oil
+                if (oilfield.canExtractOil) {
+                    // Routine actions
+                    if (oilfield.oilExtracted <= oilfield.oilAmount) {
+                        oilfield.oilAvailabletoSell += 8000 * oilfield.pumpsAmount;
+                        oilfield.oilExtracted += 8000 * oilfield.pumpsAmount;
+                    }
+
+                    // Inform user
+                }
+
+                // If oilfield is not able to pump oil
+                else {
+                    contentPanel.setLayoutManager(new GridLayout(1));
+                    gameProperties.window.setTheme(
+                        SimpleTheme.makeTheme(false,
+                            TextColor.ANSI.GREEN, TextColor.ANSI.WHITE_BRIGHT,
+                            TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.GREEN,
+                            TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
+                            TextColor.ANSI.WHITE_BRIGHT
+                        )
+                    );
+
+                    // Inform user about status
+                    contentPanel.addComponent(new Label("WIERCENIE NA POLU:")
+                        .setTheme(new SimpleTheme(TextColor.ANSI.RED, TextColor.ANSI.WHITE_BRIGHT)));
+                    
+                    contentPanel.addComponent(new Label(oilfield.name)
+                    .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.WHITE_BRIGHT)));
+
+                    contentPanel.addComponent(new EmptySpace());
+
+                    contentPanel.addComponent(new Panel(new GridLayout(2))
+                        .addComponent(new Label("W£ASNO$C: ")
+                            .setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.WHITE_BRIGHT)))
+                        .addComponent(new Label(player.name)
+                            .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT)))
+                    );
+
+                    contentPanel.addComponent(new EmptySpace());
+
+                    contentPanel.addComponent(new Label("TWOI LUDZIE Z POLA NAFTOWEGO")
+                        .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT)));
+                    contentPanel.addComponent(new Label("MELDUJA CO NASTEPUJE:")
+                        .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT)));
+
+                    contentPanel.addComponent(new EmptySpace());
+
+                    // If no drills, inform player
+                    if (oilfield.drillsAmount <= 0) {
+                        contentPanel.addComponent(new Label("WIERCENIA NIEMOZLIWE - BRAK WIERTE£!")
+                            .setTheme(new SimpleTheme(TextColor.ANSI.RED, TextColor.ANSI.WHITE_BRIGHT)));
+                        contentPanel.addComponent(new Label(" TRZEBA CO$ PRZEDSIEWZIAC!")
+                            .setTheme(new SimpleTheme(TextColor.ANSI.RED, TextColor.ANSI.WHITE_BRIGHT)));
+                        contentPanel.addComponent(new EmptySpace());
+                    }
+
+                    // If there are drills, drill
+                    else {
+                        oilfield.drillsAmount -= 500;
+                        oilfield.currentDepth += 500 - (random.nextInt(30)+1);
+                    }
+
+                    // In both cases, inform about current progess
+                    contentPanel.addComponent(new Label("AKTUALNA G£EBOKO$C WIERCEN: " + oilfield.currentDepth + "M"));
+                    contentPanel.addComponent(new EmptySpace());
+                    contentPanel.addComponent(new Label("JESZCZE CI STARCZY NA: " + oilfield.drillsAmount + "M"));
+                    contentPanel.addComponent(new EmptySpace());
+
+                    // If reached the point that makes it available to extract oil,
+                    // take actions
+                    if (oilfield.currentDepth >= oilfield.requiredDepth) {
+                        contentPanel.addComponent(new Label("TRYSNE£O!")
+                            .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT)));
+                        contentPanel.addComponent(new EmptySpace());
+                        oilfield.canExtractOil = true;
+                    }
+
+                    // Button for confirmation
+                    Button confirmButton = new Button("GOTOWE", () -> {
+                        gameProperties.tmpConfirm = true;
+                    });
+                    contentPanel.addComponent(confirmButton);
+                    confirmButton.takeFocus();
+            
+                    // Wait for confirmation
+                    Game.waitForConfirm(gameProperties);
+                    
+                    // Clean up
+                    contentPanel.removeAllComponents();
                 }
             }
         }
