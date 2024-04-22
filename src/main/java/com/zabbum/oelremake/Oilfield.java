@@ -130,13 +130,14 @@ public class Oilfield {
             // Add every available oilfield to table
             oilfieldsTable.getTableModel().addRow("0","-","-");
             for (int oilfieldIndex = 0; oilfieldIndex < gameProperties.oilfields.length; oilfieldIndex++) {
-                if (gameProperties.oilfields[oilfieldIndex].isBought) {}
-                // If oilfield is not bought, make it possible to buy it
-                oilfieldsTable.getTableModel().addRow(
-                    String.valueOf(oilfieldIndex+1),
-                    gameProperties.oilfields[oilfieldIndex].name,
-                    String.valueOf(gameProperties.oilfields[oilfieldIndex].price)+"$"
-                    );
+                if (!gameProperties.oilfields[oilfieldIndex].isBought) {
+                    // If oilfield is not bought, make it possible to buy it
+                    oilfieldsTable.getTableModel().addRow(
+                        String.valueOf(oilfieldIndex+1),
+                        gameProperties.oilfields[oilfieldIndex].name,
+                        String.valueOf(gameProperties.oilfields[oilfieldIndex].price)+"$"
+                        );
+                }
             }
 
             oilfieldsTable.setSelectAction(() -> {
