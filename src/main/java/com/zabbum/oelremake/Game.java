@@ -303,7 +303,7 @@ public class Game {
                     contentPanel.addComponent(new Label("  POLE NAFTOWE : ")
                         .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW, TextColor.ANSI.BLACK)));
                     contentPanel.addComponent(new Label(oilfield.name)
-                        .setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.BLACK)));
+                        .setTheme(new SimpleTheme(TextColor.ANSI.BLUE, TextColor.ANSI.YELLOW)));
                     contentPanel.addComponent(new Label("▔".repeat(17)));
                     contentPanel.addComponent(new Label(" W£A$CICIEL POLA ")
                         .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW, TextColor.ANSI.BLACK)));

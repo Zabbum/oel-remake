@@ -45,7 +45,7 @@ public class PumpsIndustry extends AbstractIndustry {
     public static void buyProduct(Player player, GameProperties gameProperties) {
         AbstractIndustry.buyProduct(
             player, gameProperties,
-            DrillsIndustry.class,
+            PumpsIndustry.class,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK_BRIGHT,
             TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.WHITE_BRIGHT,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
