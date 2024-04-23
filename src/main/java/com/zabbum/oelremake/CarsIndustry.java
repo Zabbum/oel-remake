@@ -41,7 +41,6 @@ public class CarsIndustry extends AbstractIndustry {
             "PROSZE PODAC SWOJA CENE WAGONU.",
             50000
         );
-        System.out.println("test");
     }
 
     // Menu for buying cars
