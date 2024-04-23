@@ -288,7 +288,121 @@ public class Game {
                         oilfield.oilExtracted += 8000 * oilfield.pumpsAmount;
                     }
 
-                    // TODO: Inform user
+                    // Prepare graphical settings
+                    contentPanel.setLayoutManager(new GridLayout(1));
+                    gameProperties.window.setTheme(
+                        SimpleTheme.makeTheme(false,
+                            TextColor.ANSI.BLACK, TextColor.ANSI.YELLOW,
+                            TextColor.ANSI.YELLOW, TextColor.ANSI.BLACK,
+                            TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
+                            TextColor.ANSI.YELLOW
+                        )
+                    );
+
+                    // Inform user
+                    contentPanel.addComponent(new Label("  POLE NAFTOWE : ")
+                        .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW, TextColor.ANSI.BLACK)));
+                    contentPanel.addComponent(new Label(oilfield.name)
+                        .setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.BLACK)));
+                    contentPanel.addComponent(new Label("▔".repeat(17)));
+                    contentPanel.addComponent(new Label(" W£A$CICIEL POLA ")
+                        .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW, TextColor.ANSI.BLACK)));
+                    contentPanel.addComponent(new Label(player.name));
+                    contentPanel.addComponent(new Label("▔".repeat(17)));
+                    
+                    contentPanel.addComponent(new Panel(new GridLayout(2))
+                        .addComponent(new Label("ROK: "))
+                        .addComponent(new Label(String.valueOf(gameProperties.currentRound + 1986))
+                            .setTheme(new SimpleTheme(TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.YELLOW))
+                        )
+                    );
+                    
+                    contentPanel.addComponent(new EmptySpace());
+                    contentPanel.addComponent(new Label("MI$ & RY$ & SONS -")
+                        .setTheme(new SimpleTheme(TextColor.ANSI.BLUE, TextColor.ANSI.YELLOW)));
+                    contentPanel.addComponent(new Label("CENA SPRZEDAZY ROPY = " +
+                        String.valueOf(gameProperties.oilPrices[gameProperties.currentRound - 1]) + " $")
+                        .setTheme(new SimpleTheme(TextColor.ANSI.BLUE, TextColor.ANSI.YELLOW)));
+
+                    contentPanel.addComponent(new EmptySpace());
+
+                    contentPanel.addComponent(new Panel(new GridLayout(2))
+                        .addComponent(new Label("ILO$C POMP"))
+                        .addComponent(new Label(": " + String.valueOf(oilfield.pumpsAmount)))
+                        .addComponent(new Label("WYPOMPOWANO")
+                            .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
+                        .addComponent(new Label(": " + String.valueOf(oilfield.pumpsAmount))
+                            .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
+                        .addComponent(new Label("ILO$C WAGONOW"))
+                        .addComponent(new Label(": " + String.valueOf(oilfield.carsAmount)))
+                        .addComponent(new Label("MAX WYWOZ")
+                            .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
+                        .addComponent(new Label(": " + String.valueOf(oilfield.carsAmount * 7000))
+                            .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
+                        .addComponent(new Label("TWOJ KAPITA£"))
+                        .addComponent(new Label(": " + String.valueOf(player.balance)))
+                    );
+
+                    contentPanel.addComponent(new EmptySpace());
+
+                    // If oilfield is out of oil, inform user
+                    if (oilfield.oilExtracted > oilfield.oilAmount) {
+                        contentPanel.addComponent(new Label("ZROD£O WYCZERPANE!"));
+                        contentPanel.addComponent(new EmptySpace());
+                    }
+
+                    // If can sell oil
+                    if (oilfield.oilAvailabletoSell > 0) {
+                        // Ask for amount of oil
+                        contentPanel.addComponent(new Label("ILE LITROW ROPY SPRZEDAJESZ?"));
+
+                        gameProperties.tmpActionInt = -1;
+                        TextBox oilAmountToSellTextBox = new TextBox().setValidationPattern(Pattern.compile("[0-9]"));
+                        
+                        contentPanel.addComponent(oilAmountToSellTextBox);
+                        oilAmountToSellTextBox.takeFocus();
+
+                        contentPanel.addComponent(
+                            new Button("GOTOWE", () -> {
+                                try {
+                                    gameProperties.tmpActionInt = Integer.parseInt(oilAmountToSellTextBox.getText());
+                                } catch (NumberFormatException e) {}
+                            })
+                        );
+
+                        // If choice is valid, let it be
+                        while (!(gameProperties.tmpActionInt > -1 &&
+                            gameProperties.tmpActionInt <= oilfield.carsAmount * 7000 &&
+                            gameProperties.tmpActionInt <= oilfield.oilAvailabletoSell
+                        )) {
+                            try {
+                                Thread.sleep(0);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        // Take actions
+                        int oilAmount = gameProperties.tmpActionInt;
+                        player.balance += oilAmount * gameProperties.oilPrices[gameProperties.currentRound - 1];
+                        oilfield.oilAvailabletoSell -= oilAmount;
+                    }
+
+                    // If cannot sell oil
+                    else {
+                        Button confirmButton = new Button("GOTOWE", () -> {
+                            gameProperties.tmpConfirm = true;
+                        });
+                        contentPanel.addComponent(confirmButton);
+                        confirmButton.takeFocus();
+                
+                        // Wait for confirmation
+                        Game.waitForConfirm(gameProperties);
+                    }
+
+                    // Clean up
+                    contentPanel.removeAllComponents();
+                    gameProperties.tmpActionInt = -1;
                 }
 
                 // If oilfield is not able to pump oil
@@ -352,8 +466,7 @@ public class Game {
                     // If reached the point that makes it available to extract oil,
                     // take actions
                     if (oilfield.currentDepth >= oilfield.requiredDepth) {
-                        contentPanel.addComponent(new Label("TRYSNE£O!")
-                            .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT)));
+                        contentPanel.addComponent(new Label("TRYSNE£O!!!"));
                         contentPanel.addComponent(new EmptySpace());
                         oilfield.canExtractOil = true;
                     }

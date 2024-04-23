@@ -13,7 +13,7 @@ public class DrillsIndustry extends AbstractIndustry {
         Random random = new Random();
 
         this.industryPrice = random.nextInt(50000) + 10000;
-        this.productsAmount = random.nextInt(((int)(this.industryPrice/10000)) * 8 + 25);
+        this.productsAmount = ((int)(this.industryPrice/10000)) * 8 + 25;
     }
 
     public static DrillsIndustry[] initialize() {

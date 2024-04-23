@@ -32,7 +32,7 @@ public class CarsIndustry extends AbstractIndustry {
     public static void buyIndustry(Player player, GameProperties gameProperties) {
         AbstractIndustry.buyIndustry(
             player, gameProperties,
-            DrillsIndustry.class,
+            CarsIndustry.class,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLUE,
             TextColor.ANSI.BLUE, TextColor.ANSI.WHITE_BRIGHT,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,

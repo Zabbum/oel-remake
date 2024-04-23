@@ -13,7 +13,7 @@ public class PumpsIndustry extends AbstractIndustry {
         Random random = new Random();
 
         this.industryPrice = random.nextInt(80000) + 36000;
-        this.productsAmount = (int)(this.industryPrice/10000) * 7 + 25;
+        this.productsAmount = ((int)(this.industryPrice/10000)) * 7 + 25;
     }
 
     public static PumpsIndustry[] initialize() {
@@ -30,7 +30,7 @@ public class PumpsIndustry extends AbstractIndustry {
     public static void buyIndustry(Player player, GameProperties gameProperties) {
         AbstractIndustry.buyIndustry(
             player, gameProperties,
-            DrillsIndustry.class,
+            PumpsIndustry.class,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLUE,
             TextColor.ANSI.BLUE, TextColor.ANSI.WHITE_BRIGHT,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
