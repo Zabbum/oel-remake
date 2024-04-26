@@ -4,8 +4,8 @@ Project trying to rewrite a Commodore 64 game ***OEL Pompowacze*** in java with 
 
 ## Components
 #### AppLanterna is the main class that you are supposed to run
-- `bin/` cantains java classes of remake
-- `lib/` contains all the libraries (empty for now)
+- `target/` cantains java classes
+- `lib/` contains all the libraries
 - `src/` contains all the source code of remake
 - `vice-snapshots/` - contains VICE64 C64 emulator snapshots from original game
     - `vice-snapshot-start.vsf` is a game start
@@ -17,3 +17,8 @@ Project trying to rewrite a Commodore 64 game ***OEL Pompowacze*** in java with 
 - `oel_pompowacze.txt` is original game sourcecode
 - `notes.md` are development notes on original sourcecode
 
+## Current roadmap
+- Implement ASCII arts
+- Extract all the text to a languagepack
+- Make this whole project more modifiable
+- Add option to play via network
