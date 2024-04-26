@@ -134,7 +134,7 @@ public abstract class AbstractIndustry {
         // Inform user about purchase
         contentPanel.addComponent(new EmptySpace());
         contentPanel.addComponent(new Label("JESTE$ W£A$CICIELEM FABRYKI: "));
-        contentPanel.addComponent(new Label(gameProperties.drillsIndustries[selectedIndustryIndex].name));
+        contentPanel.addComponent(new Label(industries[selectedIndustryIndex].name));
         contentPanel.addComponent(new EmptySpace());
         contentPanel.addComponent(new Label(pricePrompt));
 
