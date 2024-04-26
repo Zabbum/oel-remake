@@ -262,6 +262,7 @@ public class Game {
         }
         endRound(gameProperties);
     }
+
     // Actions to take at end of the round
     static void endRound(GameProperties gameProperties) {
         Panel contentPanel = gameProperties.contentPanel;
@@ -486,6 +487,151 @@ public class Game {
                 }
             }
         }
+
+        // Balance overview
+        overview(gameProperties);
+
+        // Debt mechanics
+        for (Player player : gameProperties.players) {
+            debt(player, gameProperties);
+        }
+
+    }
+
+    static void overview(GameProperties gameProperties) {
+        // Prepare new graphical settings
+        Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                TextColor.ANSI.WHITE_BRIGHT)
+            );
+
+        // Inform about current balances
+        contentPanel.addComponent(new Label("ROK: " + String.valueOf(1986 + gameProperties.currentRound)));
+        contentPanel.addComponent(new EmptySpace());
+
+        Panel playersPanel = new Panel(new GridLayout(2));
+        for (Player player : gameProperties.players) {
+            playersPanel.addComponent(new Label(player.name));
+            playersPanel.addComponent(new Label("KAPITA£: " + String.valueOf(player.balance)));
+        }
+
+        contentPanel.addComponent(playersPanel);
+
+        contentPanel.addComponent(new EmptySpace());
+
+        Button confirmButton = new Button("GOTOWE", () -> {
+            gameProperties.tmpConfirm = true;
+        });
+        contentPanel.addComponent(confirmButton);
+        confirmButton.takeFocus();
+
+        // Wait for confirmation
+        Game.waitForConfirm(gameProperties);
+
+        // Clean up
+        contentPanel.removeAllComponents();
+    }
+
+    // Debt system
+    static void debt(Player player, GameProperties gameProperties) {
+        // Prepare new graphical settings
+        Panel contentPanel = gameProperties.contentPanel;
+        
+        // If user has a loan
+        if (player.debt > 0) {
+            // Pay it off
+            player.balance -= 5000;
+            player.debt -= 3000;
+
+            // Display debtor menu
+
+            // Prepare new graphical settings
+            contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+            gameProperties.window.setTheme(
+                SimpleTheme.makeTheme(false,
+                    TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.BLACK,
+                    TextColor.ANSI.BLACK, TextColor.ANSI.BLUE_BRIGHT,
+                    TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                    TextColor.ANSI.BLACK)
+                );
+            
+            contentPanel.addComponent(new Label(" 'SONS & FATHERS` : KARTA KREDYTOWA ")
+                .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.BLUE_BRIGHT)));
+            
+            contentPanel.addComponent(new EmptySpace());
+
+            contentPanel.addComponent(new Label("D£UZNIK: " + player.name));
+
+            contentPanel.addComponent(new EmptySpace());
+            contentPanel.addComponent(new EmptySpace());
+
+            Panel loanPanel = new Panel(new GridLayout(2));
+
+            loanPanel.addComponent(new Label("DO SP£ACENIA:"));
+            loanPanel.addComponent(new Label(String.valueOf(player.debt) + " $"));
+            loanPanel.addComponent(new Label("KOLEJNA RATA:"));
+            loanPanel.addComponent(new Label("5000 $"));
+            loanPanel.addComponent(new Label("TWOJ KAPITA£:"));
+            loanPanel.addComponent(new Label(String.valueOf(player.balance) + " $"));
+
+            contentPanel.addComponent(loanPanel);
+
+            contentPanel.addComponent(new EmptySpace());
+
+            Button confirmButton = new Button("GOTOWE", () -> {
+                gameProperties.tmpConfirm = true;
+            });
+            contentPanel.addComponent(confirmButton);
+            confirmButton.takeFocus();
+    
+            // Wait for confirmation
+            Game.waitForConfirm(gameProperties);
+    
+            // Clean up
+            contentPanel.removeAllComponents();
+        }
+
+        // If user has negative money, take debt
+        if (player.balance < 0) {
+            // Prepare new graphical settings
+            contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+            gameProperties.window.setTheme(
+                SimpleTheme.makeTheme(false,
+                    TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK,
+                    TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT,
+                    TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                    TextColor.ANSI.BLACK)
+                );
+
+            // Inform about loan
+            contentPanel.addComponent(new Label("Jest kiepsko !!! " + player.name));
+            contentPanel.addComponent(new Label("Aby grac dalej musisz zapozyczyc sie"));
+            contentPanel.addComponent(new Label("w banku 'Sons & Fathers' na sume"));
+            contentPanel.addComponent(new Label("20000 dolarow. Splata kredytu na rok"));
+            contentPanel.addComponent(new Label("wynosi 5000 dolarow."));
+
+            contentPanel.addComponent(new EmptySpace());
+
+            // Take debt
+            player.debt += 20000;
+            player.balance += 20000;
+
+            Button confirmButton = new Button("GOTOWE", () -> {
+                gameProperties.tmpConfirm = true;
+            });
+            contentPanel.addComponent(confirmButton);
+            confirmButton.takeFocus();
+    
+            // Wait for confirmation
+            Game.waitForConfirm(gameProperties);
+    
+            // Clean up
+            contentPanel.removeAllComponents();
+        }
     }
 
     // Display main menu and get action
@@ -493,7 +639,6 @@ public class Game {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
-        gameProperties.window.setTheme(new SimpleTheme(TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.MAGENTA));
         gameProperties.window.setTheme(
             SimpleTheme.makeTheme(false, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.MAGENTA,
             TextColor.ANSI.MAGENTA, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN, TextColor.ANSI.MAGENTA)

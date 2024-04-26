@@ -5,6 +5,7 @@
 - 11131 - choosing an action
 - 11215 - game finish
 - 15183 - sabotage
+- 11159 - round finish
 
 ## Code to understandable speech
 - `GOSUB21104` - wait
