@@ -376,7 +376,7 @@ public class Game {
                         .addComponent(new Label(": " + String.valueOf(oilfield.pumpsAmount)))
                         .addComponent(new Label("WYPOMPOWANO")
                             .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
-                        .addComponent(new Label(": " + String.valueOf(oilfield.pumpsAmount))
+                        .addComponent(new Label(": " + String.valueOf(oilfield.oilAvailabletoSell))
                             .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
                         .addComponent(new Label("ILO$C WAGONOW"))
                         .addComponent(new Label(": " + String.valueOf(oilfield.carsAmount)))
@@ -656,6 +656,7 @@ public class Game {
             // Inform about loan
             Game.timeBuffor();
             contentPanel.addComponent(new Label("Jest kiepsko !!! " + player.name));
+            contentPanel.addComponent(new EmptySpace());
             contentPanel.addComponent(new Label("Aby grac dalej musisz zapozyczyc sie"));
             contentPanel.addComponent(new Label("w banku 'Sons & Fathers' na sume"));
             contentPanel.addComponent(new Label("20000 dolarow. Splata kredytu na rok"));
