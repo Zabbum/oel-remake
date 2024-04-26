@@ -3,7 +3,9 @@
 - 9670 - generating oil prizes
 - 10524 - showing expected oil prize trends
 - 11131 - choosing an action
+- 11215 - game finish
 - 15183 - sabotage
+- 11159 - round finish
 
 ## Code to understandable speech
 - `GOSUB21104` - wait
@@ -45,7 +47,7 @@
 - `l` - 54296 (kinda pointer)
 - `a` - 54277 (kinda pointer)
 - `si` - 54272
-- `rp` - oil prizes (?)
+- `rp()` - oil prizes
 - `bd()` - price of drill from productions
 - `bw()` - amount of available drills in production
 - `bb()` - drill production ownership

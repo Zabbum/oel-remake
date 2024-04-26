@@ -2,6 +2,12 @@ package com.zabbum.oelremake;
 
 import java.util.Random;
 
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.BasicTextImage;
+import com.googlecode.lanterna.graphics.TextImage;
+
 public class Oil {
     // Generate oil prices
     public static double[] generatePrices(int roundCount) {
@@ -33,35 +39,35 @@ public class Oil {
         return oilPrices;
     }
 
-    // Print out the graph of prices
-    public static void printGraph(double[] oilPrices, String ANSIGraphColor) {
-        // Maximum value is 20, so 20 rows
-        for (int i = 20; i > 0; i--) {
-            // For each price
-            for (double price : oilPrices) {
-                // If the value is lesser
-                // or equal to current row,
+    // Generate oil prices graph
+    public static TextImage oilGraph(GameProperties gameProperties, TextColor mainColor, TextColor backgroundColor) {
+        // Create canvas
+        TextImage oilGraphImage = new BasicTextImage(
+            new TerminalSize(gameProperties.roundCount, 20),
+            TextCharacter.fromCharacter(' ', backgroundColor, backgroundColor)[0]
+        );
+
+        // For every row (20 is the highest possible price)
+        for (int row = 0; row < 20; row++) {
+            // For each price in round
+            for (int round = 0; round < gameProperties.roundCount; round++) {
+                // If the price is greater
+                // or equal to 20-current row (because we are going from the upper),
                 // draw the color
-                if (price >= i) {
-                    System.out.print(ANSIGraphColor + " " + ANSI.RESET);
-                }
-                // If not, leave empty space
-                else {
-                    System.out.print(" ");
+                if (gameProperties.oilPrices[round] >= 20 - row) {
+                    oilGraphImage.setCharacterAt(round, row, TextCharacter.fromCharacter(' ', mainColor, mainColor)[0]);
                 }
             }
-            // After row is completed, pass to the next line
-            System.out.print("\n");
         }
+
+        return oilGraphImage;
     }
 
     // Reduce prices when the graph has been drawn
-    public static double[] reducePrices(double[] oilPrices) {
+    public static void reducePrices(GameProperties gameProperties) {
         // Divide each price by 10
-        for (int i = 0; i < oilPrices.length; i++) {
-            oilPrices[i] /= 10;
+        for (int i = 0; i < gameProperties.oilPrices.length; i++) {
+            gameProperties.oilPrices[i] /= 10;
         }
-
-        return oilPrices;
     }
 }
