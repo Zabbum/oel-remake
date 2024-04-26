@@ -47,7 +47,7 @@
 - `l` - 54296 (kinda pointer)
 - `a` - 54277 (kinda pointer)
 - `si` - 54272
-- `rp` - oil prizes (?)
+- `rp()` - oil prizes
 - `bd()` - price of drill from productions
 - `bw()` - amount of available drills in production
 - `bb()` - drill production ownership

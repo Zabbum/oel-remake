@@ -18,6 +18,7 @@ import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
+import com.googlecode.lanterna.gui2.table.Table;
 
 public class Game {
 
@@ -27,6 +28,49 @@ public class Game {
         emptySpace.setLayoutData(GridLayout.createHorizontallyFilledLayoutData(horizontalSpan));
 
         return emptySpace;
+    }
+    
+    // Finish game
+    public static void finishGame(GameProperties gameProperties) {
+        // Prepare new graphical settings
+        Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.removeAllComponents();
+        contentPanel.setLayoutManager(new GridLayout(1));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.BLACK,
+                TextColor.ANSI.ANSI.BLACK, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                TextColor.ANSI.ANSI.BLACK
+            )
+        );
+
+        contentPanel.addComponent(new Label("A OTO REZULTATY WALKI:"));
+
+        contentPanel.addComponent(new EmptySpace());
+
+        // Create table for results
+        Table<String> resultsTable = new Table<String>("GRACZ", "POZYCZKA", "KAPITA£");
+
+        // Add every player to table
+        for (Player player : gameProperties.players) {
+            resultsTable.getTableModel().addRow(player.name, String.valueOf(player.debt), String.valueOf(player.balance));
+        }
+
+        contentPanel.addComponent(resultsTable);
+
+        contentPanel.addComponent(new EmptySpace());
+
+        contentPanel.addComponent(new Label("GRATULUJE ZWYCIEZCOM !"));
+
+        Button confirmButton = new Button("GOTOWE", () -> {
+            gameProperties.tmpConfirm = true;
+        });
+        contentPanel.addComponent(confirmButton);
+        confirmButton.takeFocus();
+
+        // Wait for confirmation
+        Game.waitForConfirm(gameProperties);
     }
 
     // Display shitty OEL logo
@@ -313,7 +357,7 @@ public class Game {
                     
                     contentPanel.addComponent(new Panel(new GridLayout(2))
                         .addComponent(new Label("ROK: "))
-                        .addComponent(new Label(String.valueOf(gameProperties.currentRound + 1986))
+                        .addComponent(new Label(String.valueOf(gameProperties.currentRound + 1985))
                             .setTheme(new SimpleTheme(TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.YELLOW))
                         )
                     );
@@ -510,7 +554,7 @@ public class Game {
             );
 
         // Inform about current balances
-        contentPanel.addComponent(new Label("ROK: " + String.valueOf(1986 + gameProperties.currentRound)));
+        contentPanel.addComponent(new Label("ROK: " + String.valueOf(1985 + gameProperties.currentRound)));
         contentPanel.addComponent(new EmptySpace());
 
         Panel playersPanel = new Panel(new GridLayout(2));
