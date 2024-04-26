@@ -3,7 +3,7 @@
 Project trying to rewrite a Commodore 64 game ***OEL Pompowacze*** in java with few improvements
 
 ## Components
-#### App is the main class that you are supposed to run
+#### AppMain is the main class that you are supposed to run
 - `bin/` cantains java classes of remake
 - `lib/` contains all the libraries (empty for now)
 - `src/` contains all the source code of remake
