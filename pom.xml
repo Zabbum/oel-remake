@@ -6,11 +6,10 @@
 
   <groupId>com.zabbum.oelremake</groupId>
   <artifactId>oel-remake</artifactId>
-  <version>0.1-alpha</version>
+  <version>0.2.2-alpha</version>
 
   <name>oel-remake</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://github.com/Zabbum/oel-remake</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
