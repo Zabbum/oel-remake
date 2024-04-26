@@ -654,6 +654,7 @@ public class Game {
                 );
 
             // Inform about loan
+            Game.timeBuffor();
             contentPanel.addComponent(new Label("Jest kiepsko !!! " + player.name));
             contentPanel.addComponent(new Label("Aby grac dalej musisz zapozyczyc sie"));
             contentPanel.addComponent(new Label("w banku 'Sons & Fathers' na sume"));
