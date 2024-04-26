@@ -279,7 +279,7 @@ public abstract class AbstractIndustry {
         // Clean temporary choice
         gameProperties.tmpActionInt = -1;
 
-        // Prompt for drills amount
+        // Prompt for product amount
         contentPanel.addComponent(new Label(productAmountPrompt));
 
         // Prompt for product amount until provided value is valid
