@@ -557,6 +557,8 @@ public class Game {
         contentPanel.addComponent(new Label("ROK: " + String.valueOf(1985 + gameProperties.currentRound)));
         contentPanel.addComponent(new EmptySpace());
 
+        Game.timeBuffor();
+
         Panel playersPanel = new Panel(new GridLayout(2));
         for (Player player : gameProperties.players) {
             playersPanel.addComponent(new Label(player.name));
