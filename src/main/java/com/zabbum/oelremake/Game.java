@@ -174,6 +174,7 @@ public class Game {
 
         // Inform about money amount
         contentPanel.removeAllComponents();
+        Game.timeBuffor();
         contentPanel.addComponent(new Label("KAZDY GRACZ POSIADA 124321 $ KAPITA£U"));
         contentPanel.addComponent(new EmptySpace());
         Button confirmButton = new Button("GOTOWE", () -> {
@@ -398,7 +399,7 @@ public class Game {
                         contentPanel.addComponent(new Label("ILE LITROW ROPY SPRZEDAJESZ?"));
 
                         gameProperties.tmpActionInt = -1;
-                        TextBox oilAmountToSellTextBox = new TextBox().setValidationPattern(Pattern.compile("[0-9]"));
+                        TextBox oilAmountToSellTextBox = new TextBox().setValidationPattern(Pattern.compile("[0-9]*"));
                         
                         contentPanel.addComponent(oilAmountToSellTextBox);
                         oilAmountToSellTextBox.takeFocus();
