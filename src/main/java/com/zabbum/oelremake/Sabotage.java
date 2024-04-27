@@ -18,7 +18,7 @@ import com.googlecode.lanterna.gui2.table.Table;
 public class Sabotage {
     
     // Do a sabotage
-    public static void doSabotage(Player player, GameProperties gameProperties) {
+    public static void doSabotage(Player player, GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -34,17 +34,9 @@ public class Sabotage {
         // Display sabotage shade
         for (int i = 0; i < 23; i++) {
             contentPanel.addComponent(new Label(" ".repeat(i+1)+"S A B O T A Z"));
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(50);
         }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(1000);
         contentPanel.removeAllComponents();
 
         // Blue button theme
@@ -132,7 +124,7 @@ public class Sabotage {
     }
 
     // Attempt a oilfield sabotage
-    static void attemptOilfieldSabotage(Player player, GameProperties gameProperties) {
+    static void attemptOilfieldSabotage(Player player, GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -308,11 +300,7 @@ public class Sabotage {
                     animatedLabel.setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
                 }
                 
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                Thread.sleep(100);
             }
 
             // Take actions based on sabotage succession
@@ -345,11 +333,7 @@ public class Sabotage {
                 // Reset amount of oil available to sell
                 gameProperties.oilfields[selectedOilfieldIndex].oilAvailabletoSell = 0;
 
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                Thread.sleep(3000);
             }
             else {
                 // Inform user about status
@@ -367,7 +351,7 @@ public class Sabotage {
     }
 
     // Attempt a pump industry sabotage
-    static void attemptPumpIndustrySabotage(Player player, GameProperties gameProperties) {
+    static void attemptPumpIndustrySabotage(Player player, GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -448,7 +432,7 @@ public class Sabotage {
     }
 
     // Attempt a car industry sabotage
-    static void attemptCarsIndustrySabotage(Player player, GameProperties gameProperties) {
+    static void attemptCarsIndustrySabotage(Player player, GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -530,7 +514,7 @@ public class Sabotage {
     }
 
     // Attempt a drill industry sabotage
-    static void attemptDrillIndustrySabotage(Player player, GameProperties gameProperties) {
+    static void attemptDrillIndustrySabotage(Player player, GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -610,7 +594,7 @@ public class Sabotage {
         }
     }
 
-    static double sabotageGenerateResult(GameProperties gameProperties) {
+    static double sabotageGenerateResult(GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));

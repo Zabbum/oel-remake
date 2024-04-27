@@ -45,7 +45,7 @@ public abstract class AbstractIndustry {
         String pricePrompt,
         // Values
         int maxPrice
-    ) {
+    ) throws InterruptedException {
 
         // Create array of industries and products
         AbstractIndustry industries[];
@@ -192,7 +192,7 @@ public abstract class AbstractIndustry {
         String hereYouCanBuy, String productAmountPrompt,
         // Values
         int maxAmount
-    ) {
+    ) throws InterruptedException {
 
         // Create array of industries and products
         AbstractIndustry industries[];

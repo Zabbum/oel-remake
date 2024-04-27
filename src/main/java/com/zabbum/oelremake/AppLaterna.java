@@ -19,6 +19,7 @@ import com.googlecode.lanterna.gui2.SeparateTextGUIThread;
 import com.googlecode.lanterna.gui2.TextGUIThreadFactory;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
+import com.googlecode.lanterna.gui2.AsynchronousTextGUIThread.State;
 import com.googlecode.lanterna.gui2.Window.Hint;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
@@ -67,6 +68,24 @@ public class AppLaterna {
             gameProperties.textGUIThread = textGUIThread;
             System.out.println(textGUIThread.getState());
 
+            gameProperties.mainThread = Thread.currentThread();
+
+            // Thread for controlling window close
+            Thread windowCloseControllThread = new Thread(() -> {
+                while (!gameProperties.textGUIThread.getState().equals(State.STOPPED)) {
+                    try {
+                        Thread.sleep(0);
+                    } catch (InterruptedException e) {
+                        // Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+                
+                gameProperties.mainThread.interrupt();;
+            });
+
+            windowCloseControllThread.start();
+
             // Create window
             Window window = new BasicWindow();
             window.setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.RED));
@@ -108,6 +127,7 @@ public class AppLaterna {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
         } finally {
             if(screen != null) {
                 try {

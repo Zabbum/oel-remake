@@ -81,7 +81,7 @@ public class Oilfield {
         return oilfields;
     }
 
-    public static void buyField(Player player, GameProperties gameProperties) {
+    public static void buyField(Player player, GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -177,11 +177,7 @@ public class Oilfield {
         contentPanel.addComponent(new Label(gameProperties.oilfields[selectedOilfieldIndex].name)
             .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE_BRIGHT)));
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(2000);
 
         // Clean up
         contentPanel.removeAllComponents();

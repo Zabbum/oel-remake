@@ -16,7 +16,7 @@ import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.table.Table;
 
 public class ChangePrices {
-    public static void menu(Player player, GameProperties gameProperties) {
+    public static void menu(Player player, GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -86,7 +86,7 @@ public class ChangePrices {
     }
     
     // Change pumps prices
-    static void pumps(Player player, GameProperties gameProperties) {
+    static void pumps(Player player, GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
         AbstractIndustry[] industries = gameProperties.pumpsIndustries;
 
@@ -168,7 +168,7 @@ public class ChangePrices {
     }
 
     // Change cars prices
-    static void cars(Player player, GameProperties gameProperties) {
+    static void cars(Player player, GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
         AbstractIndustry[] industries = gameProperties.carsIndustries;
 
@@ -250,7 +250,7 @@ public class ChangePrices {
     }
 
     // Change drills prices
-    static void drills(Player player, GameProperties gameProperties) {
+    static void drills(Player player, GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
         AbstractIndustry[] industries = gameProperties.drillsIndustries;
 

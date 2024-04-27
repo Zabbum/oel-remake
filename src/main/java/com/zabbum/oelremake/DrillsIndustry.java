@@ -28,7 +28,7 @@ public class DrillsIndustry extends AbstractIndustry {
     }
 
     // Menu for buying drills productions
-    public static void buyIndustry(Player player, GameProperties gameProperties) {
+    public static void buyIndustry(Player player, GameProperties gameProperties) throws InterruptedException {
         AbstractIndustry.buyIndustry(
             player, gameProperties,
             DrillsIndustry.class,
@@ -43,7 +43,7 @@ public class DrillsIndustry extends AbstractIndustry {
     }
 
     // Menu for buying drills
-    public static void buyProduct(Player player, GameProperties gameProperties) {
+    public static void buyProduct(Player player, GameProperties gameProperties) throws InterruptedException {
         AbstractIndustry.buyProduct(
             player, gameProperties,
             DrillsIndustry.class,

@@ -9,6 +9,8 @@ public class GameProperties {
     public Panel contentPanel;
     public SeparateTextGUIThread textGUIThread;
 
+    public Thread mainThread;
+
     public int roundCount;
     public int currentRound;
     public int playerAmount;

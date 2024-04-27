@@ -31,7 +31,7 @@ public class Game {
     }
     
     // Finish game
-    public static void finishGame(GameProperties gameProperties) {
+    public static void finishGame(GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.removeAllComponents();
@@ -75,7 +75,7 @@ public class Game {
 
     // Display shitty OEL logo
     // TODO: Display pretty OEL logo
-    public static void oelLogo(GameProperties gameProperties) {
+    public static void oelLogo(GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
         Game.timeBuffor();
 
@@ -91,7 +91,7 @@ public class Game {
     }
     
     // Prompt for players amount
-    public static void promptPlayerAmount(GameProperties gameProperties) {
+    public static void promptPlayerAmount(GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
 
         contentPanel.addComponent(new Label("ILU BEDZIE KAPITALISTOW (2-6)"));
@@ -110,11 +110,7 @@ public class Game {
         );
 
         while (!(gameProperties.playerAmount > 1 && gameProperties.playerAmount < 7)) {
-            try {
-                Thread.sleep(0);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(0);
         }
 
         System.out.println(gameProperties.playerAmount);
@@ -122,7 +118,7 @@ public class Game {
     }
 
     // Intro info for player and prompt for names
-    public static void promptPlayerNames(GameProperties gameProperties) {
+    public static void promptPlayerNames(GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
 
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -194,7 +190,7 @@ public class Game {
     }
 
     // Inform about money amount and oil prices
-    public static void moneyInfo(GameProperties gameProperties) {
+    public static void moneyInfo(GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
 
         // Inform about money amount
@@ -252,7 +248,7 @@ public class Game {
     }
 
     // Play single round
-    public static void playRound(GameProperties gameProperties) {
+    public static void playRound(GameProperties gameProperties) throws InterruptedException {
         gameProperties.currentRound++;
 
         for (Player player : gameProperties.players) {
@@ -308,7 +304,7 @@ public class Game {
     }
 
     // Actions to take at end of the round
-    static void endRound(GameProperties gameProperties) {
+    static void endRound(GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
         Random random = new Random();
 
@@ -420,11 +416,7 @@ public class Game {
                             gameProperties.tmpActionInt <= oilfield.carsAmount * 7000 &&
                             gameProperties.tmpActionInt <= oilfield.oilAvailabletoSell
                         )) {
-                            try {
-                                Thread.sleep(0);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            Thread.sleep(0);
                         }
 
                         // Take actions
@@ -542,7 +534,7 @@ public class Game {
 
     }
 
-    static void overview(GameProperties gameProperties) {
+    static void overview(GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
@@ -583,7 +575,7 @@ public class Game {
     }
 
     // Debt system
-    static void debt(Player player, GameProperties gameProperties) {
+    static void debt(Player player, GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         
@@ -683,7 +675,7 @@ public class Game {
     }
 
     // Display main menu and get action
-    public static void mainMenu(Player player, GameProperties gameProperties) {
+    public static void mainMenu(Player player, GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
@@ -767,22 +759,14 @@ public class Game {
         contentPanel.removeAllComponents();
     }
 
-    public static void waitForConfirm(GameProperties gameProperties) {
+    public static void waitForConfirm(GameProperties gameProperties) throws InterruptedException {
         while (!gameProperties.tmpConfirm) {
-            try {
-                Thread.sleep(0);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(0);
         }
         gameProperties.tmpConfirm = false;
     }
 
-    public static void timeBuffor() {
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public static void timeBuffor() throws InterruptedException {
+        Thread.sleep(1);
     }
 }
