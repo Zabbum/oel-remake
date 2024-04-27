@@ -2,6 +2,7 @@ package com.zabbum.oelremake;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -31,9 +32,10 @@ public class AppLaterna {
         final GameProperties gameProperties = new GameProperties(34);
 
         // Set font
+        InputStream inputStream = AppLaterna.class.getClassLoader().getResourceAsStream("font/C64_Pro_Mono-STYLE.ttf");
         Font font = null;
         try {
-            Font fontTmp = Font.createFont(Font.TRUETYPE_FONT, new File("/home/pawel/oel-remake/lib/font/C64_Pro_Mono-STYLE.ttf"));
+            Font fontTmp = Font.createFont(Font.TRUETYPE_FONT, inputStream);
             font = fontTmp.deriveFont(15.0f);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
