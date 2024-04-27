@@ -81,7 +81,7 @@ public class AppLaterna {
                     }
                 }
                 
-                gameProperties.mainThread.interrupt();;
+                gameProperties.mainThread.interrupt();
             });
 
             windowCloseControllThread.start();
