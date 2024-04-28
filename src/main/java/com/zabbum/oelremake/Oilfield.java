@@ -151,11 +151,13 @@ public class Oilfield {
 
         // Display oilfield details
         contentPanel.addComponent(oilPanel);
+        oilfieldsTable.takeFocus();
         contentPanel.addComponent(new EmptySpace());
         contentPanel.addComponent(new Label("KTORE POLE CHCESZ WYKUPIC?"));
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
+        oilfieldsTable.setEnabled(false);
         int selectedOilfieldIndex = gameProperties.tmpActionInt;
 
         // If 0 selected, return
