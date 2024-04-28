@@ -394,7 +394,7 @@ public class Game {
                     }
 
                     // If can sell oil
-                    if (oilfield.oilAvailabletoSell > 0) {
+                    if (oilfield.oilAvailabletoSell > 0 && oilfield.carsAmount > 0) {
                         // Ask for amount of oil
                         contentPanel.addComponent(new Label("ILE LITROW ROPY SPRZEDAJESZ?"));
 
