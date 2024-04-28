@@ -242,8 +242,9 @@ public abstract class AbstractIndustry {
         // Add every available industry to table
         productsTable.getTableModel().addRow("0","-","-","-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
-            if (industries[industryIndex].isBought) {
-                // If industry is not bought, make it possible to buy it
+            if (industries[industryIndex].isBought && industries[industryIndex].productsAmount != 0) {
+                // If industry is bought and has produts,
+                // make it possible to buy it
                 productsTable.getTableModel().addRow(
                     String.valueOf(industryIndex+1),
                     industries[industryIndex].name,
