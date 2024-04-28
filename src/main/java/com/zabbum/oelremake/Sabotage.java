@@ -382,7 +382,7 @@ public class Sabotage {
             String ownerName = "---";
 
             if (gameProperties.pumpsIndustries[industryIndex].isBought) {
-                ownerName = gameProperties.oilfields[industryIndex].ownership.name;
+                ownerName = gameProperties.pumpsIndustries[industryIndex].ownership.name;
             }
 
             industriesTable.getTableModel().addRow(
@@ -464,7 +464,7 @@ public class Sabotage {
             String ownerName = "---";
 
             if (gameProperties.carsIndustries[industryIndex].isBought) {
-                ownerName = gameProperties.oilfields[industryIndex].ownership.name;
+                ownerName = gameProperties.carsIndustries[industryIndex].ownership.name;
             }
 
             industriesTable.getTableModel().addRow(
@@ -545,7 +545,7 @@ public class Sabotage {
             String ownerName = "---";
 
             if (gameProperties.drillsIndustries[industryIndex].isBought) {
-                ownerName = gameProperties.oilfields[industryIndex].ownership.name;
+                ownerName = gameProperties.drillsIndustries[industryIndex].ownership.name;
             }
 
             industriesTable.getTableModel().addRow(

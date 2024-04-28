@@ -125,7 +125,7 @@ public class Oilfield {
             Panel oilfieldsPanel = new Panel(new GridLayout(1));
 
             // Create table
-            Table<String> oilfieldsTable = new Table<String>("NR", "NAZWA ", "CENA");
+            Table<String> oilfieldsTable = new Table<String>("NR", "NAZWA", "CENA");
 
             // Add every available oilfield to table
             oilfieldsTable.getTableModel().addRow("0","-","-");
