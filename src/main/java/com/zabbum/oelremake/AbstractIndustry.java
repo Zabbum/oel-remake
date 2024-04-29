@@ -85,14 +85,14 @@ public abstract class AbstractIndustry {
         contentPanel.addComponent(new EmptySpace());
 
         // Create table
-        Table<String> industryTable = new Table<String>("NR", "NAZWA FIRMY", "L. PROD.", "CENA");
+        Table<String> industriesTable = new Table<String>("NR", "NAZWA FIRMY", "L. PROD.", "CENA");
 
         // Add every available industry to table
-        industryTable.getTableModel().addRow("0","-","-","-");
+        industriesTable.getTableModel().addRow("0","-","-","-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
             if (!industries[industryIndex].isBought) {
                 // If industry is not bought, make it possible to buy it
-                industryTable.getTableModel().addRow(
+                industriesTable.getTableModel().addRow(
                     String.valueOf(industryIndex+1),
                     industries[industryIndex].name,
                     String.valueOf(industries[industryIndex].productsAmount),
@@ -101,20 +101,21 @@ public abstract class AbstractIndustry {
             }
         }
 
-        industryTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))-1;
+        industriesTable.setSelectAction(() -> {
+            gameProperties.tmpActionInt = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
         // Display table
-        contentPanel.addComponent(industryTable);
-        industryTable.takeFocus();
+        contentPanel.addComponent(industriesTable);
+        industriesTable.takeFocus();
         contentPanel.addComponent(new EmptySpace());
         contentPanel.addComponent(new Label(industryPrompt));
 
         // Wait for selection
         gameProperties.tmpActionInt = -1;
         Game.waitForConfirm(gameProperties);
+        industriesTable.setEnabled(false);
         int selectedIndustryIndex = gameProperties.tmpActionInt;
 
         // If 0 selected, return
