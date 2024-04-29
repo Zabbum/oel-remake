@@ -112,6 +112,7 @@ public abstract class AbstractIndustry {
         contentPanel.addComponent(new Label(industryPrompt));
 
         // Wait for selection
+        gameProperties.tmpConfirm = false;
         gameProperties.tmpActionInt = -1;
         Game.waitForConfirm(gameProperties);
         industriesTable.setEnabled(false);
@@ -139,29 +140,26 @@ public abstract class AbstractIndustry {
         contentPanel.addComponent(new Label(pricePrompt));
 
         // Prompt for price until provided value is valid
-        TextBox productPriceBox = null;
-        gameProperties.tmpActionInt = -1;
-        while (gameProperties.tmpActionInt < 0 || gameProperties.tmpActionInt > maxPrice) {
-            // Prompt for price
-            contentPanel.addComponent(new EmptySpace());
-            productPriceBox = new TextBox(new TerminalSize(6, 1));
-            productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
-            contentPanel.addComponent(productPriceBox);
-            contentPanel.addComponent(Elements.confirmButton(gameProperties));
+        TextBox productPriceBox = new TextBox(new TerminalSize(6, 1));
+        productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
+        contentPanel.addComponent(productPriceBox);
+        productPriceBox.takeFocus();
 
-            // Wait for selection
-            productPriceBox.takeFocus();
-            Game.waitForConfirm(gameProperties);
-            try {
-                gameProperties.tmpActionInt = Integer.parseInt(productPriceBox.getText());
-            } catch (Exception e) {
-                // If a bad value has been provided
-                gameProperties.tmpActionInt = -1;
-            }
+        contentPanel.addComponent(Elements.confirmButton(gameProperties));
+
+        // If confirm button is pressed and choise is valid, let it be
+        while (!(gameProperties.tmpConfirm &&
+            SimpleLogic.isValid(productPriceBox.getText(), 0,
+                new int[]{maxPrice}))) {
+
+            gameProperties.tmpConfirm = false;
+            Thread.sleep(0);
         }
 
+        int selectedPrice = Integer.parseInt(productPriceBox.getText());
+
         // Set the price
-        industries[selectedIndustryIndex].productPrice = gameProperties.tmpActionInt;
+        industries[selectedIndustryIndex].productPrice = selectedPrice;
 
         // Clean up
         gameProperties.tmpActionInt = -1;
