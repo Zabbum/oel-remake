@@ -2,7 +2,6 @@ package com.zabbum.oelremake;
 
 import java.util.Random;
 import java.util.regex.Pattern;
-import java.lang.NumberFormatException;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
@@ -63,9 +62,7 @@ public class Game {
 
         contentPanel.addComponent(new Label("GRATULUJE ZWYCIEZCOM !"));
 
-        Button confirmButton = new Button("GOTOWE", () -> {
-            gameProperties.tmpConfirm = true;
-        });
+        Button confirmButton = Elements.confirmButton(gameProperties);
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
@@ -100,19 +97,19 @@ public class Game {
         playerAmountTextBox.takeFocus();
 
         contentPanel.addComponent(new EmptySpace());
-        
-        contentPanel.addComponent(
-            new Button("GOTOWE", () -> {
-                try {
-                    gameProperties.playerAmount = Integer.parseInt(playerAmountTextBox.getText());                    
-                } catch (NumberFormatException e) {}
-            })
-        );
 
-        while (!(gameProperties.playerAmount > 1 && gameProperties.playerAmount < 7)) {
+        contentPanel.addComponent(Elements.confirmButton(gameProperties));
+
+        // If confirm button is pressed and choise is valid, let it be
+        while (!(gameProperties.tmpConfirm &&
+            SimpleLogic.isValid(playerAmountTextBox.getText(), 2,
+                new int[]{6}))) {
+            
+            gameProperties.tmpConfirm = false;
             Thread.sleep(0);
         }
 
+        gameProperties.playerAmount = Integer.parseInt(playerAmountTextBox.getText());
         System.out.println(gameProperties.playerAmount);
         contentPanel.removeAllComponents();
     }
@@ -152,21 +149,13 @@ public class Game {
         playerNames[0].takeFocus();
 
         // Confirmation button
-        gameProperties.tmpConfirm = false;
-        contentPanel.addComponent(
-            new Button("GOTOWE", new Runnable() {
-                @Override
-                public void run() {
-                    gameProperties.players = new Player[gameProperties.playerAmount];
-                    gameProperties.tmpConfirm = true;
-                }
-            })
-        );
+        contentPanel.addComponent(Elements.confirmButton(gameProperties));
 
         // Wait for confirmation
         Game.waitForConfirm(gameProperties);
 
         // Create player objects
+        gameProperties.players = new Player[gameProperties.playerAmount];
         for (int i = 0; i < playerNames.length; i++) {
             System.out.println(playerNames[i].getText());
             gameProperties.players[i] = new Player(playerNames[i].getText());
@@ -177,9 +166,7 @@ public class Game {
         Game.timeBuffor();
         contentPanel.addComponent(new Label("KAZDY GRACZ POSIADA 124321 $ KAPITA£U"));
         contentPanel.addComponent(new EmptySpace());
-        Button confirmButton = new Button("GOTOWE", () -> {
-            gameProperties.tmpConfirm = true;
-        });
+        Button confirmButton = Elements.confirmButton(gameProperties);
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
@@ -200,9 +187,7 @@ public class Game {
         Game.timeBuffor();
         contentPanel.addComponent(new Label("KAPITAL NA KONCU GRY"));
         contentPanel.addComponent(new EmptySpace());
-        Button confirmButton = new Button("GOTOWE", () -> {
-            gameProperties.tmpConfirm = true;
-        });
+        Button confirmButton = Elements.confirmButton(gameProperties);
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
@@ -234,9 +219,7 @@ public class Game {
             System.out.println(price);
         }
 
-        Button confirmButton1 = new Button("GOTOWE", () -> {
-            gameProperties.tmpConfirm = true;
-        });
+        Button confirmButton1 = Elements.confirmButton(gameProperties);
 
         contentPanel.addComponent(confirmButton1);
         confirmButton1.takeFocus();
@@ -404,19 +387,14 @@ public class Game {
                         contentPanel.addComponent(oilAmountToSellTextBox);
                         oilAmountToSellTextBox.takeFocus();
 
-                        contentPanel.addComponent(
-                            new Button("GOTOWE", () -> {
-                                try {
-                                    gameProperties.tmpActionInt = Integer.parseInt(oilAmountToSellTextBox.getText());
-                                } catch (NumberFormatException e) {}
-                            })
-                        );
+                        contentPanel.addComponent(Elements.confirmButton(gameProperties));
 
-                        // If choice is valid, let it be
-                        while (!(gameProperties.tmpActionInt > -1 &&
-                            gameProperties.tmpActionInt <= oilfield.carsAmount * 7000 &&
-                            gameProperties.tmpActionInt <= oilfield.oilAvailabletoSell
-                        )) {
+                        // If confirm button is pressed and choise is valid, let it be
+                        while (!(gameProperties.tmpConfirm &&
+                            SimpleLogic.isValid(oilAmountToSellTextBox.getText(), 0,
+                                new int[]{oilfield.carsAmount * 7000, oilfield.oilAvailabletoSell}))) {
+                            
+                            gameProperties.tmpConfirm = false;
                             Thread.sleep(0);
                         }
 
@@ -615,9 +593,7 @@ public class Game {
 
             contentPanel.addComponent(new EmptySpace());
 
-            Button confirmButton = new Button("GOTOWE", () -> {
-                gameProperties.tmpConfirm = true;
-            });
+            Button confirmButton = Elements.confirmButton(gameProperties);
             contentPanel.addComponent(confirmButton);
             confirmButton.takeFocus();
     
