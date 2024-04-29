@@ -140,9 +140,7 @@ public class Sabotage {
         contentPanel.addComponent(new Label("TU MASZ TYLKO 50% SZANS!"));
         contentPanel.addComponent(new EmptySpace());
 
-        Button confirmButton = new Button("GOTOWE", () -> {
-            gameProperties.tmpConfirm = true;
-        });
+        Button confirmButton = Elements.confirmButton(gameProperties);
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
@@ -648,9 +646,7 @@ public class Sabotage {
         contentPanel.addComponent(new Label("WCI$NIJ GUZIK W ODPOWIEDNIM MOMENCIE"));
 
         // Button for confirmation
-        Button confirmButton = new Button("GOTOWE", () -> {
-            gameProperties.tmpConfirm = true;
-        });
+        Button confirmButton = Elements.confirmButton(gameProperties);
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
@@ -722,9 +718,7 @@ public class Sabotage {
         }
 
         // Button for confirmation
-        confirmButton = new Button("GOTOWE", () -> {
-            gameProperties.tmpConfirm = true;
-        });
+        confirmButton = Elements.confirmButton(gameProperties);
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 

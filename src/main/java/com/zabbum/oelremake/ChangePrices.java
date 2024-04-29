@@ -138,14 +138,7 @@ public class ChangePrices {
             productPriceBox = new TextBox(new TerminalSize(6, 1));
             productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
             contentPanel.addComponent(productPriceBox);
-            contentPanel.addComponent(
-                new Button("GOTOWE", new Runnable() {
-                    @Override
-                    public void run() {
-                        gameProperties.tmpConfirm = true;
-                    }
-                })
-            );
+            contentPanel.addComponent(Elements.confirmButton(gameProperties));
 
             // Wait for selection
             productPriceBox.takeFocus();
@@ -220,14 +213,7 @@ public class ChangePrices {
             productPriceBox = new TextBox(new TerminalSize(6, 1));
             productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
             contentPanel.addComponent(productPriceBox);
-            contentPanel.addComponent(
-                new Button("GOTOWE", new Runnable() {
-                    @Override
-                    public void run() {
-                        gameProperties.tmpConfirm = true;
-                    }
-                })
-            );
+            contentPanel.addComponent(Elements.confirmButton(gameProperties));
 
             // Wait for selection
             productPriceBox.takeFocus();
@@ -302,14 +288,7 @@ public class ChangePrices {
             productPriceBox = new TextBox(new TerminalSize(6, 1));
             productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
             contentPanel.addComponent(productPriceBox);
-            contentPanel.addComponent(
-                new Button("GOTOWE", new Runnable() {
-                    @Override
-                    public void run() {
-                        gameProperties.tmpConfirm = true;
-                    }
-                })
-            );
+            contentPanel.addComponent(Elements.confirmButton(gameProperties));
 
             // Wait for selection
             productPriceBox.takeFocus();

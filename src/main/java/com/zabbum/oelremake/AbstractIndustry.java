@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
-import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
@@ -148,14 +147,7 @@ public abstract class AbstractIndustry {
             productPriceBox = new TextBox(new TerminalSize(6, 1));
             productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
             contentPanel.addComponent(productPriceBox);
-            contentPanel.addComponent(
-                new Button("GOTOWE", new Runnable() {
-                    @Override
-                    public void run() {
-                        gameProperties.tmpConfirm = true;
-                    }
-                })
-            );
+            contentPanel.addComponent(Elements.confirmButton(gameProperties));
 
             // Wait for selection
             productPriceBox.takeFocus();
@@ -293,14 +285,7 @@ public abstract class AbstractIndustry {
             productAmountBox = new TextBox(new TerminalSize(6, 1));
             productAmountBox.setValidationPattern(Pattern.compile("[0-9]*"));
             contentPanel.addComponent(productAmountBox);
-            contentPanel.addComponent(
-                new Button("GOTOWE", new Runnable() {
-                    @Override
-                    public void run() {
-                        gameProperties.tmpConfirm = true;
-                    }
-                })
-            );
+            contentPanel.addComponent(Elements.confirmButton(gameProperties));
 
             // Wait for selection
             productAmountBox.takeFocus();

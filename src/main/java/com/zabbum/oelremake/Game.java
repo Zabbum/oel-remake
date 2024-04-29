@@ -428,9 +428,7 @@ public class Game {
 
                     // If cannot sell oil
                     else {
-                        Button confirmButton = new Button("GOTOWE", () -> {
-                            gameProperties.tmpConfirm = true;
-                        });
+                        Button confirmButton = Elements.confirmButton(gameProperties);
                         contentPanel.addComponent(confirmButton);
                         confirmButton.takeFocus();
                 
@@ -510,9 +508,7 @@ public class Game {
                     }
 
                     // Button for confirmation
-                    Button confirmButton = new Button("GOTOWE", () -> {
-                        gameProperties.tmpConfirm = true;
-                    });
+                    Button confirmButton = Elements.confirmButton(gameProperties);
                     contentPanel.addComponent(confirmButton);
                     confirmButton.takeFocus();
             
@@ -562,9 +558,7 @@ public class Game {
 
         contentPanel.addComponent(new EmptySpace());
 
-        Button confirmButton = new Button("GOTOWE", () -> {
-            gameProperties.tmpConfirm = true;
-        });
+        Button confirmButton = Elements.confirmButton(gameProperties);
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
@@ -661,9 +655,7 @@ public class Game {
             player.debt += 20000;
             player.balance += 20000;
 
-            Button confirmButton = new Button("GOTOWE", () -> {
-                gameProperties.tmpConfirm = true;
-            });
+            Button confirmButton = Elements.confirmButton(gameProperties);
             contentPanel.addComponent(confirmButton);
             confirmButton.takeFocus();
     
