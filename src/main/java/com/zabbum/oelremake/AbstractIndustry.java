@@ -250,9 +250,9 @@ public abstract @Data class AbstractIndustry {
                 // make it possible to buy it
                 productsTable.getTableModel().addRow(
                     String.valueOf(industryIndex+1),
-                    industries[industryIndex].name,
+                    industries[industryIndex].getName(),
                     String.valueOf(industries[industryIndex].getProductsAmount()),
-                    String.valueOf(industries[industryIndex].productPrice)+"$"
+                    String.valueOf(industries[industryIndex].getProductPrice())+"$"
                     );
             }
         }
@@ -360,7 +360,7 @@ public abstract @Data class AbstractIndustry {
         industries[selectedIndustryIndex].buyProducts(selectedProductAmount); 
         // Reduce player's balance
         player.decreaseBalance(selectedProductAmount * industries[selectedIndustryIndex].getProductPrice());
-        if (industries[selectedIndustryIndex].ownership == player) {
+        if (industries[selectedIndustryIndex].getOwnership() == player) {
             // If player is buying product from theirself, give them the money * 0.2
             player.increaseBalance(0.2 * selectedProductAmount * industries[selectedIndustryIndex].getProductPrice());
         } else {
