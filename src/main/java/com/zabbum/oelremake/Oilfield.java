@@ -10,24 +10,25 @@ import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.table.Table;
 
-public class Oilfield {
+import lombok.Data;
+
+public @Data class Oilfield {
 
     // Object variables
-    public String name;
-    public int price;
-    public boolean isBought;
-    public Player ownership;
-    public int oilAmount;
-    public boolean canExtractOil;
-    public int requiredDepth;
-    public int currentDepth;
-    public int oilExtracted;
-    public int oilAvailabletoSell;
+    private String name;
+    private int price;
+    private Player ownership;
+    private int totalOilAmount;
+    private boolean isExploitable;
+    private int requiredDepth;
+    private int currentDepth;
+    private int oilExtracted;
+    private int oilAvailabletoSell;
 
     // Amounts of exploitation stuff
-    public int carsAmount;
-    public int drillsAmount;
-    public int pumpsAmount;
+    private int carsAmount;
+    private int drillsAmount;
+    private int pumpsAmount;
 
     // Constructor
     public Oilfield(String name) {
@@ -35,10 +36,9 @@ public class Oilfield {
 
         this.name = name;
         this.price = random.nextInt(70000) + 29900;
-        this.isBought = false;
         this.ownership = null;
-        this.oilAmount = (this.price - random.nextInt(9999) + 1) * 10;
-        this.canExtractOil = false;
+        this.totalOilAmount = (this.price - random.nextInt(9999) + 1) * 10;
+        this.isExploitable = false;
         this.requiredDepth = random.nextInt(3666) + 1;
         this.currentDepth = 0;
         this.oilExtracted = 0;
@@ -46,6 +46,33 @@ public class Oilfield {
         this.carsAmount = 0;
         this.drillsAmount = 0;
         this.pumpsAmount = 0;
+    }
+
+    // Is bought
+    public boolean isBought() {
+        if (this.ownership == null) {
+            return false;
+        }
+        return true;
+    }
+
+    // Extract oil
+    public void extractOil() {
+        this.oilAvailabletoSell += 8000 * this.pumpsAmount;
+        this.oilExtracted += 8000 * this.pumpsAmount;
+    }
+
+    // Sell oil
+    public void sellOil(int oilAmount) {
+        this.oilAvailabletoSell -= oilAmount;
+    }
+
+    // Dig
+    public void dig() {
+        Random random = new Random();
+
+        this.drillsAmount -= 500;
+        this.currentDepth += 500 - (random.nextInt(30)+1);
     }
     
     // Set product amount based on industry type
@@ -97,7 +124,7 @@ public class Oilfield {
         titlePanel.addComponent(new EmptySpace());
         Game.timeBuffor();
         titlePanel.addComponent(new Label("WYPRZEDAZ POL NAFTOWYCH"));
-        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.balance) + "$"));
+        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.getBalance()) + "$"));
         titlePanel.addComponent(new EmptySpace());
         contentPanel.addComponent(titlePanel);
 
@@ -130,12 +157,12 @@ public class Oilfield {
             // Add every available oilfield to table
             oilfieldsTable.getTableModel().addRow("0","-","-");
             for (int oilfieldIndex = 0; oilfieldIndex < gameProperties.oilfields.length; oilfieldIndex++) {
-                if (!gameProperties.oilfields[oilfieldIndex].isBought) {
+                if (!gameProperties.oilfields[oilfieldIndex].isBought()) {
                     // If oilfield is not bought, make it possible to buy it
                     oilfieldsTable.getTableModel().addRow(
                         String.valueOf(oilfieldIndex+1),
-                        gameProperties.oilfields[oilfieldIndex].name,
-                        String.valueOf(gameProperties.oilfields[oilfieldIndex].price)+"$"
+                        gameProperties.oilfields[oilfieldIndex].getName(),
+                        String.valueOf(gameProperties.oilfields[oilfieldIndex].getPrice())+"$"
                         );
                 }
             }
@@ -168,15 +195,14 @@ public class Oilfield {
         }
 
         // Note purchase
-        gameProperties.oilfields[selectedOilfieldIndex].isBought = true;
-        gameProperties.oilfields[selectedOilfieldIndex].ownership = player;
+        gameProperties.oilfields[selectedOilfieldIndex].setOwnership(player);
 
-        player.balance -= gameProperties.oilfields[selectedOilfieldIndex].price;
+        player.decreaseBalance(gameProperties.oilfields[selectedOilfieldIndex].getPrice());
 
         // Inform user about purchase
         contentPanel.addComponent(new EmptySpace());
         contentPanel.addComponent(new Label("JESTE$ W£ASCICIELEM POLA:"));
-        contentPanel.addComponent(new Label(gameProperties.oilfields[selectedOilfieldIndex].name)
+        contentPanel.addComponent(new Label(gameProperties.oilfields[selectedOilfieldIndex].getName())
             .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE_BRIGHT)));
 
         Thread.sleep(2000);

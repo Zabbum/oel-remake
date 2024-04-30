@@ -96,12 +96,12 @@ public class ChangePrices {
         // Add every available industry to table
         industryTable.getTableModel().addRow("0","-","-","-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
-            if (!industries[industryIndex].isBought) {
+            if (!industries[industryIndex].isBought()) {
                 // If industry is not bought, make it possible to buy it
                 industryTable.getTableModel().addRow(
                     String.valueOf(industryIndex+1),
-                    industries[industryIndex].name,
-                    String.valueOf(industries[industryIndex].industryPrice)+"$"
+                    industries[industryIndex].getName(),
+                    String.valueOf(industries[industryIndex].getIndustryPrice())+"$"
                 );
             }
         }
@@ -153,7 +153,7 @@ public class ChangePrices {
 
         // Set a new price
         double proposedPrice = gameProperties.tmpActionInt;
-        gameProperties.drillsIndustries[selectedIndustryIndex].productPrice = proposedPrice;
+        gameProperties.drillsIndustries[selectedIndustryIndex].setProductPrice(proposedPrice);
 
         // Clean up
         gameProperties.tmpActionInt = -1;
@@ -171,12 +171,12 @@ public class ChangePrices {
         // Add every available industry to table
         industryTable.getTableModel().addRow("0","-","-","-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
-            if (!industries[industryIndex].isBought) {
+            if (!industries[industryIndex].isBought()) {
                 // If industry is not bought, make it possible to buy it
                 industryTable.getTableModel().addRow(
                     String.valueOf(industryIndex+1),
-                    industries[industryIndex].name,
-                    String.valueOf(industries[industryIndex].industryPrice)+"$"
+                    industries[industryIndex].getName(),
+                    String.valueOf(industries[industryIndex].getIndustryPrice())+"$"
                 );
             }
         }
@@ -228,7 +228,7 @@ public class ChangePrices {
 
         // Set a new price
         double proposedPrice = gameProperties.tmpActionInt;
-        gameProperties.carsIndustries[selectedIndustryIndex].productPrice = proposedPrice;
+        gameProperties.carsIndustries[selectedIndustryIndex].setProductPrice(proposedPrice);
 
         // Clean up
         gameProperties.tmpActionInt = -1;
@@ -246,12 +246,12 @@ public class ChangePrices {
         // Add every available industry to table
         industryTable.getTableModel().addRow("0","-","-","-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
-            if (!industries[industryIndex].isBought) {
+            if (!industries[industryIndex].isBought()) {
                 // If industry is not bought, make it possible to buy it
                 industryTable.getTableModel().addRow(
                     String.valueOf(industryIndex+1),
-                    industries[industryIndex].name,
-                    String.valueOf(industries[industryIndex].industryPrice)+"$"
+                    industries[industryIndex].getName(),
+                    String.valueOf(industries[industryIndex].getIndustryPrice())+"$"
                 );
             }
         }
@@ -303,7 +303,7 @@ public class ChangePrices {
 
         // Set a new price
         double proposedPrice = gameProperties.tmpActionInt;
-        gameProperties.drillsIndustries[selectedIndustryIndex].productPrice = proposedPrice;
+        gameProperties.drillsIndustries[selectedIndustryIndex].setProductPrice(proposedPrice);;
 
         // Clean up
         gameProperties.tmpActionInt = -1;
@@ -317,7 +317,7 @@ public class ChangePrices {
             possibleActions[i] = "0";
         }
         for (int i = 0; i < industries.length; i++) {
-            if (industries[i].ownership == player) {
+            if (industries[i].getOwnership() == player) {
                 for (int j = 0; j < possibleActions.length; j++) {
                     if (possibleActions[j].equals("0")) {
                         possibleActions[j] = String.valueOf(i+1);

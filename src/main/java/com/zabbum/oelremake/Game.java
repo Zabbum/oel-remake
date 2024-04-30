@@ -1,6 +1,5 @@
 package com.zabbum.oelremake;
 
-import java.util.Random;
 import java.util.regex.Pattern;
 
 import com.googlecode.lanterna.TextColor;
@@ -53,7 +52,7 @@ public class Game {
 
         // Add every player to table
         for (Player player : gameProperties.players) {
-            resultsTable.getTableModel().addRow(player.name, String.valueOf(player.debt), String.valueOf(player.balance));
+            resultsTable.getTableModel().addRow(player.getName(), String.valueOf(player.getDebt()), String.valueOf(player.getBalance()));
         }
 
         contentPanel.addComponent(resultsTable);
@@ -290,7 +289,6 @@ public class Game {
     // Actions to take at end of the round
     static void endRound(GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
-        Random random = new Random();
 
         // Actions for every player
         for (Player player : gameProperties.players) {
@@ -301,16 +299,15 @@ public class Game {
                 contentPanel.removeAllComponents();
 
                 // If user is not owner of the field, move on to the next
-                if (oilfield.ownership != player) {
+                if (oilfield.getOwnership() != player) {
                     continue;
                 }
 
                 // If oilfield is able to pump oil
-                if (oilfield.canExtractOil) {
+                if (oilfield.isExploitable()) {
                     // Routine actions
-                    if (oilfield.oilExtracted <= oilfield.oilAmount) {
-                        oilfield.oilAvailabletoSell += 8000 * oilfield.pumpsAmount;
-                        oilfield.oilExtracted += 8000 * oilfield.pumpsAmount;
+                    if (oilfield.getOilExtracted() <= oilfield.getTotalOilAmount()) {
+                        oilfield.extractOil();
                     }
 
                     // Prepare graphical settings
@@ -327,12 +324,12 @@ public class Game {
                     // Inform user
                     contentPanel.addComponent(new Label("  POLE NAFTOWE : ")
                         .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW, TextColor.ANSI.BLACK)));
-                    contentPanel.addComponent(new Label(oilfield.name)
+                    contentPanel.addComponent(new Label(oilfield.getName())
                         .setTheme(new SimpleTheme(TextColor.ANSI.BLUE, TextColor.ANSI.YELLOW)));
                     contentPanel.addComponent(new Label("▔".repeat(17)));
                     contentPanel.addComponent(new Label(" W£A$CICIEL POLA ")
                         .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW, TextColor.ANSI.BLACK)));
-                    contentPanel.addComponent(new Label(player.name));
+                    contentPanel.addComponent(new Label(player.getName()));
                     contentPanel.addComponent(new Label("▔".repeat(17)));
                     
                     contentPanel.addComponent(new Panel(new GridLayout(2))
@@ -353,31 +350,31 @@ public class Game {
 
                     contentPanel.addComponent(new Panel(new GridLayout(2))
                         .addComponent(new Label("ILO$C POMP"))
-                        .addComponent(new Label(": " + String.valueOf(oilfield.pumpsAmount)))
+                        .addComponent(new Label(": " + String.valueOf(oilfield.getPumpsAmount())))
                         .addComponent(new Label("WYPOMPOWANO")
                             .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
-                        .addComponent(new Label(": " + String.valueOf(oilfield.oilAvailabletoSell))
+                        .addComponent(new Label(": " + String.valueOf(oilfield.getOilAvailabletoSell()))
                             .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
                         .addComponent(new Label("ILO$C WAGONOW"))
-                        .addComponent(new Label(": " + String.valueOf(oilfield.carsAmount)))
+                        .addComponent(new Label(": " + String.valueOf(oilfield.getCarsAmount())))
                         .addComponent(new Label("MAX WYWOZ")
                             .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
-                        .addComponent(new Label(": " + String.valueOf(oilfield.carsAmount * 7000))
+                        .addComponent(new Label(": " + String.valueOf(oilfield.getCarsAmount() * 7000))
                             .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
                         .addComponent(new Label("TWOJ KAPITA£"))
-                        .addComponent(new Label(": " + String.valueOf(player.balance)))
+                        .addComponent(new Label(": " + String.valueOf(player.getBalance())))
                     );
 
                     contentPanel.addComponent(new EmptySpace());
 
                     // If oilfield is out of oil, inform user
-                    if (oilfield.oilExtracted > oilfield.oilAmount) {
+                    if (oilfield.getOilExtracted() > oilfield.getTotalOilAmount()) {
                         contentPanel.addComponent(new Label("ZROD£O WYCZERPANE!"));
                         contentPanel.addComponent(new EmptySpace());
                     }
 
                     // If can sell oil
-                    if (oilfield.oilAvailabletoSell > 0 && oilfield.carsAmount > 0) {
+                    if (oilfield.getOilAvailabletoSell() > 0 && oilfield.getCarsAmount() > 0) {
                         // Ask for amount of oil
                         contentPanel.addComponent(new Label("ILE LITROW ROPY SPRZEDAJESZ?"));
 
@@ -392,7 +389,7 @@ public class Game {
                         // If confirm button is pressed and choise is valid, let it be
                         while (!(gameProperties.tmpConfirm &&
                             SimpleLogic.isValid(oilAmountToSellTextBox.getText(), 0,
-                                new int[]{oilfield.carsAmount * 7000, oilfield.oilAvailabletoSell}))) {
+                                new int[]{oilfield.getCarsAmount() * 7000, oilfield.getOilAvailabletoSell()}))) {
                             
                             gameProperties.tmpConfirm = false;
                             Thread.sleep(0);
@@ -400,8 +397,8 @@ public class Game {
 
                         // Take actions
                         int oilAmount = gameProperties.tmpActionInt;
-                        player.balance += oilAmount * gameProperties.oilPrices[gameProperties.currentRound - 1];
-                        oilfield.oilAvailabletoSell -= oilAmount;
+                        player.increaseBalance(oilAmount * gameProperties.oilPrices[gameProperties.currentRound - 1]);
+                        oilfield.sellOil(oilAmount);
                     }
 
                     // If cannot sell oil
@@ -435,7 +432,7 @@ public class Game {
                     contentPanel.addComponent(new Label("WIERCENIE NA POLU:")
                         .setTheme(new SimpleTheme(TextColor.ANSI.RED, TextColor.ANSI.WHITE_BRIGHT)));
                     
-                    contentPanel.addComponent(new Label(oilfield.name)
+                    contentPanel.addComponent(new Label(oilfield.getName())
                     .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.WHITE_BRIGHT)));
 
                     contentPanel.addComponent(new EmptySpace());
@@ -443,7 +440,7 @@ public class Game {
                     contentPanel.addComponent(new Panel(new GridLayout(2))
                         .addComponent(new Label("W£ASNO$C: ")
                             .setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.WHITE_BRIGHT)))
-                        .addComponent(new Label(player.name)
+                        .addComponent(new Label(player.getName())
                             .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT)))
                     );
 
@@ -457,7 +454,7 @@ public class Game {
                     contentPanel.addComponent(new EmptySpace());
 
                     // If no drills, inform player
-                    if (oilfield.drillsAmount <= 0) {
+                    if (oilfield.getDrillsAmount() <= 0) {
                         contentPanel.addComponent(new Label("WIERCENIA NIEMOZLIWE - BRAK WIERTE£!")
                             .setTheme(new SimpleTheme(TextColor.ANSI.RED, TextColor.ANSI.WHITE_BRIGHT)));
                         contentPanel.addComponent(new Label(" TRZEBA CO$ PRZEDSIEWZIAC!")
@@ -467,22 +464,21 @@ public class Game {
 
                     // If there are drills, drill
                     else {
-                        oilfield.drillsAmount -= 500;
-                        oilfield.currentDepth += 500 - (random.nextInt(30)+1);
+                        oilfield.dig();
                     }
 
                     // In both cases, inform about current progess
-                    contentPanel.addComponent(new Label("AKTUALNA G£EBOKO$C WIERCEN: " + oilfield.currentDepth + "M"));
+                    contentPanel.addComponent(new Label("AKTUALNA G£EBOKO$C WIERCEN: " + oilfield.getCurrentDepth() + "M"));
                     contentPanel.addComponent(new EmptySpace());
-                    contentPanel.addComponent(new Label("JESZCZE CI STARCZY NA: " + oilfield.drillsAmount + "M"));
+                    contentPanel.addComponent(new Label("JESZCZE CI STARCZY NA: " + oilfield.getDrillsAmount() + "M"));
                     contentPanel.addComponent(new EmptySpace());
 
                     // If reached the point that makes it available to extract oil,
                     // take actions
-                    if (oilfield.currentDepth >= oilfield.requiredDepth) {
+                    if (oilfield.getCurrentDepth() >= oilfield.getRequiredDepth()) {
                         contentPanel.addComponent(new Label("TRYSNE£O!!!"));
                         contentPanel.addComponent(new EmptySpace());
-                        oilfield.canExtractOil = true;
+                        oilfield.setExploitable(true);
                     }
 
                     // Button for confirmation
@@ -528,8 +524,8 @@ public class Game {
 
         Panel playersPanel = new Panel(new GridLayout(2));
         for (Player player : gameProperties.players) {
-            playersPanel.addComponent(new Label(player.name));
-            playersPanel.addComponent(new Label("KAPITA£: " + String.valueOf(player.balance)));
+            playersPanel.addComponent(new Label(player.getName()));
+            playersPanel.addComponent(new Label("KAPITA£: " + String.valueOf(player.getBalance())));
         }
 
         contentPanel.addComponent(playersPanel);
@@ -553,10 +549,9 @@ public class Game {
         Panel contentPanel = gameProperties.contentPanel;
         
         // If user has a loan
-        if (player.debt > 0) {
+        if (player.getDebt() > 0) {
             // Pay it off
-            player.balance -= 5000;
-            player.debt -= 3000;
+            player.payOffDebt();
 
             // Display debtor menu
 
@@ -575,7 +570,7 @@ public class Game {
             
             contentPanel.addComponent(new EmptySpace());
 
-            contentPanel.addComponent(new Label("D£UZNIK: " + player.name));
+            contentPanel.addComponent(new Label("D£UZNIK: " + player.getName()));
 
             contentPanel.addComponent(new EmptySpace());
             contentPanel.addComponent(new EmptySpace());
@@ -583,11 +578,11 @@ public class Game {
             Panel loanPanel = new Panel(new GridLayout(2));
 
             loanPanel.addComponent(new Label("DO SP£ACENIA:"));
-            loanPanel.addComponent(new Label(String.valueOf(player.debt) + " $"));
+            loanPanel.addComponent(new Label(String.valueOf(player.getDebt()) + " $"));
             loanPanel.addComponent(new Label("KOLEJNA RATA:"));
             loanPanel.addComponent(new Label("5000 $"));
             loanPanel.addComponent(new Label("TWOJ KAPITA£:"));
-            loanPanel.addComponent(new Label(String.valueOf(player.balance) + " $"));
+            loanPanel.addComponent(new Label(String.valueOf(player.getBalance()) + " $"));
 
             contentPanel.addComponent(loanPanel);
 
@@ -605,7 +600,7 @@ public class Game {
         }
 
         // If user has negative money, take debt
-        if (player.balance < 0) {
+        if (player.getBalance() < 0) {
             // Prepare new graphical settings
             contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
             gameProperties.window.setTheme(
@@ -618,7 +613,7 @@ public class Game {
 
             // Inform about loan
             Game.timeBuffor();
-            contentPanel.addComponent(new Label("Jest kiepsko !!! " + player.name));
+            contentPanel.addComponent(new Label("Jest kiepsko !!! " + player.getName()));
             contentPanel.addComponent(new EmptySpace());
             contentPanel.addComponent(new Label("Aby grac dalej musisz zapozyczyc sie"));
             contentPanel.addComponent(new Label("w banku 'Sons & Fathers' na sume"));
@@ -628,8 +623,7 @@ public class Game {
             contentPanel.addComponent(new EmptySpace());
 
             // Take debt
-            player.debt += 20000;
-            player.balance += 20000;
+            player.takeDebt();
 
             Button confirmButton = Elements.confirmButton(gameProperties);
             contentPanel.addComponent(confirmButton);
@@ -663,7 +657,7 @@ public class Game {
 
         contentPanel.addComponent(new EmptySpace());
 
-        contentPanel.addComponent(new Label("GRACZ: " + player.name + " $= " + player.balance)
+        contentPanel.addComponent(new Label("GRACZ: " + player.getName() + " $= " + player.getBalance())
             .setTheme(new SimpleTheme(TextColor.ANSI.CYAN_BRIGHT, TextColor.ANSI.MAGENTA)));
         
         contentPanel.addComponent(new EmptySpace());

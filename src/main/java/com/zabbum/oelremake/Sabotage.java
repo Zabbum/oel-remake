@@ -185,13 +185,13 @@ public class Sabotage {
                 // If oilfield is bought, display the name
                 String ownerName = "---";
 
-                if (gameProperties.oilfields[oilfieldIndex].isBought) {
-                    ownerName = gameProperties.oilfields[oilfieldIndex].ownership.name;
+                if (gameProperties.oilfields[oilfieldIndex].isBought()) {
+                    ownerName = gameProperties.oilfields[oilfieldIndex].getOwnership().getName();
                 }
 
                 oilfieldsTable.getTableModel().addRow(
                     String.valueOf(oilfieldIndex+1),
-                    gameProperties.oilfields[oilfieldIndex].name,
+                    gameProperties.oilfields[oilfieldIndex].getName(),
                     ownerName
                 );
             }
@@ -250,7 +250,7 @@ public class Sabotage {
                 .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.BLACK_BRIGHT))
             );
 
-            contentPanel.addComponent(new Label("TWOJE SALDO = " + player.balance + "$")
+            contentPanel.addComponent(new Label("TWOJE SALDO = " + player.getBalance() + "$")
                 .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT))
             );
 
@@ -276,7 +276,7 @@ public class Sabotage {
             Game.waitForConfirm(gameProperties);
 
             //Reduce player's balance
-            player.balance -= (fees1 + fees2);
+            player.decreaseBalance(fees1 + fees2);
 
             // Generate if action is succeed or not
             int isSucceedSabotage = random.nextInt(3);
@@ -308,28 +308,27 @@ public class Sabotage {
                 animatedLabel.setTheme(new SimpleTheme(TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
 
                 // Set new oilfield price
-                gameProperties.oilfields[selectedOilfieldIndex].price = random.nextInt(50000) + 30001;
+                gameProperties.oilfields[selectedOilfieldIndex].setPrice(random.nextInt(50000) + 30001);
                 // Set new oil amount
-                gameProperties.oilfields[selectedOilfieldIndex].oilAmount = random.nextInt(200000) + 1;
+                gameProperties.oilfields[selectedOilfieldIndex].setTotalOilAmount(random.nextInt(200000) + 1);
                 // Revoke ownership
-                gameProperties.oilfields[selectedOilfieldIndex].isBought = false;
-                gameProperties.oilfields[selectedOilfieldIndex].ownership = null;
+                gameProperties.oilfields[selectedOilfieldIndex].setOwnership(null);
                 // Revoke ability to pump oil
-                gameProperties.oilfields[selectedOilfieldIndex].canExtractOil = false;
+                gameProperties.oilfields[selectedOilfieldIndex].setExploitable(false);
                 // Set new requred depth to pump oil
-                gameProperties.oilfields[selectedOilfieldIndex].requiredDepth = random.nextInt(4500) + 1;
+                gameProperties.oilfields[selectedOilfieldIndex].setRequiredDepth(random.nextInt(4500) + 1);
                 // Reset amount of pumps
-                gameProperties.oilfields[selectedOilfieldIndex].pumpsAmount = 0;
+                gameProperties.oilfields[selectedOilfieldIndex].setPumpsAmount(0);
                 // Reset amount of cars
-                gameProperties.oilfields[selectedOilfieldIndex].carsAmount = 0;
+                gameProperties.oilfields[selectedOilfieldIndex].setCarsAmount(0);
                 // Reset amount of drills
-                gameProperties.oilfields[selectedOilfieldIndex].drillsAmount = 0;
+                gameProperties.oilfields[selectedOilfieldIndex].setDrillsAmount(0);
                 // Reset current digging depth
-                gameProperties.oilfields[selectedOilfieldIndex].currentDepth = 0;
+                gameProperties.oilfields[selectedOilfieldIndex].setCurrentDepth(0);
                 // Reset amount of oil pumped out
-                gameProperties.oilfields[selectedOilfieldIndex].oilExtracted = 0;
+                gameProperties.oilfields[selectedOilfieldIndex].setOilExtracted(0);
                 // Reset amount of oil available to sell
-                gameProperties.oilfields[selectedOilfieldIndex].oilAvailabletoSell = 0;
+                gameProperties.oilfields[selectedOilfieldIndex].setOilAvailabletoSell(0);;
 
                 Thread.sleep(3000);
             }
@@ -379,14 +378,14 @@ public class Sabotage {
             // If industry is bought, display the name
             String ownerName = "---";
 
-            if (gameProperties.pumpsIndustries[industryIndex].isBought) {
-                ownerName = gameProperties.pumpsIndustries[industryIndex].ownership.name;
+            if (gameProperties.pumpsIndustries[industryIndex].isBought()) {
+                ownerName = gameProperties.pumpsIndustries[industryIndex].getOwnership().getName();
             }
 
             industriesTable.getTableModel().addRow(
                 String.valueOf(industryIndex+1),
-                gameProperties.pumpsIndustries[industryIndex].name,
-                String.valueOf(gameProperties.pumpsIndustries[industryIndex].industryPrice) + " $",
+                gameProperties.pumpsIndustries[industryIndex].getName(),
+                String.valueOf(gameProperties.pumpsIndustries[industryIndex].getIndustryPrice()) + " $",
                 ownerName
             );
         }
@@ -418,14 +417,14 @@ public class Sabotage {
         // Take actions
         Random random = new Random();
 
-        player.balance -= gameProperties.pumpsIndustries[selectedIndustryIndex].industryPrice * finalResult;
+        player.decreaseBalance(gameProperties.pumpsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
         if (finalResult < 1) {
-            gameProperties.pumpsIndustries[selectedIndustryIndex].ownership = null;
-            gameProperties.pumpsIndustries[selectedIndustryIndex].isBought = false;
-            gameProperties.pumpsIndustries[selectedIndustryIndex].industryPrice = random.nextInt(100000)+1;
-            gameProperties.pumpsIndustries[selectedIndustryIndex].productPrice = 0;
-            gameProperties.pumpsIndustries[selectedIndustryIndex].productsAmount =
-                (int)(gameProperties.pumpsIndustries[selectedIndustryIndex].industryPrice/10000);
+            gameProperties.pumpsIndustries[selectedIndustryIndex].setOwnership(null);
+            gameProperties.pumpsIndustries[selectedIndustryIndex].setIndustryPrice(random.nextInt(100000)+1);
+            gameProperties.pumpsIndustries[selectedIndustryIndex].setProductPrice(0);
+            gameProperties.pumpsIndustries[selectedIndustryIndex].setProductsAmount(
+                (int)(gameProperties.pumpsIndustries[selectedIndustryIndex].getIndustryPrice()/10000)
+            );
         }
     }
 
@@ -461,14 +460,14 @@ public class Sabotage {
             // If industry is bought, display the name
             String ownerName = "---";
 
-            if (gameProperties.carsIndustries[industryIndex].isBought) {
-                ownerName = gameProperties.carsIndustries[industryIndex].ownership.name;
+            if (gameProperties.carsIndustries[industryIndex].isBought()) {
+                ownerName = gameProperties.carsIndustries[industryIndex].getOwnership().getName();
             }
 
             industriesTable.getTableModel().addRow(
                 String.valueOf(industryIndex+1),
-                gameProperties.carsIndustries[industryIndex].name,
-                String.valueOf(gameProperties.carsIndustries[industryIndex].industryPrice) + " $",
+                gameProperties.carsIndustries[industryIndex].getName(),
+                String.valueOf(gameProperties.carsIndustries[industryIndex].getIndustryPrice()) + " $",
                 ownerName
             );
         }
@@ -500,14 +499,14 @@ public class Sabotage {
         // Take actions
         Random random = new Random();
 
-        player.balance -= gameProperties.carsIndustries[selectedIndustryIndex].industryPrice * finalResult;
+        player.decreaseBalance(gameProperties.carsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
         if (finalResult < 1) {
-            gameProperties.carsIndustries[selectedIndustryIndex].ownership = null;
-            gameProperties.carsIndustries[selectedIndustryIndex].isBought = false;
-            gameProperties.carsIndustries[selectedIndustryIndex].industryPrice = random.nextInt(200000)+1;
-            gameProperties.carsIndustries[selectedIndustryIndex].productPrice = 0;
-            gameProperties.carsIndustries[selectedIndustryIndex].productsAmount =
-                (int)(gameProperties.carsIndustries[selectedIndustryIndex].industryPrice/10000);
+            gameProperties.carsIndustries[selectedIndustryIndex].setOwnership(null);
+            gameProperties.carsIndustries[selectedIndustryIndex].setIndustryPrice(random.nextInt(200000)+1);
+            gameProperties.carsIndustries[selectedIndustryIndex].setProductPrice(0);
+            gameProperties.carsIndustries[selectedIndustryIndex].setProductsAmount(
+                (int)(gameProperties.carsIndustries[selectedIndustryIndex].getIndustryPrice()/10000)
+            );
         }
     }
 
@@ -542,14 +541,14 @@ public class Sabotage {
             // If industry is bought, display the name
             String ownerName = "---";
 
-            if (gameProperties.drillsIndustries[industryIndex].isBought) {
-                ownerName = gameProperties.drillsIndustries[industryIndex].ownership.name;
+            if (gameProperties.drillsIndustries[industryIndex].isBought()) {
+                ownerName = gameProperties.drillsIndustries[industryIndex].getOwnership().getName();
             }
 
             industriesTable.getTableModel().addRow(
                 String.valueOf(industryIndex+1),
-                gameProperties.drillsIndustries[industryIndex].name,
-                String.valueOf(gameProperties.drillsIndustries[industryIndex].industryPrice) + " $",
+                gameProperties.drillsIndustries[industryIndex].getName(),
+                String.valueOf(gameProperties.drillsIndustries[industryIndex].getIndustryPrice()) + " $",
                 ownerName
             );
         }
@@ -581,14 +580,14 @@ public class Sabotage {
         // Take actions
         Random random = new Random();
 
-        player.balance -= gameProperties.drillsIndustries[selectedIndustryIndex].industryPrice * finalResult;
+        player.decreaseBalance(gameProperties.drillsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
         if (finalResult < 1) {
-            gameProperties.drillsIndustries[selectedIndustryIndex].ownership = null;
-            gameProperties.drillsIndustries[selectedIndustryIndex].isBought = false;
-            gameProperties.drillsIndustries[selectedIndustryIndex].industryPrice = random.nextInt(100000)+1;
-            gameProperties.drillsIndustries[selectedIndustryIndex].productPrice = 0;
-            gameProperties.drillsIndustries[selectedIndustryIndex].productsAmount =
-                (int)(gameProperties.drillsIndustries[selectedIndustryIndex].industryPrice/10000);
+            gameProperties.drillsIndustries[selectedIndustryIndex].setOwnership(null);
+            gameProperties.drillsIndustries[selectedIndustryIndex].setIndustryPrice(random.nextInt(100000)+1);
+            gameProperties.drillsIndustries[selectedIndustryIndex].setProductPrice(0);
+            gameProperties.drillsIndustries[selectedIndustryIndex].setProductsAmount(
+                (int)(gameProperties.drillsIndustries[selectedIndustryIndex].getIndustryPrice()/10000)
+            );
         }
     }
 

@@ -12,20 +12,33 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.table.Table;
 
-public abstract class AbstractIndustry {
-    protected String name;
-    public int industryPrice;
-    public boolean isBought;
-    public Player ownership;
+import lombok.Data;
 
-    public int productsAmount;
-    public double productPrice;
+public abstract @Data class AbstractIndustry {
+    private String name;
+    private int industryPrice;
+    private Player ownership;
+
+    private int productsAmount;
+    private double productPrice;
 
     // Constructor
     public AbstractIndustry(String name) {
         this.name = name;
-        this.isBought = false;
         this.ownership = null;
+    }
+
+    // Is bought
+    public boolean isBought() {
+        if (this.ownership == null) {
+            return false;
+        }
+        return true;
+    }
+
+    // Buy products
+    private void buyProducts(int productsAmount) {
+        this.productsAmount -= productsAmount;
     }
 
     // Menu for buying industries
@@ -77,7 +90,7 @@ public abstract class AbstractIndustry {
         titlePanel.addComponent(new EmptySpace());
         Game.timeBuffor();
         titlePanel.addComponent(new Label(industrySale));
-        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.balance) + "$"));
+        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.getBalance()) + "$"));
         titlePanel.addComponent(new EmptySpace());
         contentPanel.addComponent(titlePanel);
 
@@ -89,12 +102,12 @@ public abstract class AbstractIndustry {
         // Add every available industry to table
         industriesTable.getTableModel().addRow("0","-","-","-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
-            if (!industries[industryIndex].isBought) {
+            if (!industries[industryIndex].isBought()) {
                 // If industry is not bought, make it possible to buy it
                 industriesTable.getTableModel().addRow(
                     String.valueOf(industryIndex+1),
                     industries[industryIndex].name,
-                    String.valueOf(industries[industryIndex].productsAmount),
+                    String.valueOf(industries[industryIndex].getProductsAmount()),
                     String.valueOf(industries[industryIndex].industryPrice)+"$"
                 );
             }
@@ -127,10 +140,9 @@ public abstract class AbstractIndustry {
         }
 
         // Note purchase
-        industries[selectedIndustryIndex].isBought = true;
-        industries[selectedIndustryIndex].ownership = player;
+        industries[selectedIndustryIndex].setOwnership(player);
 
-        player.balance -= industries[selectedIndustryIndex].industryPrice;
+        player.decreaseBalance(industries[selectedIndustryIndex].industryPrice);
 
         // Inform user about purchase
         contentPanel.addComponent(new EmptySpace());
@@ -216,7 +228,7 @@ public abstract class AbstractIndustry {
         titlePanel.addComponent(new EmptySpace());
         Game.timeBuffor();
         titlePanel.addComponent(new Label(hereYouCanBuy));
-        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.balance) + "$"));
+        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.getBalance()) + "$"));
         titlePanel.addComponent(new EmptySpace());
         contentPanel.addComponent(titlePanel);
 
@@ -233,13 +245,13 @@ public abstract class AbstractIndustry {
         // Add every available industry to table
         productsTable.getTableModel().addRow("0","-","-","-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
-            if (industries[industryIndex].isBought && industries[industryIndex].productsAmount != 0) {
+            if (industries[industryIndex].isBought() && industries[industryIndex].getProductsAmount() != 0) {
                 // If industry is bought and has produts,
                 // make it possible to buy it
                 productsTable.getTableModel().addRow(
                     String.valueOf(industryIndex+1),
                     industries[industryIndex].name,
-                    String.valueOf(industries[industryIndex].productsAmount),
+                    String.valueOf(industries[industryIndex].getProductsAmount()),
                     String.valueOf(industries[industryIndex].productPrice)+"$"
                     );
             }
@@ -312,12 +324,12 @@ public abstract class AbstractIndustry {
         for (int oilfieldIndex = 0; oilfieldIndex < gameProperties.oilfields.length; oilfieldIndex++) {
             // If oilfield is bought, display the name
             String ownerName = "---";
-            if (gameProperties.oilfields[oilfieldIndex].isBought) {
-                ownerName = gameProperties.oilfields[oilfieldIndex].ownership.name;
+            if (gameProperties.oilfields[oilfieldIndex].isBought()) {
+                ownerName = gameProperties.oilfields[oilfieldIndex].getOwnership().getName();
             }
             oilfieldsTable.getTableModel().addRow(
                 String.valueOf(oilfieldIndex+1),
-                gameProperties.oilfields[oilfieldIndex].name,
+                gameProperties.oilfields[oilfieldIndex].getName(),
                 ownerName
                 );
         }
@@ -345,16 +357,17 @@ public abstract class AbstractIndustry {
 
         // Take actions
         // Reduce amount of available products in industry
-        industries[selectedIndustryIndex].productsAmount -= selectedProductAmount; 
+        industries[selectedIndustryIndex].buyProducts(selectedProductAmount); 
         // Reduce player's balance
-        player.balance -= selectedProductAmount * industries[selectedIndustryIndex].productPrice;
+        player.decreaseBalance(selectedProductAmount * industries[selectedIndustryIndex].getProductPrice());
         if (industries[selectedIndustryIndex].ownership == player) {
             // If player is buying product from theirself, give them the money * 0.2
-            player.balance += 0.2 * selectedProductAmount * industries[selectedIndustryIndex].productPrice;
+            player.increaseBalance(0.2 * selectedProductAmount * industries[selectedIndustryIndex].getProductPrice());
         } else {
             // Give owner of industry the money
-            industries[selectedIndustryIndex].ownership.balance +=
-                selectedProductAmount * industries[selectedIndustryIndex].productPrice;
+            industries[selectedIndustryIndex].getOwnership().increaseBalance(
+                selectedProductAmount * industries[selectedIndustryIndex].getProductPrice()
+            );
         }
         // Place products in the oilfield
         gameProperties.oilfields[selectedOilfieldIndex].addProductAmount(industryType, selectedProductAmount);
