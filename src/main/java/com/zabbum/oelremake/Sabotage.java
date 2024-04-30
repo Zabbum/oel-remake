@@ -58,13 +58,10 @@ public class Sabotage {
         contentPanel.addComponent(new Label("MASZ TERAZ NASTEPUJACE MOZLIWOSCI"));
         contentPanel.addComponent(new EmptySpace());
 
-        // Reset temporary select option
-        gameProperties.tmpActionInt = -1;
-
         // Display options
         Component firstButton = new Button("ZATRUDNIASZ SUPER AGENTA NA POLE NAFTOWE KONKURENTA",
             () -> {
-                gameProperties.tmpActionInt = 0;
+                gameProperties.tmpAction = "0";
                 gameProperties.tmpConfirm = true;
             }
         ).setTheme(blueButton);
@@ -73,21 +70,21 @@ public class Sabotage {
 
         contentPanel.addComponent(new Button("BEDZIESZ SABOTOWA£ FABRYKE POMP",
             () -> {
-                gameProperties.tmpActionInt = 1;
+                gameProperties.tmpAction = "1";
                 gameProperties.tmpConfirm = true;
             }
         ).setTheme(yellowButton));
 
         contentPanel.addComponent(new Button("MOZESZ DOPROWADZIC DO RUINY FABRYKE WAGONOW",
             () -> {
-                gameProperties.tmpActionInt = 2;
+                gameProperties.tmpAction = "2";
                 gameProperties.tmpConfirm = true;
             }
         ).setTheme(blueButton));
 
         contentPanel.addComponent(new Button("SABOTAZ FABRYKI WIERTE£",
             () -> {
-                gameProperties.tmpActionInt = 3;
+                gameProperties.tmpAction = "3";
                 gameProperties.tmpConfirm = true;
             }
         ).setTheme(yellowButton));
@@ -97,29 +94,24 @@ public class Sabotage {
         contentPanel.removeAllComponents();
 
         // Redirect to valid menu
-        switch (gameProperties.tmpActionInt) {
+        int action = Integer.parseInt(gameProperties.tmpAction);
+
+        switch (action) {
             case 0 -> {
-                gameProperties.tmpActionInt = -1;
                 attemptOilfieldSabotage(player, gameProperties);
             }
             case 1 -> {
-                gameProperties.tmpActionInt = -1;
                 attemptPumpIndustrySabotage(player, gameProperties);
             }
             case 2 -> {
-                gameProperties.tmpActionInt = -1;
                 attemptCarsIndustrySabotage(player, gameProperties);
             }
             case 3 -> {
-                gameProperties.tmpActionInt = -1;
                 attemptDrillIndustrySabotage(player, gameProperties);
             }
-            default -> {
-                gameProperties.tmpActionInt = -1;
-            }
+            default -> {}
         }
         // Clean up
-        gameProperties.tmpActionInt = -1;
         contentPanel.removeAllComponents();
     }
 
@@ -197,7 +189,6 @@ public class Sabotage {
             }
 
             oilfieldsTable.setSelectAction(() -> {
-                gameProperties.tmpActionInt = Integer.parseInt(oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))-1;
                 gameProperties.tmpConfirm = true;
             });
 
@@ -207,12 +198,11 @@ public class Sabotage {
 
             // Wait for selection
             Game.waitForConfirm(gameProperties);
-            int selectedOilfieldIndex = gameProperties.tmpActionInt;
+            int selectedOilfieldIndex = Integer.parseInt(oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))-1;
 
             // If 0 selected, return
             if (selectedOilfieldIndex == -1) {
                 // Clean up
-                gameProperties.tmpActionInt = -1;
                 contentPanel.removeAllComponents();
                 return;
             }
@@ -261,7 +251,6 @@ public class Sabotage {
 
             Button declineButton = new Button("NIE", () -> {
                 // Clean up
-                gameProperties.tmpActionInt = -1;
                 contentPanel.removeAllComponents();
                 return;
             });
@@ -342,7 +331,6 @@ public class Sabotage {
         }
 
         // Clean up
-        gameProperties.tmpActionInt = -1;
         contentPanel.removeAllComponents();
         return;
     }
@@ -391,7 +379,6 @@ public class Sabotage {
         }
 
         industriesTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
@@ -401,12 +388,11 @@ public class Sabotage {
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = gameProperties.tmpActionInt;
+        int selectedIndustryIndex = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
@@ -473,7 +459,6 @@ public class Sabotage {
         }
 
         industriesTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
@@ -483,12 +468,11 @@ public class Sabotage {
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = gameProperties.tmpActionInt;
+        int selectedIndustryIndex = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
@@ -554,7 +538,6 @@ public class Sabotage {
         }
 
         industriesTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
@@ -564,12 +547,11 @@ public class Sabotage {
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = gameProperties.tmpActionInt;
+        int selectedIndustryIndex = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }

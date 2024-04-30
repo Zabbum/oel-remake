@@ -33,13 +33,10 @@ public class ChangePrices {
         contentPanel.addComponent(new Label("JAKA CENE BEDZIESZ ZMIENIAC?"));
         contentPanel.addComponent(new EmptySpace());
 
-        // Reset temporary select option
-        gameProperties.tmpActionInt = -1;
-
         // Display options
         Component firstButton = new Button("CENY POMP",
             () -> {
-                gameProperties.tmpActionInt = 0;
+                gameProperties.tmpAction = "0";
                 gameProperties.tmpConfirm = true;
             }
         );
@@ -48,14 +45,14 @@ public class ChangePrices {
 
         contentPanel.addComponent(new Button("CENY WAGONOW",
             () -> {
-                gameProperties.tmpActionInt = 1;
+                gameProperties.tmpAction = "1";
                 gameProperties.tmpConfirm = true;
             }
         ));
 
         contentPanel.addComponent(new Button("CENY WIERTE£",
             () -> {
-                gameProperties.tmpActionInt = 2;
+                gameProperties.tmpAction = "2";
                 gameProperties.tmpConfirm = true;
             }
         ));
@@ -64,8 +61,7 @@ public class ChangePrices {
         Game.waitForConfirm(gameProperties);
         contentPanel.removeAllComponents();
 
-        int action = gameProperties.tmpActionInt;
-        gameProperties.tmpActionInt = -1;
+        int action = Integer.parseInt(gameProperties.tmpAction);
 
         switch (action) {
             case 0 -> {
@@ -107,7 +103,6 @@ public class ChangePrices {
         }
 
         industryTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
@@ -117,22 +112,20 @@ public class ChangePrices {
         contentPanel.addComponent(new EmptySpace());
 
         // Wait for selection
-        gameProperties.tmpActionInt = -1;
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = gameProperties.tmpActionInt;
+        int selectedIndustryIndex = Integer.parseInt(industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
 
         // Prompt for price until provided value is valid
         TextBox productPriceBox = null;
-        gameProperties.tmpActionInt = -1;
-        while (gameProperties.tmpActionInt < 0 || gameProperties.tmpActionInt > 50000) {
+        double proposedPrice = -1;
+        while (proposedPrice < 0 || proposedPrice > 50000) {
             // Prompt for price
             contentPanel.addComponent(new EmptySpace());
             productPriceBox = new TextBox(new TerminalSize(6, 1));
@@ -144,19 +137,17 @@ public class ChangePrices {
             productPriceBox.takeFocus();
             Game.waitForConfirm(gameProperties);
             try {
-                gameProperties.tmpActionInt = Integer.parseInt(productPriceBox.getText());
-            } catch (Exception e) {
+                proposedPrice = Integer.parseInt(productPriceBox.getText());
+            } catch (NumberFormatException e) {
                 // If a bad value has been provided
-                gameProperties.tmpActionInt = -1;
+                proposedPrice = -1;
             }
         }
 
         // Set a new price
-        double proposedPrice = gameProperties.tmpActionInt;
         gameProperties.drillsIndustries[selectedIndustryIndex].setProductPrice(proposedPrice);
 
         // Clean up
-        gameProperties.tmpActionInt = -1;
         contentPanel.removeAllComponents();
     }
 
@@ -182,7 +173,6 @@ public class ChangePrices {
         }
 
         industryTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
@@ -192,22 +182,20 @@ public class ChangePrices {
         contentPanel.addComponent(new EmptySpace());
 
         // Wait for selection
-        gameProperties.tmpActionInt = -1;
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = gameProperties.tmpActionInt;
+        int selectedIndustryIndex = Integer.parseInt(industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
 
         // Prompt for price until provided value is valid
         TextBox productPriceBox = null;
-        gameProperties.tmpActionInt = -1;
-        while (gameProperties.tmpActionInt < 0 || gameProperties.tmpActionInt > 60000) {
+        double proposedPrice = -1;
+        while (proposedPrice < 0 || proposedPrice > 60000) {
             // Prompt for price
             contentPanel.addComponent(new EmptySpace());
             productPriceBox = new TextBox(new TerminalSize(6, 1));
@@ -219,19 +207,17 @@ public class ChangePrices {
             productPriceBox.takeFocus();
             Game.waitForConfirm(gameProperties);
             try {
-                gameProperties.tmpActionInt = Integer.parseInt(productPriceBox.getText());
-            } catch (Exception e) {
+                proposedPrice = Integer.parseInt(productPriceBox.getText());
+            } catch (NumberFormatException e) {
                 // If a bad value has been provided
-                gameProperties.tmpActionInt = -1;
+                proposedPrice = -1;
             }
         }
 
         // Set a new price
-        double proposedPrice = gameProperties.tmpActionInt;
         gameProperties.carsIndustries[selectedIndustryIndex].setProductPrice(proposedPrice);
 
         // Clean up
-        gameProperties.tmpActionInt = -1;
         contentPanel.removeAllComponents();
     }
 
@@ -257,7 +243,6 @@ public class ChangePrices {
         }
 
         industryTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
@@ -267,22 +252,20 @@ public class ChangePrices {
         contentPanel.addComponent(new EmptySpace());
 
         // Wait for selection
-        gameProperties.tmpActionInt = -1;
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = gameProperties.tmpActionInt;
+        int selectedIndustryIndex = Integer.parseInt(industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
 
         // Prompt for price until provided value is valid
         TextBox productPriceBox = null;
-        gameProperties.tmpActionInt = -1;
-        while (gameProperties.tmpActionInt < 0 || gameProperties.tmpActionInt > 60000) {
+        double proposedPrice = -1;
+        while (proposedPrice < 0 || proposedPrice > 60000) {
             // Prompt for price
             contentPanel.addComponent(new EmptySpace());
             productPriceBox = new TextBox(new TerminalSize(6, 1));
@@ -294,19 +277,17 @@ public class ChangePrices {
             productPriceBox.takeFocus();
             Game.waitForConfirm(gameProperties);
             try {
-                gameProperties.tmpActionInt = Integer.parseInt(productPriceBox.getText());
+                proposedPrice = Integer.parseInt(productPriceBox.getText());
             } catch (Exception e) {
                 // If a bad value has been provided
-                gameProperties.tmpActionInt = -1;
+                proposedPrice = -1;
             }
         }
 
         // Set a new price
-        double proposedPrice = gameProperties.tmpActionInt;
         gameProperties.drillsIndustries[selectedIndustryIndex].setProductPrice(proposedPrice);;
 
         // Clean up
-        gameProperties.tmpActionInt = -1;
         contentPanel.removeAllComponents();
     }
 

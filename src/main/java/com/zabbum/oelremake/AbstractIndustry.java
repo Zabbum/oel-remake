@@ -293,7 +293,7 @@ public abstract @Data class AbstractIndustry {
             Game.waitForConfirm(gameProperties);
             try {
                 selectedProductAmount = Integer.parseInt(productAmountBox.getText());
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 // If a bad value has been provided
                 selectedProductAmount = -1;
             }

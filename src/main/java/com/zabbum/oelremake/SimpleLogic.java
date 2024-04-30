@@ -10,7 +10,6 @@ public class SimpleLogic {
         try {
             valueInt = Integer.parseInt(value);
         } catch (NumberFormatException e) {
-
             return false;
         }
 

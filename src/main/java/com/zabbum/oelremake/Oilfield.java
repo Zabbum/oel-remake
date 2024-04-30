@@ -168,7 +168,6 @@ public @Data class Oilfield {
             }
 
             oilfieldsTable.setSelectAction(() -> {
-                gameProperties.tmpActionInt = Integer.parseInt(oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))-1;
                 gameProperties.tmpConfirm = true;
             });
 
@@ -185,7 +184,7 @@ public @Data class Oilfield {
         // Wait for selection
         Game.waitForConfirm(gameProperties);
         oilfieldsTable.setEnabled(false);
-        int selectedOilfieldIndex = gameProperties.tmpActionInt;
+        int selectedOilfieldIndex = Integer.parseInt(oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedOilfieldIndex == -1) {
