@@ -114,7 +114,6 @@ public abstract @Data class AbstractIndustry {
         }
 
         industriesTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
@@ -126,15 +125,13 @@ public abstract @Data class AbstractIndustry {
 
         // Wait for selection
         gameProperties.tmpConfirm = false;
-        gameProperties.tmpActionInt = -1;
         Game.waitForConfirm(gameProperties);
         industriesTable.setEnabled(false);
-        int selectedIndustryIndex = gameProperties.tmpActionInt;
+        int selectedIndustryIndex = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
@@ -174,7 +171,6 @@ public abstract @Data class AbstractIndustry {
         industries[selectedIndustryIndex].productPrice = selectedPrice;
 
         // Clean up
-        gameProperties.tmpActionInt = -1;
         contentPanel.removeAllComponents();
     }
 
@@ -258,7 +254,6 @@ public abstract @Data class AbstractIndustry {
         }
 
         productsTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(productsTable.getTableModel().getRow(productsTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
@@ -270,26 +265,22 @@ public abstract @Data class AbstractIndustry {
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = gameProperties.tmpActionInt;
+        int selectedIndustryIndex = Integer.parseInt(productsTable.getTableModel().getRow(productsTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
-
-        // Clean temporary choice
-        gameProperties.tmpActionInt = -1;
 
         // Prompt for product amount
         contentPanel.addComponent(new Label(productAmountPrompt));
 
         // Prompt for product amount until provided value is valid
         TextBox productAmountBox = null;
-        gameProperties.tmpActionInt = -1;
-        while (gameProperties.tmpActionInt < 0 || gameProperties.tmpActionInt > maxAmount) {
+        int selectedProductAmount = -1;
+        while (selectedProductAmount < 0 || selectedProductAmount > maxAmount) {
             // Prompt for product amount
             contentPanel.addComponent(new EmptySpace());
             productAmountBox = new TextBox(new TerminalSize(6, 1));
@@ -301,14 +292,12 @@ public abstract @Data class AbstractIndustry {
             productAmountBox.takeFocus();
             Game.waitForConfirm(gameProperties);
             try {
-                gameProperties.tmpActionInt = Integer.parseInt(productAmountBox.getText());
+                selectedProductAmount = Integer.parseInt(productAmountBox.getText());
             } catch (Exception e) {
                 // If a bad value has been provided
-                gameProperties.tmpActionInt = -1;
+                selectedProductAmount = -1;
             }
         }
-
-        int selectedProductAmount = gameProperties.tmpActionInt;
 
         // Prompt for oilfield
         contentPanel.addComponent(new EmptySpace());
@@ -335,7 +324,6 @@ public abstract @Data class AbstractIndustry {
         }
 
         oilfieldsTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
@@ -345,12 +333,11 @@ public abstract @Data class AbstractIndustry {
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
-        int selectedOilfieldIndex = gameProperties.tmpActionInt;
+        int selectedOilfieldIndex = Integer.parseInt(oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedOilfieldIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
@@ -373,7 +360,6 @@ public abstract @Data class AbstractIndustry {
         gameProperties.oilfields[selectedOilfieldIndex].addProductAmount(industryType, selectedProductAmount);
 
         // Clean up
-        gameProperties.tmpActionInt = -1;
         contentPanel.removeAllComponents();
     }
 }

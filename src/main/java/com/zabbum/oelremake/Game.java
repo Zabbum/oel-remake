@@ -733,6 +733,7 @@ public class Game {
     }
 
     public static void waitForConfirm(GameProperties gameProperties) throws InterruptedException {
+        gameProperties.tmpConfirm = false;
         while (!gameProperties.tmpConfirm) {
             Thread.sleep(0);
         }
