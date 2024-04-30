@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
-import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
@@ -13,20 +12,33 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.table.Table;
 
-public abstract class AbstractIndustry {
-    protected String name;
-    public int industryPrice;
-    public boolean isBought;
-    public Player ownership;
+import lombok.Data;
 
-    public int productsAmount;
-    public double productPrice;
+public abstract @Data class AbstractIndustry {
+    private String name;
+    private int industryPrice;
+    private Player ownership;
+
+    private int productsAmount;
+    private double productPrice;
 
     // Constructor
     public AbstractIndustry(String name) {
         this.name = name;
-        this.isBought = false;
         this.ownership = null;
+    }
+
+    // Is bought
+    public boolean isBought() {
+        if (this.ownership == null) {
+            return false;
+        }
+        return true;
+    }
+
+    // Buy products
+    private void buyProducts(int productsAmount) {
+        this.productsAmount -= productsAmount;
     }
 
     // Menu for buying industries
@@ -78,58 +90,56 @@ public abstract class AbstractIndustry {
         titlePanel.addComponent(new EmptySpace());
         Game.timeBuffor();
         titlePanel.addComponent(new Label(industrySale));
-        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.balance) + "$"));
+        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.getBalance()) + "$"));
         titlePanel.addComponent(new EmptySpace());
         contentPanel.addComponent(titlePanel);
 
         contentPanel.addComponent(new EmptySpace());
 
         // Create table
-        Table<String> industryTable = new Table<String>("NR", "NAZWA FIRMY", "L. PROD.", "CENA");
+        Table<String> industriesTable = new Table<String>("NR", "NAZWA FIRMY", "L. PROD.", "CENA");
 
         // Add every available industry to table
-        industryTable.getTableModel().addRow("0","-","-","-");
+        industriesTable.getTableModel().addRow("0","-","-","-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
-            if (!industries[industryIndex].isBought) {
+            if (!industries[industryIndex].isBought()) {
                 // If industry is not bought, make it possible to buy it
-                industryTable.getTableModel().addRow(
+                industriesTable.getTableModel().addRow(
                     String.valueOf(industryIndex+1),
                     industries[industryIndex].name,
-                    String.valueOf(industries[industryIndex].productsAmount),
+                    String.valueOf(industries[industryIndex].getProductsAmount()),
                     String.valueOf(industries[industryIndex].industryPrice)+"$"
                 );
             }
         }
 
-        industryTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))-1;
+        industriesTable.setSelectAction(() -> {
             gameProperties.tmpConfirm = true;
         });
 
         // Display table
-        contentPanel.addComponent(industryTable);
-        industryTable.takeFocus();
+        contentPanel.addComponent(industriesTable);
+        industriesTable.takeFocus();
         contentPanel.addComponent(new EmptySpace());
         contentPanel.addComponent(new Label(industryPrompt));
 
         // Wait for selection
-        gameProperties.tmpActionInt = -1;
+        gameProperties.tmpConfirm = false;
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = gameProperties.tmpActionInt;
+        industriesTable.setEnabled(false);
+        int selectedIndustryIndex = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
 
         // Note purchase
-        industries[selectedIndustryIndex].isBought = true;
-        industries[selectedIndustryIndex].ownership = player;
+        industries[selectedIndustryIndex].setOwnership(player);
 
-        player.balance -= industries[selectedIndustryIndex].industryPrice;
+        player.decreaseBalance(industries[selectedIndustryIndex].industryPrice);
 
         // Inform user about purchase
         contentPanel.addComponent(new EmptySpace());
@@ -139,39 +149,28 @@ public abstract class AbstractIndustry {
         contentPanel.addComponent(new Label(pricePrompt));
 
         // Prompt for price until provided value is valid
-        TextBox productPriceBox = null;
-        gameProperties.tmpActionInt = -1;
-        while (gameProperties.tmpActionInt < 0 || gameProperties.tmpActionInt > maxPrice) {
-            // Prompt for price
-            contentPanel.addComponent(new EmptySpace());
-            productPriceBox = new TextBox(new TerminalSize(6, 1));
-            productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
-            contentPanel.addComponent(productPriceBox);
-            contentPanel.addComponent(
-                new Button("GOTOWE", new Runnable() {
-                    @Override
-                    public void run() {
-                        gameProperties.tmpConfirm = true;
-                    }
-                })
-            );
+        TextBox productPriceBox = new TextBox(new TerminalSize(6, 1));
+        productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
+        contentPanel.addComponent(productPriceBox);
+        productPriceBox.takeFocus();
 
-            // Wait for selection
-            productPriceBox.takeFocus();
-            Game.waitForConfirm(gameProperties);
-            try {
-                gameProperties.tmpActionInt = Integer.parseInt(productPriceBox.getText());
-            } catch (Exception e) {
-                // If a bad value has been provided
-                gameProperties.tmpActionInt = -1;
-            }
+        contentPanel.addComponent(Elements.confirmButton(gameProperties));
+
+        // If confirm button is pressed and choise is valid, let it be
+        while (!(gameProperties.tmpConfirm &&
+            SimpleLogic.isValid(productPriceBox.getText(), 0,
+                new int[]{maxPrice}))) {
+
+            gameProperties.tmpConfirm = false;
+            Thread.sleep(0);
         }
 
+        int selectedPrice = Integer.parseInt(productPriceBox.getText());
+
         // Set the price
-        industries[selectedIndustryIndex].productPrice = gameProperties.tmpActionInt;
+        industries[selectedIndustryIndex].productPrice = selectedPrice;
 
         // Clean up
-        gameProperties.tmpActionInt = -1;
         contentPanel.removeAllComponents();
     }
 
@@ -225,7 +224,7 @@ public abstract class AbstractIndustry {
         titlePanel.addComponent(new EmptySpace());
         Game.timeBuffor();
         titlePanel.addComponent(new Label(hereYouCanBuy));
-        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.balance) + "$"));
+        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.getBalance()) + "$"));
         titlePanel.addComponent(new EmptySpace());
         contentPanel.addComponent(titlePanel);
 
@@ -242,20 +241,19 @@ public abstract class AbstractIndustry {
         // Add every available industry to table
         productsTable.getTableModel().addRow("0","-","-","-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
-            if (industries[industryIndex].isBought && industries[industryIndex].productsAmount != 0) {
+            if (industries[industryIndex].isBought() && industries[industryIndex].getProductsAmount() != 0) {
                 // If industry is bought and has produts,
                 // make it possible to buy it
                 productsTable.getTableModel().addRow(
                     String.valueOf(industryIndex+1),
-                    industries[industryIndex].name,
-                    String.valueOf(industries[industryIndex].productsAmount),
-                    String.valueOf(industries[industryIndex].productPrice)+"$"
+                    industries[industryIndex].getName(),
+                    String.valueOf(industries[industryIndex].getProductsAmount()),
+                    String.valueOf(industries[industryIndex].getProductPrice())+"$"
                     );
             }
         }
 
         productsTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(productsTable.getTableModel().getRow(productsTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
@@ -267,52 +265,39 @@ public abstract class AbstractIndustry {
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = gameProperties.tmpActionInt;
+        int selectedIndustryIndex = Integer.parseInt(productsTable.getTableModel().getRow(productsTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
-
-        // Clean temporary choice
-        gameProperties.tmpActionInt = -1;
 
         // Prompt for product amount
         contentPanel.addComponent(new Label(productAmountPrompt));
 
         // Prompt for product amount until provided value is valid
         TextBox productAmountBox = null;
-        gameProperties.tmpActionInt = -1;
-        while (gameProperties.tmpActionInt < 0 || gameProperties.tmpActionInt > maxAmount) {
+        int selectedProductAmount = -1;
+        while (selectedProductAmount < 0 || selectedProductAmount > maxAmount) {
             // Prompt for product amount
             contentPanel.addComponent(new EmptySpace());
             productAmountBox = new TextBox(new TerminalSize(6, 1));
             productAmountBox.setValidationPattern(Pattern.compile("[0-9]*"));
             contentPanel.addComponent(productAmountBox);
-            contentPanel.addComponent(
-                new Button("GOTOWE", new Runnable() {
-                    @Override
-                    public void run() {
-                        gameProperties.tmpConfirm = true;
-                    }
-                })
-            );
+            contentPanel.addComponent(Elements.confirmButton(gameProperties));
 
             // Wait for selection
             productAmountBox.takeFocus();
             Game.waitForConfirm(gameProperties);
             try {
-                gameProperties.tmpActionInt = Integer.parseInt(productAmountBox.getText());
-            } catch (Exception e) {
+                selectedProductAmount = Integer.parseInt(productAmountBox.getText());
+            } catch (NumberFormatException e) {
                 // If a bad value has been provided
-                gameProperties.tmpActionInt = -1;
+                selectedProductAmount = -1;
             }
         }
-
-        int selectedProductAmount = gameProperties.tmpActionInt;
 
         // Prompt for oilfield
         contentPanel.addComponent(new EmptySpace());
@@ -328,18 +313,17 @@ public abstract class AbstractIndustry {
         for (int oilfieldIndex = 0; oilfieldIndex < gameProperties.oilfields.length; oilfieldIndex++) {
             // If oilfield is bought, display the name
             String ownerName = "---";
-            if (gameProperties.oilfields[oilfieldIndex].isBought) {
-                ownerName = gameProperties.oilfields[oilfieldIndex].ownership.name;
+            if (gameProperties.oilfields[oilfieldIndex].isBought()) {
+                ownerName = gameProperties.oilfields[oilfieldIndex].getOwnership().getName();
             }
             oilfieldsTable.getTableModel().addRow(
                 String.valueOf(oilfieldIndex+1),
-                gameProperties.oilfields[oilfieldIndex].name,
+                gameProperties.oilfields[oilfieldIndex].getName(),
                 ownerName
                 );
         }
 
         oilfieldsTable.setSelectAction(() -> {
-            gameProperties.tmpActionInt = Integer.parseInt(oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))-1;
             gameProperties.tmpConfirm = true;
         });
 
@@ -349,34 +333,33 @@ public abstract class AbstractIndustry {
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
-        int selectedOilfieldIndex = gameProperties.tmpActionInt;
+        int selectedOilfieldIndex = Integer.parseInt(oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))-1;
 
         // If 0 selected, return
         if (selectedOilfieldIndex == -1) {
             // Clean up
-            gameProperties.tmpActionInt = -1;
             contentPanel.removeAllComponents();
             return;
         }
 
         // Take actions
         // Reduce amount of available products in industry
-        industries[selectedIndustryIndex].productsAmount -= selectedProductAmount; 
+        industries[selectedIndustryIndex].buyProducts(selectedProductAmount); 
         // Reduce player's balance
-        player.balance -= selectedProductAmount * industries[selectedIndustryIndex].productPrice;
-        if (industries[selectedIndustryIndex].ownership == player) {
+        player.decreaseBalance(selectedProductAmount * industries[selectedIndustryIndex].getProductPrice());
+        if (industries[selectedIndustryIndex].getOwnership() == player) {
             // If player is buying product from theirself, give them the money * 0.2
-            player.balance += 0.2 * selectedProductAmount * industries[selectedIndustryIndex].productPrice;
+            player.increaseBalance(0.2 * selectedProductAmount * industries[selectedIndustryIndex].getProductPrice());
         } else {
             // Give owner of industry the money
-            industries[selectedIndustryIndex].ownership.balance +=
-                selectedProductAmount * industries[selectedIndustryIndex].productPrice;
+            industries[selectedIndustryIndex].getOwnership().increaseBalance(
+                selectedProductAmount * industries[selectedIndustryIndex].getProductPrice()
+            );
         }
         // Place products in the oilfield
         gameProperties.oilfields[selectedOilfieldIndex].addProductAmount(industryType, selectedProductAmount);
 
         // Clean up
-        gameProperties.tmpActionInt = -1;
         contentPanel.removeAllComponents();
     }
 }

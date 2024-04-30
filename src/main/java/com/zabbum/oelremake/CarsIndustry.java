@@ -12,8 +12,8 @@ public class CarsIndustry extends AbstractIndustry {
 
         Random random = new Random();
 
-        this.industryPrice = random.nextInt(55000) + 45000;
-        this.productsAmount = ((int)(this.industryPrice/10000)) * 3  + 15;
+        this.setIndustryPrice(random.nextInt(55000) + 45000);
+        this.setProductsAmount(((int)(this.getIndustryPrice()/10000)) * 3  + 15);
     }
 
     public static CarsIndustry[] initialize() {

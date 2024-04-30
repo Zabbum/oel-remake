@@ -88,7 +88,14 @@ public class AppLaterna {
 
             // Create window
             Window window = new BasicWindow();
-            window.setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.RED));
+            window.setTheme(
+                SimpleTheme.makeTheme(false,
+                    TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.RED,
+                    TextColor.ANSI.RED, TextColor.ANSI.BLUE_BRIGHT,
+                    TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                    TextColor.ANSI.RED)
+            );
+
             window.setHints(Arrays.asList(Hint.CENTERED, Hint.NO_POST_RENDERING));
             gameProperties.window = window;
 

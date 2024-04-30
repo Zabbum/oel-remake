@@ -26,8 +26,6 @@ public class GameProperties {
 
     public boolean tmpConfirm;
     public String tmpAction;
-    public int tmpActionInt;
-
 
     public GameProperties(int roundCount) {
         this.roundCount = roundCount;
