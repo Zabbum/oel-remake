@@ -113,9 +113,12 @@ public @Data class Oilfield {
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
         gameProperties.window.setTheme(
-            SimpleTheme.makeTheme(false, TextColor.ANSI.BLACK, TextColor.ANSI.BLUE_BRIGHT,
-            TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE, TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT)
-            );
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.BLACK, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                TextColor.ANSI.BLUE_BRIGHT)
+        );
         
         // Display title
         Panel titlePanel = new Panel(new GridLayout(1));

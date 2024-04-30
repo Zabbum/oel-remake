@@ -181,7 +181,14 @@ public class Game {
         Panel contentPanel = gameProperties.contentPanel;
 
         // Inform about money amount
-        gameProperties.window.setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE_BRIGHT));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.YELLOW_BRIGHT,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                TextColor.ANSI.BLUE_BRIGHT)
+        );
+
         contentPanel.addComponent(new Label("WYGRYWA TEN, KTO OSIAGNIE NAJWIEKSZY"));
         Game.timeBuffor();
         contentPanel.addComponent(new Label("KAPITAL NA KONCU GRY"));
@@ -195,7 +202,13 @@ public class Game {
 
         // Prepare new graphical settings
         contentPanel.removeAllComponents();
-        gameProperties.window.setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.RED));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.RED,
+                TextColor.ANSI.RED, TextColor.ANSI.YELLOW_BRIGHT,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                TextColor.ANSI.RED)
+        );
 
         // Inform user about oil prices
         Panel titlePanel = new Panel(new LinearLayout(Direction.VERTICAL));
