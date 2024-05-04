@@ -21,11 +21,11 @@
             {"content": "Û", "fColor": "BLUE"},
             {"content": "Ý", "fColor": "RED_BRIGHT"},
             {"content": "  "},
-            {"content": "Ý", "fColor": "ANSI.BLUE"}
+            {"content": "Ý", "fColor": "BLUE"}
         ],
         [
             {"content": "  "},
-            {"content": "Û", "fColor": "ANSI.BLUE"}
+            {"content": "Û", "fColor": "BLUE"}
         ],
         [
             {"content": " "},

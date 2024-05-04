@@ -44,7 +44,7 @@ public @Data class ArtObject {
     }
 
     // Create TextImage object
-    private void createTextImage(JSONObject dataObject) {
+    private void createTextImage(JSONObject dataObject) throws ColorNotFoundException {
         // Create canvas
         textImage = new BasicTextImage(
             new TerminalSize(width, height),
@@ -66,6 +66,26 @@ public @Data class ArtObject {
                 // Object with sequence
                 JSONObject series = (JSONObject)(((JSONArray)rows.get(rowIndex)).get(seriesIndex));
 
+                // Declare colors
+                TextColor fColor;
+                TextColor bColor;
+
+                // Set foreground color
+                if (series.get("fColor") != null) {
+                    fColor = toTextColor(series.get("fColor").toString());
+                }
+                else {
+                    fColor = defaultForegroundColor;
+                }
+
+                // Set Background color
+                if (series.get("bColor") != null) {
+                    bColor = toTextColor(series.get("bColor").toString());
+                }
+                else {
+                    bColor = defaultBackgroundColor;
+                }
+
                 // For every character
                 for (int strLen = 0; strLen < ((String)(series.get("content"))).length(); strLen++) {
                     // Set current character
@@ -75,10 +95,10 @@ public @Data class ArtObject {
                     textImage.setCharacterAt(
                         new TerminalPosition(columnIndex, rowIndex),
                         TextCharacter.fromCharacter(currChar,
-                            defaultForegroundColor, defaultBackgroundColor
+                            fColor, bColor
                         )[0]
                     );
-                    
+
                     // Increment column index
                     columnIndex++;
                 }
