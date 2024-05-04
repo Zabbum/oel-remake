@@ -76,14 +76,14 @@ public class Game {
         Game.timeBuffor();
 
         Label oelLogo = new Label("OEL");
-            oelLogo.setLayoutData(GridLayout.createLayoutData(
-                GridLayout.Alignment.BEGINNING, GridLayout.Alignment.BEGINNING,
-                true,
-                false,
-                2,
-                1));
-            contentPanel.addComponent(oelLogo);
-            contentPanel.addComponent(Game.emptyLine(2));
+        oelLogo.setLayoutData(GridLayout.createLayoutData(
+            GridLayout.Alignment.BEGINNING, GridLayout.Alignment.BEGINNING,
+            true,
+            false,
+            2,
+            1));
+        contentPanel.addComponent(oelLogo);
+        contentPanel.addComponent(Game.emptyLine(2));
     }
     
     // Prompt for players amount

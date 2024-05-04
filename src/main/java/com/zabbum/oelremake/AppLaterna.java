@@ -1,8 +1,13 @@
 package com.zabbum.oelremake;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+
+import org.json.simple.parser.ParseException;
+
 import java.awt.Font;
 import java.awt.FontFormatException;
 
@@ -13,6 +18,7 @@ import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.DefaultWindowManager;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
+import com.googlecode.lanterna.gui2.ImageComponent;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.SeparateTextGUIThread;
@@ -26,10 +32,18 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.zabbum.oelremake.artloader.ArtObject;
+import com.zabbum.oelremake.artloader.ColorNotFoundException;
 
 public class AppLaterna {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, IOException, ParseException, ColorNotFoundException {
         final GameProperties gameProperties = new GameProperties(34);
+
+        // TEST
+        File drill = new File(AppLaterna.class.getClassLoader().getResource("arts/drill.json").getFile());
+        ArtObject drillArt = new ArtObject(drill);
+        ImageComponent drillArtComponent = new ImageComponent();
+        drillArtComponent.setTextImage(drillArt.getTextImage());
 
         // Set font
         InputStream inputStream = AppLaterna.class.getClassLoader().getResourceAsStream("font/C64_Pro_Mono-STYLE.ttf");
@@ -115,6 +129,7 @@ public class AppLaterna {
 
             // Display oel logo
             Game.oelLogo(gameProperties);
+            contentPanel.addComponent(drillArtComponent);
             
             // Get a player number
             Game.promptPlayerAmount(gameProperties);
