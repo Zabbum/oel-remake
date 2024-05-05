@@ -72,7 +72,6 @@ public class Game {
     }
 
     // Display shitty OEL logo
-    // TODO: Display pretty OEL logo
     public static void oelLogo(GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
