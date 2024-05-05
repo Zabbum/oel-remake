@@ -61,13 +61,12 @@ public @Data class ArtObject {
 
         // Create array with all the rows
         JSONArray rows = (JSONArray)dataObject.get("rows");
-        System.out.println(rows.size());
 
         // For every row
         for (int rowIndex = 0; rowIndex < rows.size(); rowIndex++) {
             // If accessing bigger index, than provided in file,
             // throw exception
-            if (rowIndex > height) {
+            if (rowIndex >= height) {
                 throw new BadImageSizeProvidedException();
             }
 
@@ -78,7 +77,7 @@ public @Data class ArtObject {
             for (int seriesIndex = 0; seriesIndex < ((JSONArray)rows.get(rowIndex)).size(); seriesIndex++) {
                 // If accessing bigger index, than provided in file,
                 // throw exception
-                if (columnIndex > width) {
+                if (columnIndex >= width) {
                     throw new BadImageSizeProvidedException();
                 }
 

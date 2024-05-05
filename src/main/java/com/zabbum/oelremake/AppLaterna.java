@@ -115,6 +115,7 @@ public class AppLaterna {
             // Set contentPanel to be displayed
             window.setComponent(contentPanel);
 
+            // HERE GAME STARTS
             // Display oel logo
             Game.oelLogo(gameProperties);
             

@@ -74,10 +74,38 @@ public class Game {
     // Display shitty OEL logo
     // TODO: Display pretty OEL logo
     public static void oelLogo(GameProperties gameProperties) throws InterruptedException {
+        // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new GridLayout(1));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.RED,
+                TextColor.ANSI.RED, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                TextColor.ANSI.RED
+            )
+        );
+        
         Game.timeBuffor();
+        try {
+            // Get OEL logo ASCII art
+            File oelLogoFile = new File(
+                AppLaterna.class.getClassLoader().getResource("arts/oel.json").getFile()
+            );
+            contentPanel.addComponent(new ArtObject(oelLogoFile).getImageComponent());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            contentPanel.addComponent(new Label("OEL"));
+            contentPanel.addComponent(new Label("CR. COMP.& TRANSL. BY MI$ AL"));
+            contentPanel.addComponent(new Label("REMADE IN JAVA BY ZABBUM"));
+        }
 
-        Label oelLogo = new Label("OEL");
+        Thread.sleep(5000);
+
+        // Clean up
+        contentPanel.removeAllComponents();
+
+        /* Label oelLogo = new Label("OEL");
         oelLogo.setLayoutData(GridLayout.createLayoutData(
             GridLayout.Alignment.BEGINNING, GridLayout.Alignment.BEGINNING,
             true,
@@ -85,12 +113,22 @@ public class Game {
             2,
             1));
         contentPanel.addComponent(oelLogo);
-        contentPanel.addComponent(Game.emptyLine(2));
+        contentPanel.addComponent(Game.emptyLine(2)); */
     }
     
     // Prompt for players amount
     public static void promptPlayerAmount(GameProperties gameProperties) throws InterruptedException {
+        // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new GridLayout(2));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.RED,
+                TextColor.ANSI.RED, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                TextColor.ANSI.RED
+            )
+        );
 
         contentPanel.addComponent(new Label("ILU BEDZIE KAPITALISTOW (2-6)"));
         TextBox playerAmountTextBox = new TextBox().setValidationPattern(Pattern.compile("[0-9]"));
@@ -574,7 +612,7 @@ public class Game {
     static void overview(GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
-        contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+        contentPanel.setLayoutManager(new GridLayout(1));
         gameProperties.window.setTheme(
             SimpleTheme.makeTheme(false, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT,
                 TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK,
