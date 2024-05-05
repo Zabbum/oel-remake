@@ -33,10 +33,11 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.zabbum.oelremake.artloader.ArtObject;
+import com.zabbum.oelremake.artloader.BadImageSizeProvidedException;
 import com.zabbum.oelremake.artloader.ColorNotFoundException;
 
 public class AppLaterna {
-    public static void main(String[] args) throws FileNotFoundException, IOException, ParseException, ColorNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, IOException, ParseException, ColorNotFoundException, BadImageSizeProvidedException {
         final GameProperties gameProperties = new GameProperties(34);
 
         // TEST

@@ -29,7 +29,7 @@ public @Data class ArtObject {
     private TextImage textImage;
 
     // Constructor
-    public ArtObject(File dataFile) throws FileNotFoundException, IOException, ParseException, ColorNotFoundException {
+    public ArtObject(File dataFile) throws FileNotFoundException, IOException, ParseException, ColorNotFoundException, BadImageSizeProvidedException {
         // Create JSONObject
         JSONParser parser = new JSONParser();
         Object object = parser.parse(new FileReader(dataFile));
@@ -44,7 +44,7 @@ public @Data class ArtObject {
     }
 
     // Create TextImage object
-    private void createTextImage(JSONObject dataObject) throws ColorNotFoundException {
+    private void createTextImage(JSONObject dataObject) throws ColorNotFoundException, BadImageSizeProvidedException {
         // Create canvas
         textImage = new BasicTextImage(
             new TerminalSize(width, height),
@@ -57,12 +57,23 @@ public @Data class ArtObject {
 
         // For every row
         for (int rowIndex = 0; rowIndex < rows.size(); rowIndex++) {
+            // If accessing bigger index, than provided in file,
+            // throw exception
+            if (rowIndex > height) {
+                throw new BadImageSizeProvidedException();
+            }
 
             // Column index
             int columnIndex = 0;
 
             // For every character sequence
             for (int seriesIndex = 0; seriesIndex < ((JSONArray)rows.get(rowIndex)).size(); seriesIndex++) {
+                // If accessing bigger index, than provided in file,
+                // throw exception
+                if (columnIndex > width) {
+                    throw new BadImageSizeProvidedException();
+                }
+
                 // Object with sequence
                 JSONObject series = (JSONObject)(((JSONArray)rows.get(rowIndex)).get(seriesIndex));
 
@@ -70,7 +81,7 @@ public @Data class ArtObject {
                 TextColor fColor;
                 TextColor bColor;
 
-                // Set foreground color
+                // Set foreground color for current sequence
                 if (series.get("fColor") != null) {
                     fColor = toTextColor(series.get("fColor").toString());
                 }
@@ -78,7 +89,7 @@ public @Data class ArtObject {
                     fColor = defaultForegroundColor;
                 }
 
-                // Set Background color
+                // Set Background color for current sequence
                 if (series.get("bColor") != null) {
                     bColor = toTextColor(series.get("bColor").toString());
                 }
@@ -86,11 +97,8 @@ public @Data class ArtObject {
                     bColor = defaultBackgroundColor;
                 }
 
-                // For every character
-                for (int strLen = 0; strLen < ((String)(series.get("content"))).length(); strLen++) {
-                    // Set current character
-                    char currChar = ((String)(series.get("content"))).charAt(strLen);
-
+                // For each character in sequence
+                for (char currChar : ((String)(series.get("content"))).toCharArray()) {
                     // Draw character
                     textImage.setCharacterAt(
                         new TerminalPosition(columnIndex, rowIndex),
