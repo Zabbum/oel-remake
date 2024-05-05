@@ -9,7 +9,8 @@
             "name": "AppLaterna",
             "request": "launch",
             "mainClass": "com.zabbum.oelremake.AppLaterna",
-            "projectName": "oel-remake"
+            "projectName": "oel-remake",
+            "args": "--devmode"
         }
     ]
 }

@@ -37,6 +37,13 @@ public class AppLaterna {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         final GameProperties gameProperties = new GameProperties(34);
 
+        // Switch to devmode or not
+        for (String arg : args) {
+            if (arg.equals("--devmode")) {
+                gameProperties.isInDevMode = true;
+            }
+        }
+
         // Set font
         InputStream inputStream = AppLaterna.class.getClassLoader().getResourceAsStream("font/C64_Pro_Mono-STYLE.ttf");
         Font font = null;

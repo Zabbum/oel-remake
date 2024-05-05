@@ -29,6 +29,13 @@ public class Game {
 
         return emptySpace;
     }
+
+    // Sleep
+    public static void sleep(long time, GameProperties gameProperties) throws InterruptedException {
+        if (!gameProperties.isInDevMode) {
+            Thread.sleep(time);
+        }
+    }
     
     // Finish game
     public static void finishGame(GameProperties gameProperties) throws InterruptedException {
@@ -96,21 +103,19 @@ public class Game {
             contentPanel.addComponent(new Label("CR. COMP.& TRANSL. BY MI$ AL"));
             contentPanel.addComponent(new Label("REMADE IN JAVA BY ZABBUM"));
         }
-
-        Thread.sleep(5000);
+        
+        Game.sleep(5000, gameProperties);
 
         // Clean up
         contentPanel.removeAllComponents();
 
-        /* Label oelLogo = new Label("OEL");
-        oelLogo.setLayoutData(GridLayout.createLayoutData(
-            GridLayout.Alignment.BEGINNING, GridLayout.Alignment.BEGINNING,
-            true,
-            false,
-            2,
-            1));
-        contentPanel.addComponent(oelLogo);
-        contentPanel.addComponent(Game.emptyLine(2)); */
+        // Display game motto
+        contentPanel.addComponent(new Label("THE BIG GAME AND BIG MONEY."));
+
+        Game.sleep(3000, gameProperties);
+
+        // Clean up
+        contentPanel.removeAllComponents();
     }
     
     // Prompt for players amount
@@ -147,21 +152,37 @@ public class Game {
 
         gameProperties.playerAmount = Integer.parseInt(playerAmountTextBox.getText());
         System.out.println(String.valueOf(gameProperties.playerAmount) + " players");
+
+        // Clean up
         contentPanel.removeAllComponents();
     }
 
     // Intro info for player and prompt for names
     public static void promptPlayerNames(GameProperties gameProperties) throws InterruptedException {
+        // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
-
         contentPanel.setLayoutManager(new GridLayout(1));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.RED,
+                TextColor.ANSI.RED, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                TextColor.ANSI.RED
+            )
+        );
 
         contentPanel.addComponent(new Label("ZNAJDUJEMY SIE OBECNIE W ROKU:"));
         Game.timeBuffor();
         contentPanel.addComponent(new EmptySpace());
 
-        // TODO: Fancy 1986
-        contentPanel.addComponent(new Label("1986"));
+        // Fancy 1986
+        try {
+            // Get 1986 ASCII art
+            InputStream startYearInputStream = AppLaterna.class.getClassLoader().getResourceAsStream("arts/1986.json");
+            contentPanel.addComponent(new ArtObject(startYearInputStream).getImageComponent());
+        } catch (Exception e) {
+            contentPanel.addComponent(new Label("1986"));
+        }
         contentPanel.addComponent(new EmptySpace());
 
         contentPanel.addComponent(new Label("GRA KONCZY SIE W ROKU 2020"));
