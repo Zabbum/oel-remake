@@ -1,0 +1,23 @@
+{
+    "width": 3,
+    "height": 3,
+    "defaultForegroundColor": "BLACK",
+    "defaultBackgroundColor": "YELLOW",
+    "rows": [
+        [
+            {"content": "◢", "fColor": "BLACK_BRIGHT"},
+            {"content": "Â"},
+            {"content": "◣", "fColor": "BLACK_BRIGHT"}
+        ],
+        [
+            {"content": "Û", "fColor": "BLACK_BRIGHT"},
+            {"content": "|"},
+            {"content": "Û", "fColor": "BLACK_BRIGHT"}
+        ],
+        [
+            {"content": "Û", "fColor": "BLACK_BRIGHT"},
+            {"content": "|"},
+            {"content": "Û", "fColor": "BLACK_BRIGHT"}
+        ]
+    ]
+}

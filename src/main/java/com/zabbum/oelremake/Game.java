@@ -354,7 +354,6 @@ public class Game {
         );
 
         // Inform user about status
-
         Panel headerPanel = new Panel(new GridLayout(2));
         try {
             // Get drill ASCII art
@@ -455,15 +454,40 @@ public class Game {
         );
 
         // Inform user
-        contentPanel.addComponent(new Label("  POLE NAFTOWE : ")
+        Panel headerPanel = new Panel(new GridLayout(2));
+        Panel imagePanel = new Panel(new GridLayout(2));
+        Panel oilfieldInfoPanel = new Panel(new GridLayout(1));
+
+        // Display ASCII arts
+        try {
+            // Get ASCII arts
+            File pumpjackArtFile = new File(
+                AppLaterna.class.getClassLoader().getResource("arts/pumpjack.json").getFile()
+            );
+            File truckArtFile = new File(
+                AppLaterna.class.getClassLoader().getResource("arts/truck.json").getFile()
+            );
+
+            imagePanel.addComponent(new ArtObject(pumpjackArtFile).getImageComponent());
+            imagePanel.addComponent(new ArtObject(truckArtFile).getImageComponent());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        // Display general oilfield info
+        oilfieldInfoPanel.addComponent(new Label("  POLE NAFTOWE : ")
             .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW, TextColor.ANSI.BLACK)));
-        contentPanel.addComponent(new Label(oilfield.getName())
+        oilfieldInfoPanel.addComponent(new Label(oilfield.getName())
             .setTheme(new SimpleTheme(TextColor.ANSI.BLUE, TextColor.ANSI.YELLOW)));
-        contentPanel.addComponent(new Label("▔".repeat(17)));
-        contentPanel.addComponent(new Label(" W£A$CICIEL POLA ")
+        oilfieldInfoPanel.addComponent(new Label("▔".repeat(17)));
+        oilfieldInfoPanel.addComponent(new Label(" W£A$CICIEL POLA ")
             .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW, TextColor.ANSI.BLACK)));
-        contentPanel.addComponent(new Label(player.getName()));
-        contentPanel.addComponent(new Label("▔".repeat(17)));
+        oilfieldInfoPanel.addComponent(new Label(player.getName()));
+        oilfieldInfoPanel.addComponent(new Label("▔".repeat(17)));
+
+        headerPanel.addComponent(imagePanel);
+        headerPanel.addComponent(oilfieldInfoPanel);
+        contentPanel.addComponent(headerPanel);
         
         contentPanel.addComponent(new Panel(new GridLayout(2))
             .addComponent(new Label("ROK: "))
