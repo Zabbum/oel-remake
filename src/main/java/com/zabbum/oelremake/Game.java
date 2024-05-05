@@ -1,5 +1,6 @@
 package com.zabbum.oelremake;
 
+import java.io.InputStream;
 import java.util.regex.Pattern;
 
 import com.googlecode.lanterna.TextColor;
@@ -17,6 +18,7 @@ import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.table.Table;
+import com.zabbum.oelremake.artloader.ArtObject;
 
 public class Game {
 
@@ -69,26 +71,61 @@ public class Game {
         Game.waitForConfirm(gameProperties);
     }
 
-    // Display shitty OEL logo
-    // TODO: Display pretty OEL logo
+    // Display OEL logo
     public static void oelLogo(GameProperties gameProperties) throws InterruptedException {
+        // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new GridLayout(1));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.RED,
+                TextColor.ANSI.RED, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                TextColor.ANSI.RED
+            )
+        );
+        
         Game.timeBuffor();
+        try {
+            // Get OEL logo ASCII art
+            InputStream oelLogoFile = AppLaterna.class.getClassLoader().getResourceAsStream("arts/oel.json");
+            contentPanel.addComponent(new ArtObject(oelLogoFile).getImageComponent());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            contentPanel.addComponent(new Label("OEL"));
+            contentPanel.addComponent(new Label("CR. COMP.& TRANSL. BY MI$ AL"));
+            contentPanel.addComponent(new Label("REMADE IN JAVA BY ZABBUM"));
+        }
 
-        Label oelLogo = new Label("OEL");
-            oelLogo.setLayoutData(GridLayout.createLayoutData(
-                GridLayout.Alignment.BEGINNING, GridLayout.Alignment.BEGINNING,
-                true,
-                false,
-                2,
-                1));
-            contentPanel.addComponent(oelLogo);
-            contentPanel.addComponent(Game.emptyLine(2));
+        Thread.sleep(5000);
+
+        // Clean up
+        contentPanel.removeAllComponents();
+
+        /* Label oelLogo = new Label("OEL");
+        oelLogo.setLayoutData(GridLayout.createLayoutData(
+            GridLayout.Alignment.BEGINNING, GridLayout.Alignment.BEGINNING,
+            true,
+            false,
+            2,
+            1));
+        contentPanel.addComponent(oelLogo);
+        contentPanel.addComponent(Game.emptyLine(2)); */
     }
     
     // Prompt for players amount
     public static void promptPlayerAmount(GameProperties gameProperties) throws InterruptedException {
+        // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
+        contentPanel.setLayoutManager(new GridLayout(2));
+        gameProperties.window.setTheme(
+            SimpleTheme.makeTheme(false,
+                TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.RED,
+                TextColor.ANSI.RED, TextColor.ANSI.BLUE_BRIGHT,
+                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
+                TextColor.ANSI.RED
+            )
+        );
 
         contentPanel.addComponent(new Label("ILU BEDZIE KAPITALISTOW (2-6)"));
         TextBox playerAmountTextBox = new TextBox().setValidationPattern(Pattern.compile("[0-9]"));
@@ -109,7 +146,7 @@ public class Game {
         }
 
         gameProperties.playerAmount = Integer.parseInt(playerAmountTextBox.getText());
-        System.out.println(gameProperties.playerAmount);
+        System.out.println(String.valueOf(gameProperties.playerAmount) + " players");
         contentPanel.removeAllComponents();
     }
 
@@ -156,7 +193,7 @@ public class Game {
         // Create player objects
         gameProperties.players = new Player[gameProperties.playerAmount];
         for (int i = 0; i < playerNames.length; i++) {
-            System.out.println(playerNames[i].getText());
+            System.out.println(String.valueOf(i) + ": " + playerNames[i].getText());
             gameProperties.players[i] = new Player(playerNames[i].getText());
         }
 
@@ -227,9 +264,7 @@ public class Game {
 
         // Reduce oil prices
         Oil.reducePrices(gameProperties);
-        for (double price : gameProperties.oilPrices) {
-            System.out.println(price);
-        }
+        System.out.println("Generated oil prices");
 
         Button confirmButton1 = Elements.confirmButton(gameProperties);
 
@@ -352,20 +387,34 @@ public class Game {
         );
 
         // Inform user about status
-        contentPanel.addComponent(new Label("WIERCENIE NA POLU:")
+        Panel headerPanel = new Panel(new GridLayout(2));
+        try {
+            // Get drill ASCII art
+            InputStream drillArtInputStream = AppLaterna.class.getClassLoader().getResourceAsStream("arts/drill.json");
+            headerPanel.addComponent(new ArtObject(drillArtInputStream).getImageComponent());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        Panel textPanel = new Panel(new GridLayout(1));
+
+        textPanel.addComponent(new Label("WIERCENIE NA POLU:")
             .setTheme(new SimpleTheme(TextColor.ANSI.RED, TextColor.ANSI.WHITE_BRIGHT)));
         
-        contentPanel.addComponent(new Label(oilfield.getName())
+        textPanel.addComponent(new Label(oilfield.getName())
         .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.WHITE_BRIGHT)));
 
-        contentPanel.addComponent(new EmptySpace());
+        textPanel.addComponent(new EmptySpace());
 
-        contentPanel.addComponent(new Panel(new GridLayout(2))
+        textPanel.addComponent(new Panel(new GridLayout(2))
             .addComponent(new Label("W£ASNO$C: ")
                 .setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.WHITE_BRIGHT)))
             .addComponent(new Label(player.getName())
                 .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT)))
         );
+        
+        headerPanel.addComponent(textPanel);
+        contentPanel.addComponent(headerPanel);
 
         contentPanel.addComponent(new EmptySpace());
 
@@ -436,15 +485,36 @@ public class Game {
         );
 
         // Inform user
-        contentPanel.addComponent(new Label("  POLE NAFTOWE : ")
+        Panel headerPanel = new Panel(new GridLayout(2));
+        Panel imagePanel = new Panel(new GridLayout(2));
+        Panel oilfieldInfoPanel = new Panel(new GridLayout(1));
+
+        // Display ASCII arts
+        try {
+            // Get ASCII arts
+            InputStream pumpjackArtInputStream = AppLaterna.class.getClassLoader().getResourceAsStream("arts/pumpjack.json");
+            InputStream truckArtInputStream = AppLaterna.class.getClassLoader().getResourceAsStream("arts/truck.json");
+
+            imagePanel.addComponent(new ArtObject(pumpjackArtInputStream).getImageComponent());
+            imagePanel.addComponent(new ArtObject(truckArtInputStream).getImageComponent());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        // Display general oilfield info
+        oilfieldInfoPanel.addComponent(new Label("  POLE NAFTOWE : ")
             .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW, TextColor.ANSI.BLACK)));
-        contentPanel.addComponent(new Label(oilfield.getName())
+        oilfieldInfoPanel.addComponent(new Label(oilfield.getName())
             .setTheme(new SimpleTheme(TextColor.ANSI.BLUE, TextColor.ANSI.YELLOW)));
-        contentPanel.addComponent(new Label("▔".repeat(17)));
-        contentPanel.addComponent(new Label(" W£A$CICIEL POLA ")
+        oilfieldInfoPanel.addComponent(new Label("▔".repeat(17)));
+        oilfieldInfoPanel.addComponent(new Label(" W£A$CICIEL POLA ")
             .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW, TextColor.ANSI.BLACK)));
-        contentPanel.addComponent(new Label(player.getName()));
-        contentPanel.addComponent(new Label("▔".repeat(17)));
+        oilfieldInfoPanel.addComponent(new Label(player.getName()));
+        oilfieldInfoPanel.addComponent(new Label("▔".repeat(17)));
+
+        headerPanel.addComponent(imagePanel);
+        headerPanel.addComponent(oilfieldInfoPanel);
+        contentPanel.addComponent(headerPanel);
         
         contentPanel.addComponent(new Panel(new GridLayout(2))
             .addComponent(new Label("ROK: "))
@@ -531,7 +601,7 @@ public class Game {
     static void overview(GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
-        contentPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+        contentPanel.setLayoutManager(new GridLayout(1));
         gameProperties.window.setTheme(
             SimpleTheme.makeTheme(false, TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT,
                 TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK,

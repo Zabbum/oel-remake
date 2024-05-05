@@ -1,10 +1,15 @@
 package com.zabbum.oelremake;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Image;
+
+import javax.imageio.ImageIO;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -26,9 +31,10 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import com.googlecode.lanterna.terminal.swing.SwingTerminalFrame;
 
 public class AppLaterna {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
         final GameProperties gameProperties = new GameProperties(34);
 
         // Set font
@@ -46,6 +52,7 @@ public class AppLaterna {
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
         terminalFactory.setInitialTerminalSize(new TerminalSize(53, 34));
         terminalFactory.setTerminalEmulatorFontConfiguration(SwingTerminalFontConfiguration.newInstance(font));
+        terminalFactory.setTerminalEmulatorTitle("OEL POMPOWACZE REMAKE");
 
         Screen screen = null;
         SeparateTextGUIThread textGUIThread = null;
@@ -54,7 +61,16 @@ public class AppLaterna {
         try {
             // Initialize screen and terminal
             Terminal terminal = terminalFactory.createTerminalEmulator();
+
+            // Set icon
+            InputStream iconInputStream = AppLaterna.class.getClassLoader().getResourceAsStream("img/logo.png");
+            Image icon = ImageIO.read(iconInputStream);
+            
+            ((SwingTerminalFrame)terminal).setIconImage(icon);
+
             screen = new TerminalScreen(terminal);
+
+            // Change title of App
 
             // Start screen
             screen.startScreen();
@@ -104,15 +120,11 @@ public class AppLaterna {
 
             // Create content panel
             gameProperties.contentPanel = new Panel(new GridLayout(2));
-            Panel contentPanel = gameProperties.contentPanel;
-
-            // Create window manager
-            GridLayout gridLayout = (GridLayout)contentPanel.getLayoutManager();
-            gridLayout.setHorizontalSpacing(2);
 
             // Set contentPanel to be displayed
-            window.setComponent(contentPanel);
+            window.setComponent(gameProperties.contentPanel);
 
+            // HERE GAME STARTS
             // Display oel logo
             Game.oelLogo(gameProperties);
             
