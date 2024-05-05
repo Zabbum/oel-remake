@@ -1,5 +1,6 @@
 package com.zabbum.oelremake;
 
+import java.io.File;
 import java.util.regex.Pattern;
 
 import com.googlecode.lanterna.TextColor;
@@ -17,6 +18,7 @@ import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.table.Table;
+import com.zabbum.oelremake.artloader.ArtObject;
 
 public class Game {
 
@@ -352,20 +354,37 @@ public class Game {
         );
 
         // Inform user about status
-        contentPanel.addComponent(new Label("WIERCENIE NA POLU:")
+
+        Panel headerPanel = new Panel(new GridLayout(2));
+        try {
+            // Get drill ASCII art
+            File drillArtFile = new File(
+                AppLaterna.class.getClassLoader().getResource("arts/drill.json").getFile()
+            );
+            headerPanel.addComponent(new ArtObject(drillArtFile).getImageComponent());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        Panel textPanel = new Panel(new GridLayout(1));
+
+        textPanel.addComponent(new Label("WIERCENIE NA POLU:")
             .setTheme(new SimpleTheme(TextColor.ANSI.RED, TextColor.ANSI.WHITE_BRIGHT)));
         
-        contentPanel.addComponent(new Label(oilfield.getName())
+        textPanel.addComponent(new Label(oilfield.getName())
         .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.WHITE_BRIGHT)));
 
-        contentPanel.addComponent(new EmptySpace());
+        textPanel.addComponent(new EmptySpace());
 
-        contentPanel.addComponent(new Panel(new GridLayout(2))
+        textPanel.addComponent(new Panel(new GridLayout(2))
             .addComponent(new Label("W£ASNO$C: ")
                 .setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.WHITE_BRIGHT)))
             .addComponent(new Label(player.getName())
                 .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT)))
         );
+        
+        headerPanel.addComponent(textPanel);
+        contentPanel.addComponent(headerPanel);
 
         contentPanel.addComponent(new EmptySpace());
 

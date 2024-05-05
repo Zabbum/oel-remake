@@ -16,6 +16,7 @@ import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.BasicTextImage;
 import com.googlecode.lanterna.graphics.TextImage;
+import com.googlecode.lanterna.gui2.ImageComponent;
 
 import lombok.Data;
 
@@ -41,6 +42,13 @@ public @Data class ArtObject {
         this.defaultBackgroundColor = toTextColor(dataObject.get("defaultBackgroundColor").toString());
 
         createTextImage(dataObject);
+    }
+
+    public ImageComponent getImageComponent() {
+        ImageComponent imageComponent = new ImageComponent();
+        imageComponent.setTextImage(textImage);
+
+        return imageComponent;
     }
 
     // Create TextImage object
@@ -125,7 +133,4 @@ public @Data class ArtObject {
 
         throw new ColorNotFoundException("Not found such a color: " + textColorName);
     }
-
-
-    
 }
