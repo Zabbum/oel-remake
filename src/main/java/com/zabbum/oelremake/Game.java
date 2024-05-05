@@ -1,6 +1,6 @@
 package com.zabbum.oelremake;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.regex.Pattern;
 
 import com.googlecode.lanterna.TextColor;
@@ -89,9 +89,7 @@ public class Game {
         Game.timeBuffor();
         try {
             // Get OEL logo ASCII art
-            File oelLogoFile = new File(
-                AppLaterna.class.getClassLoader().getResource("arts/oel.json").getFile()
-            );
+            InputStream oelLogoFile = AppLaterna.class.getClassLoader().getResourceAsStream("arts/oel.json");
             contentPanel.addComponent(new ArtObject(oelLogoFile).getImageComponent());
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -395,10 +393,8 @@ public class Game {
         Panel headerPanel = new Panel(new GridLayout(2));
         try {
             // Get drill ASCII art
-            File drillArtFile = new File(
-                AppLaterna.class.getClassLoader().getResource("arts/drill.json").getFile()
-            );
-            headerPanel.addComponent(new ArtObject(drillArtFile).getImageComponent());
+            InputStream drillArtInputStream = AppLaterna.class.getClassLoader().getResourceAsStream("arts/drill.json");
+            headerPanel.addComponent(new ArtObject(drillArtInputStream).getImageComponent());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -499,15 +495,11 @@ public class Game {
         // Display ASCII arts
         try {
             // Get ASCII arts
-            File pumpjackArtFile = new File(
-                AppLaterna.class.getClassLoader().getResource("arts/pumpjack.json").getFile()
-            );
-            File truckArtFile = new File(
-                AppLaterna.class.getClassLoader().getResource("arts/truck.json").getFile()
-            );
+            InputStream pumpjackArtInputStream = AppLaterna.class.getClassLoader().getResourceAsStream("arts/pumpjack.json");
+            InputStream truckArtInputStream = AppLaterna.class.getClassLoader().getResourceAsStream("arts/truck.json");
 
-            imagePanel.addComponent(new ArtObject(pumpjackArtFile).getImageComponent());
-            imagePanel.addComponent(new ArtObject(truckArtFile).getImageComponent());
+            imagePanel.addComponent(new ArtObject(pumpjackArtInputStream).getImageComponent());
+            imagePanel.addComponent(new ArtObject(truckArtInputStream).getImageComponent());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

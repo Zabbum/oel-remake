@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileOutputStream;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -30,7 +32,17 @@ public @Data class ArtObject {
     private TextImage textImage;
 
     // Constructor
-    public ArtObject(File dataFile) throws FileNotFoundException, IOException, ParseException, ColorNotFoundException, BadImageSizeProvidedException {
+    public ArtObject(InputStream inputStream) throws FileNotFoundException, IOException, ParseException, ColorNotFoundException, BadImageSizeProvidedException {
+        // Transform InputStream to file
+        File dataFile = File.createTempFile("art", ".json");
+        FileOutputStream out = new FileOutputStream(dataFile);
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            out.write(buffer, 0, bytesRead);
+        }
+        out.close();
+
         // Create JSONObject
         JSONParser parser = new JSONParser();
         Object object = parser.parse(new FileReader(dataFile));
