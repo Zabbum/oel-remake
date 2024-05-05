@@ -146,7 +146,7 @@ public class Game {
         }
 
         gameProperties.playerAmount = Integer.parseInt(playerAmountTextBox.getText());
-        System.out.println(gameProperties.playerAmount);
+        System.out.println(String.valueOf(gameProperties.playerAmount) + " players");
         contentPanel.removeAllComponents();
     }
 
@@ -193,7 +193,7 @@ public class Game {
         // Create player objects
         gameProperties.players = new Player[gameProperties.playerAmount];
         for (int i = 0; i < playerNames.length; i++) {
-            System.out.println(playerNames[i].getText());
+            System.out.println(String.valueOf(i) + ": " + playerNames[i].getText());
             gameProperties.players[i] = new Player(playerNames[i].getText());
         }
 
@@ -264,9 +264,7 @@ public class Game {
 
         // Reduce oil prices
         Oil.reducePrices(gameProperties);
-        for (double price : gameProperties.oilPrices) {
-            System.out.println(price);
-        }
+        System.out.println("Generated oil prices");
 
         Button confirmButton1 = Elements.confirmButton(gameProperties);
 

@@ -138,7 +138,6 @@ public abstract @Data class AbstractIndustry {
 
         // Note purchase
         industries[selectedIndustryIndex].setOwnership(player);
-
         player.decreaseBalance(industries[selectedIndustryIndex].industryPrice);
 
         // Inform user about purchase
