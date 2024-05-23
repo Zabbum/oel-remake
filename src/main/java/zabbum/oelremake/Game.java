@@ -53,12 +53,14 @@ public class Game {
             )
         );
 
-        contentPanel.addComponent(new Label("A OTO REZULTATY WALKI:"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("gameResult")));
 
         contentPanel.addComponent(new EmptySpace());
 
         // Create table for results
-        Table<String> resultsTable = new Table<String>("GRACZ", "POZYCZKA", "KAPITA£");
+        Table<String> resultsTable = new Table<String>(
+            gameProperties.langMap.get("player"),gameProperties.langMap.get("loan"),
+            gameProperties.langMap.get("balance"));
 
         // Add every player to table
         for (Player player : gameProperties.players) {
@@ -69,7 +71,7 @@ public class Game {
 
         contentPanel.addComponent(new EmptySpace());
 
-        contentPanel.addComponent(new Label("GRATULUJE ZWYCIEZCOM !"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("congratulationsToTheWinners")));
 
         Button confirmButton = Elements.confirmButton(gameProperties);
         contentPanel.addComponent(confirmButton);
@@ -133,7 +135,7 @@ public class Game {
             )
         );
 
-        contentPanel.addComponent(new Label("ILU BEDZIE KAPITALISTOW (2-6)"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("howManyPlayers") + " (2-6)"));
         TextBox playerAmountTextBox = new TextBox().setValidationPattern(Pattern.compile("[0-9]"));
         contentPanel.addComponent(playerAmountTextBox);
         playerAmountTextBox.takeFocus();
@@ -172,7 +174,7 @@ public class Game {
             )
         );
 
-        contentPanel.addComponent(new Label("ZNAJDUJEMY SIE OBECNIE W ROKU:"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("wereCurrentlyIn")));
         Game.timeBuffor();
         contentPanel.addComponent(new EmptySpace());
 
@@ -186,7 +188,7 @@ public class Game {
         }
         contentPanel.addComponent(new EmptySpace());
 
-        contentPanel.addComponent(new Label("GRA KONCZY SIE W ROKU 2020"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("gameEndsIn") + " 2020"));
         contentPanel.addComponent(new Label("I ODBEDZIE SIE PRZY UDZIALE:"));
         contentPanel.addComponent(new EmptySpace());
         contentPanel.addComponent(new Label("PROSZE WPISAC IMIONA"));

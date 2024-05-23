@@ -8,7 +8,7 @@
             "type": "java",
             "name": "AppLaterna",
             "request": "launch",
-            "mainClass": "com.zabbum.oelremake.AppLaterna",
+            "mainClass": "zabbum.oelremake.AppLaterna",
             "projectName": "oel-remake",
             "args": "--devmode"
         }

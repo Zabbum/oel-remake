@@ -4,12 +4,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-
+import java.util.Map;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Image;
 
 import javax.imageio.ImageIO;
+
+import org.json.simple.parser.ParseException;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -35,15 +37,23 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminalFrame;
 
 public class AppLaterna {
     public static void main(String[] args) throws FileNotFoundException, IOException {
+        final Map<String, String> argsMap = CliArgumentsParser.parseArguments(args);
         final GameProperties gameProperties = new GameProperties(34);
 
-        // Switch to devmode or not
-        for (String arg : args) {
-            if (arg.equals("--devmode")) {
-                gameProperties.isInDevMode = true;
-            }
+        // Switch to devmode
+        if (argsMap.get("devmode") != null) {
+            gameProperties.isInDevMode = true;
         }
 
+        // Lang code
+        final String lang;
+        if (argsMap.get("lang") != null) {
+            lang = argsMap.get("lang");   
+        }
+        else {
+            lang = "pl-PL";
+        }
+        
         // Set font
         InputStream inputStream = AppLaterna.class.getClassLoader().getResourceAsStream("font/C64_Pro_Mono-STYLE.ttf");
         Font font = null;
@@ -54,12 +64,23 @@ public class AppLaterna {
             e.printStackTrace();
             return;
         }
+        inputStream.close();
+
+        // Set lang
+        inputStream = AppLaterna.class.getClassLoader().getResourceAsStream("lang/" + lang + ".json");
+        try {
+            gameProperties.langMap = LangExtractor.getLangData(inputStream);
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+            return;
+        }
+        inputStream.close();
 
         // Config terminal
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
         terminalFactory.setInitialTerminalSize(new TerminalSize(53, 34));
         terminalFactory.setTerminalEmulatorFontConfiguration(SwingTerminalFontConfiguration.newInstance(font));
-        terminalFactory.setTerminalEmulatorTitle("OEL POMPOWACZE REMAKE");
+        terminalFactory.setTerminalEmulatorTitle(gameProperties.langMap.get("windowTitle"));
 
         Screen screen = null;
         SeparateTextGUIThread textGUIThread = null;

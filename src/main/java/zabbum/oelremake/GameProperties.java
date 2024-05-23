@@ -1,10 +1,14 @@
 package zabbum.oelremake;
 
+import java.util.Map;
+
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.SeparateTextGUIThread;
 import com.googlecode.lanterna.gui2.Window;
 
 public class GameProperties {
+    public Map<String, String> langMap;
+
     public Window window;
     public Panel contentPanel;
     public SeparateTextGUIThread textGUIThread;
