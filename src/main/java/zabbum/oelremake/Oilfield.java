@@ -126,8 +126,8 @@ public @Data class Oilfield {
         titlePanel.setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.YELLOW_BRIGHT));
         titlePanel.addComponent(new EmptySpace());
         Game.timeBuffor();
-        titlePanel.addComponent(new Label("WYPRZEDAZ POL NAFTOWYCH"));
-        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.getBalance()) + "$"));
+        titlePanel.addComponent(new Label(gameProperties.langMap.get("oilfieldsSale")));
+        titlePanel.addComponent(new Label(gameProperties.langMap.get("balance2") + ": " + String.valueOf(player.getBalance()) + "$"));
         titlePanel.addComponent(new EmptySpace());
         contentPanel.addComponent(titlePanel);
 
@@ -139,7 +139,7 @@ public @Data class Oilfield {
             // Panel for old ownerships
             Panel oldOwnershipPanel = new Panel(new GridLayout(1));
             oldOwnershipPanel.setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE_BRIGHT));
-            oldOwnershipPanel.addComponent(new Label("DAWNA W£ASNO$C"));
+            oldOwnershipPanel.addComponent(new Label(gameProperties.langMap.get("oldOwnership")));
             oldOwnershipPanel.addComponent(new EmptySpace());
             oldOwnershipPanel.addComponent(new Label("1-2: SMAR & CO."));
             oldOwnershipPanel.addComponent(new Label("3-4: R.R. INC."));
@@ -155,7 +155,11 @@ public @Data class Oilfield {
             Panel oilfieldsPanel = new Panel(new GridLayout(1));
 
             // Create table
-            Table<String> oilfieldsTable = new Table<String>("NR", "NAZWA", "CENA");
+            Table<String> oilfieldsTable = new Table<String>(
+                "NR",
+                gameProperties.langMap.get("name"),
+                gameProperties.langMap.get("price")
+            );
 
             // Add every available oilfield to table
             oilfieldsTable.getTableModel().addRow("0","-","-");
@@ -182,7 +186,7 @@ public @Data class Oilfield {
         contentPanel.addComponent(oilPanel);
         oilfieldsTable.takeFocus();
         contentPanel.addComponent(new EmptySpace());
-        contentPanel.addComponent(new Label("KTORE POLE CHCESZ WYKUPIC?"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("oilfieldsPrompt")));
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
@@ -203,7 +207,7 @@ public @Data class Oilfield {
 
         // Inform user about purchase
         contentPanel.addComponent(new EmptySpace());
-        contentPanel.addComponent(new Label("JESTE$ W£ASCICIELEM POLA:"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("youAreOwnerOfOilfield") + ":"));
         contentPanel.addComponent(new Label(gameProperties.oilfields[selectedOilfieldIndex].getName())
             .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE_BRIGHT)));
 

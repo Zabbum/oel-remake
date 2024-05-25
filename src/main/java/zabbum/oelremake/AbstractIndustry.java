@@ -90,14 +90,19 @@ public abstract @Data class AbstractIndustry {
         titlePanel.addComponent(new EmptySpace());
         Game.timeBuffor();
         titlePanel.addComponent(new Label(industrySale));
-        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.getBalance()) + "$"));
+        titlePanel.addComponent(new Label(gameProperties.langMap.get("balance2") + ": " + String.valueOf(player.getBalance()) + "$"));
         titlePanel.addComponent(new EmptySpace());
         contentPanel.addComponent(titlePanel);
 
         contentPanel.addComponent(new EmptySpace());
 
         // Create table
-        Table<String> industriesTable = new Table<String>("NR", "NAZWA FIRMY", "L. PROD.", "CENA");
+        Table<String> industriesTable = new Table<String>(
+            "NR",
+            gameProperties.langMap.get("industryName"),
+            gameProperties.langMap.get("productsAmount"),
+            gameProperties.langMap.get("price")
+        );
 
         // Add every available industry to table
         industriesTable.getTableModel().addRow("0","-","-","-");
@@ -142,7 +147,7 @@ public abstract @Data class AbstractIndustry {
 
         // Inform user about purchase
         contentPanel.addComponent(new EmptySpace());
-        contentPanel.addComponent(new Label("JESTE$ W£A$CICIELEM FABRYKI: "));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("youAreOwnerOfIndustry") + ": "));
         contentPanel.addComponent(new Label(industries[selectedIndustryIndex].name));
         contentPanel.addComponent(new EmptySpace());
         contentPanel.addComponent(new Label(pricePrompt));
@@ -187,7 +192,7 @@ public abstract @Data class AbstractIndustry {
         TextColor selectedForeground, TextColor selectedBackground,
         TextColor guiBackground, TextColor tableForeground,
         // Texts
-        String hereYouCanBuy, String productAmountPrompt,
+        String hereYouCanBuy, String productsAmountPrompt,
         // Values
         int maxAmount
     ) throws InterruptedException {
@@ -223,14 +228,19 @@ public abstract @Data class AbstractIndustry {
         titlePanel.addComponent(new EmptySpace());
         Game.timeBuffor();
         titlePanel.addComponent(new Label(hereYouCanBuy));
-        titlePanel.addComponent(new Label("SALDO KONTA: " + String.valueOf(player.getBalance()) + "$"));
+        titlePanel.addComponent(new Label(gameProperties.langMap.get("balance2") + ": " + String.valueOf(player.getBalance()) + "$"));
         titlePanel.addComponent(new EmptySpace());
         contentPanel.addComponent(titlePanel);
 
         contentPanel.addComponent(new EmptySpace());
 
         // Create table
-        Table<String> productsTable = new Table<String>("NR", "NAZWA FIRMY", "L. PROD.", "CENA");
+        Table<String> productsTable = new Table<String>(
+            "NR",
+            gameProperties.langMap.get("industryName"),
+            gameProperties.langMap.get("productsAmount"),
+            gameProperties.langMap.get("price")
+        );
         productsTable.setTheme(SimpleTheme.makeTheme(false, tableForeground, baseBackground,
             editableForeground, editableBackground,
             selectedForeground, selectedBackground,
@@ -260,7 +270,7 @@ public abstract @Data class AbstractIndustry {
         contentPanel.addComponent(productsTable);
         productsTable.takeFocus();
         contentPanel.addComponent(new EmptySpace());
-        contentPanel.addComponent(new Label("ZAKUP Z KTOREJ FIRMY?"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("whereToBuy")));
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
@@ -274,7 +284,7 @@ public abstract @Data class AbstractIndustry {
         }
 
         // Prompt for product amount
-        contentPanel.addComponent(new Label(productAmountPrompt));
+        contentPanel.addComponent(new Label(productsAmountPrompt));
 
         // Prompt for product amount until provided value is valid
         TextBox productAmountBox = null;
@@ -300,12 +310,16 @@ public abstract @Data class AbstractIndustry {
 
         // Prompt for oilfield
         contentPanel.addComponent(new EmptySpace());
-        contentPanel.addComponent(new Label("NA KTORE POLE NAFTOWE?"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("onWhatOilfield")));
 
         // Display all of the oilfields
 
         // Create table
-        Table<String> oilfieldsTable = new Table<String>("NR", "NAZWA ", "W£ASNO$C");
+        Table<String> oilfieldsTable = new Table<String>(
+            "NR",
+            gameProperties.langMap.get("name"),
+            gameProperties.langMap.get("property")
+        );
 
         // Add every available oilfield to table
         oilfieldsTable.getTableModel().addRow("0","-","-");

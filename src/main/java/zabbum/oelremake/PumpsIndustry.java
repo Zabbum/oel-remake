@@ -35,8 +35,8 @@ public class PumpsIndustry extends AbstractIndustry {
             TextColor.ANSI.BLUE, TextColor.ANSI.WHITE_BRIGHT,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
             TextColor.ANSI.BLUE,
-            "KUPOWANIE FABRYK POMP", "KTORA FIRME CHCESZ KUPIC?",
-            "PROSZE PODAC SWOJA CENE POMPY.",
+            gameProperties.langMap.get("pumpsIndustrySale"), gameProperties.langMap.get("pumpsIndustryPrompt"),
+            gameProperties.langMap.get("pumpsPricePrompt"),
             50000
         );
     }
@@ -50,7 +50,7 @@ public class PumpsIndustry extends AbstractIndustry {
             TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.WHITE_BRIGHT,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
             TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.BLACK,
-            "SPRZEDAZ POMP", "ILE POMP KUPUJESZ?",
+            gameProperties.langMap.get("pumpsHereYouCanBuy"), gameProperties.langMap.get("pumpsProductsAmountPrompt"),
             15
         );
     }

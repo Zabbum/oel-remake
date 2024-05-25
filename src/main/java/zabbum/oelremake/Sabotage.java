@@ -33,7 +33,7 @@ public class Sabotage {
 
         // Display sabotage shade
         for (int i = 0; i < 23; i++) {
-            contentPanel.addComponent(new Label(" ".repeat(i+1)+"S A B O T A Z"));
+            contentPanel.addComponent(new Label(" ".repeat(i+1) + gameProperties.langMap.get("sabotageFancy")));
             Thread.sleep(50);
         }
         Thread.sleep(1000);
@@ -55,11 +55,11 @@ public class Sabotage {
         );
 
         // Inform user what can they do
-        contentPanel.addComponent(new Label("MASZ TERAZ NASTEPUJACE MOZLIWOSCI"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("sabotagePossibilities")));
         contentPanel.addComponent(new EmptySpace());
 
         // Display options
-        Component firstButton = new Button("ZATRUDNIASZ SUPER AGENTA NA POLE NAFTOWE KONKURENTA",
+        Component firstButton = new Button(gameProperties.langMap.get("sabotageOilfield"),
             () -> {
                 gameProperties.tmpAction = "0";
                 gameProperties.tmpConfirm = true;
@@ -68,21 +68,21 @@ public class Sabotage {
         contentPanel.addComponent(firstButton);
         ((Interactable)firstButton).takeFocus();
 
-        contentPanel.addComponent(new Button("BEDZIESZ SABOTOWA£ FABRYKE POMP",
+        contentPanel.addComponent(new Button(gameProperties.langMap.get("sabotagePumpsIndustry"),
             () -> {
                 gameProperties.tmpAction = "1";
                 gameProperties.tmpConfirm = true;
             }
         ).setTheme(yellowButton));
 
-        contentPanel.addComponent(new Button("MOZESZ DOPROWADZIC DO RUINY FABRYKE WAGONOW",
+        contentPanel.addComponent(new Button(gameProperties.langMap.get("sabotageCarsIndustry"),
             () -> {
                 gameProperties.tmpAction = "2";
                 gameProperties.tmpConfirm = true;
             }
         ).setTheme(blueButton));
 
-        contentPanel.addComponent(new Button("SABOTAZ FABRYKI WIERTE£",
+        contentPanel.addComponent(new Button(gameProperties.langMap.get("sabotageDrillsIndustry"),
             () -> {
                 gameProperties.tmpAction = "3";
                 gameProperties.tmpConfirm = true;
@@ -129,7 +129,7 @@ public class Sabotage {
             )
         );
 
-        contentPanel.addComponent(new Label("TU MASZ TYLKO 50% SZANS!"));
+        contentPanel.addComponent(new Label(String.format(gameProperties.langMap.get("oilfieldSabotageChances"), 50)));
         contentPanel.addComponent(new EmptySpace());
 
         Button confirmButton = Elements.confirmButton(gameProperties);
@@ -161,7 +161,7 @@ public class Sabotage {
             contentPanel.addComponent(new Label("HELLO! I'M AGENT FUNNY HAPPY BEAR")
                 .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT))
             );
-            contentPanel.addComponent(new Label("KTORE POLE MAM SABOTOWAC, MY FRIEND?")
+            contentPanel.addComponent(new Label(gameProperties.langMap.get("whichOilfieldToSabotage"))
                 .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT))
             );
             contentPanel.addComponent(new EmptySpace());
@@ -169,7 +169,11 @@ public class Sabotage {
             // Display all of the oilfields
 
             // Create table
-            Table<String> oilfieldsTable = new Table<String>("NR", "NAZWA", "W£ASNO$C");
+            Table<String> oilfieldsTable = new Table<String>(
+                "NR",
+                gameProperties.langMap.get("name"),
+                gameProperties.langMap.get("property")
+            );
 
             // Add every available oilfield to table
             oilfieldsTable.getTableModel().addRow("0","-","-");
