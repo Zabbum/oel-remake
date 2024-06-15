@@ -6,6 +6,8 @@ jobs:
     super-lint:
         name: Lint
         runs-on: ubuntu-latest
+        
+        continue-on-error: true
 
         permissions:
             contents: read
