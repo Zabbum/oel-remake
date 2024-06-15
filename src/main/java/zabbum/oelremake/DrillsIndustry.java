@@ -36,7 +36,7 @@ public class DrillsIndustry extends AbstractIndustry {
             TextColor.ANSI.BLUE, TextColor.ANSI.WHITE_BRIGHT,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
             TextColor.ANSI.BLUE,
-            gameProperties.langMap.get("drillsIndustrySale"), "drillsIndustryPrompt",
+            gameProperties.langMap.get("drillsIndustrySale"), gameProperties.langMap.get("drillsIndustryPrompt"),
             gameProperties.langMap.get("drillsPricePrompt"),
             60000
         );
