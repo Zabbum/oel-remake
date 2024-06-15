@@ -17,6 +17,5 @@ Project trying to rewrite a Commodore 64 game ***OEL Pompowacze*** in java with 
 - `notes.md` are development notes on original sourcecode
 
 ## Current roadmap
-- Extract all the text to a languagepack
 - Make this whole project more modifiable
 - Add option to play via network
