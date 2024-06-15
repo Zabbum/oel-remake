@@ -4,7 +4,6 @@ Project trying to rewrite a Commodore 64 game ***OEL Pompowacze*** in java with 
 
 ## Components
 #### AppLanterna is the main class that you are supposed to run
-- `target/` cantains java classes
 - `src/` contains all the source code of remake
 - `vice-snapshots/` - contains VICE64 C64 emulator snapshots from original game
     - `vice-snapshot-start.vsf` is a game start
