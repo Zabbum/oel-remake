@@ -37,8 +37,8 @@ public class CarsIndustry extends AbstractIndustry {
             TextColor.ANSI.BLUE, TextColor.ANSI.WHITE_BRIGHT,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
             TextColor.ANSI.BLUE,
-            "SPRZEDAZ FABRYK WAGONOW", "KTORA FIRME CHCESZ KUPIC?",
-            "PROSZE PODAC SWOJA CENE WAGONU.",
+            gameProperties.langMap.get("carsIndustrySale"), gameProperties.langMap.get("carsIndustryPrompt"),
+            gameProperties.langMap.get("carsPricePrompt"),
             50000
         );
     }
@@ -52,7 +52,7 @@ public class CarsIndustry extends AbstractIndustry {
             TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.WHITE_BRIGHT,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
             TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK,
-            "TU MOZESZ KUPIC WAGONY", "ILE WAGONOW KUPUJESZ?",
+            gameProperties.langMap.get("carsHereYouCanBuy"), gameProperties.langMap.get("carsProductsAmountPrompt"),
             15
         );
     }

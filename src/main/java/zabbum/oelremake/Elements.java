@@ -7,7 +7,7 @@ public class Elements {
     public static Button confirmButton(GameProperties gameProperties) {
         gameProperties.tmpConfirm = false;
         
-        Button button = new Button("GOTOWE", new Runnable() {
+        Button button = new Button(gameProperties.langMap.get("done"), new Runnable() {
             @Override
             public void run() {
                 gameProperties.tmpConfirm = true;

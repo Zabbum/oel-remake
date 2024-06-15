@@ -36,8 +36,8 @@ public class DrillsIndustry extends AbstractIndustry {
             TextColor.ANSI.BLUE, TextColor.ANSI.WHITE_BRIGHT,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
             TextColor.ANSI.BLUE,
-            "SPRZEDAZ FABRYK WIERTE£", "KTORA FIRME CHCESZ KUPIC?",
-            "PROSZE PODAC SWOJA CENE NA RURY O D£UGO$CI 500 M.",
+            gameProperties.langMap.get("drillsIndustrySale"), "drillsIndustryPrompt",
+            gameProperties.langMap.get("drillsPricePrompt"),
             60000
         );
     }
@@ -51,7 +51,7 @@ public class DrillsIndustry extends AbstractIndustry {
             TextColor.ANSI.BLUE, TextColor.ANSI.WHITE_BRIGHT,
             TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
             TextColor.ANSI.YELLOW, TextColor.ANSI.BLUE,
-            "TU MOZESZ KUPIC WIERT£A", "ILE RUR 500 METROWYCH KUPUJESZ?",
+            gameProperties.langMap.get("drillsHereYouCanBuy"), gameProperties.langMap.get("drillsProductsAmountPrompt"),
             10
         );
     }

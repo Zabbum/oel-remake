@@ -30,11 +30,11 @@ public class ChangePrices {
         );
 
         // Inform user
-        contentPanel.addComponent(new Label("JAKA CENE BEDZIESZ ZMIENIAC?"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("whatPriceWillYouBeChanging")));
         contentPanel.addComponent(new EmptySpace());
 
         // Display options
-        Component firstButton = new Button("CENY POMP",
+        Component firstButton = new Button(gameProperties.langMap.get("pumpsPrices"),
             () -> {
                 gameProperties.tmpAction = "0";
                 gameProperties.tmpConfirm = true;
@@ -43,14 +43,14 @@ public class ChangePrices {
         contentPanel.addComponent(firstButton);
         ((Interactable)firstButton).takeFocus();
 
-        contentPanel.addComponent(new Button("CENY WAGONOW",
+        contentPanel.addComponent(new Button(gameProperties.langMap.get("carsPrices"),
             () -> {
                 gameProperties.tmpAction = "1";
                 gameProperties.tmpConfirm = true;
             }
         ));
 
-        contentPanel.addComponent(new Button("CENY WIERTE£",
+        contentPanel.addComponent(new Button(gameProperties.langMap.get("drillsPrices"),
             () -> {
                 gameProperties.tmpAction = "2";
                 gameProperties.tmpConfirm = true;
@@ -87,7 +87,11 @@ public class ChangePrices {
         AbstractIndustry[] industries = gameProperties.pumpsIndustries;
 
         // Create table
-        Table<String> industryTable = new Table<String>("NR", "NAZWA FIRMY", "CENA");
+        Table<String> industryTable = new Table<String>(
+            "NR",
+            gameProperties.langMap.get("industryName"),
+            gameProperties.langMap.get("price")
+        );
 
         // Add every available industry to table
         industryTable.getTableModel().addRow("0","-","-","-");
@@ -157,7 +161,11 @@ public class ChangePrices {
         AbstractIndustry[] industries = gameProperties.carsIndustries;
 
         // Create table
-        Table<String> industryTable = new Table<String>("NR", "NAZWA FIRMY", "CENA");
+        Table<String> industryTable = new Table<String>(
+            "NR",
+            gameProperties.langMap.get("industryName"),
+            gameProperties.langMap.get("price")
+        );
 
         // Add every available industry to table
         industryTable.getTableModel().addRow("0","-","-","-");
@@ -227,7 +235,11 @@ public class ChangePrices {
         AbstractIndustry[] industries = gameProperties.drillsIndustries;
 
         // Create table
-        Table<String> industryTable = new Table<String>("NR", "NAZWA FIRMY", "CENA");
+        Table<String> industryTable = new Table<String>(
+            "NR",
+            gameProperties.langMap.get("industryName"),
+            gameProperties.langMap.get("price")
+        );
 
         // Add every available industry to table
         industryTable.getTableModel().addRow("0","-","-","-");
