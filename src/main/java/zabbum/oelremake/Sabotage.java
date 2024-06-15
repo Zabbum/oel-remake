@@ -101,13 +101,13 @@ public class Sabotage {
                 attemptOilfieldSabotage(player, gameProperties);
             }
             case 1 -> {
-                attemptPumpIndustrySabotage(player, gameProperties);
+                attemptPumpsIndustrySabotage(player, gameProperties);
             }
             case 2 -> {
                 attemptCarsIndustrySabotage(player, gameProperties);
             }
             case 3 -> {
-                attemptDrillIndustrySabotage(player, gameProperties);
+                attemptDrillsIndustrySabotage(player, gameProperties);
             }
             default -> {}
         }
@@ -217,49 +217,49 @@ public class Sabotage {
 
             // Inform user about the costs
             contentPanel.removeAllComponents();
-            contentPanel.addComponent(new Label("DANE DO SABOTAZU POLA NAFTOWEGO -")
+            contentPanel.addComponent(new Label(gameProperties.langMap.get("sabotageOilfieldData"))
                 .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT))
             );
-            contentPanel.addComponent(new Label("MUSISZ PONIE$C NASTEPUJACE KOSZTY:")
+            contentPanel.addComponent(new Label(gameProperties.langMap.get("sabotageOilfieldCosts"))
                 .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT))
             );
 
             Panel costPanel = new Panel(new GridLayout(3));
 
-            costPanel.addComponent(new Label("OP£ATY, £APOWKI ITP."));
+            costPanel.addComponent(new Label(gameProperties.langMap.get("sabotageOilfieldBribes")));
             costPanel.addComponent(new Label("="));
             costPanel.addComponent(new Label(String.valueOf(fees1) + " $"));
 
-            costPanel.addComponent(new Label("ZATKANIA WYSADZENIA ITP."));
+            costPanel.addComponent(new Label(gameProperties.langMap.get("sabotageOilfieldBombs")));
             costPanel.addComponent(new Label("="));
             costPanel.addComponent(new Label(String.valueOf(fees2) + " $"));
 
-            costPanel.addComponent(new Label("W SUMIE"));
+            costPanel.addComponent(new Label(gameProperties.langMap.get("summingUp")));
             costPanel.addComponent(new Label("="));
             costPanel.addComponent(new Label(String.valueOf(fees1 + fees2) + " $"));
 
             contentPanel.addComponent(costPanel);
 
-            contentPanel.addComponent(new Label("SZANSE POWODZENIA KSZTALTUJA SIE W GRANICACH 33%.")
+            contentPanel.addComponent(new Label(gameProperties.langMap.get("chancesAre") + " 33%.")
                 .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.BLACK_BRIGHT))
             );
 
-            contentPanel.addComponent(new Label("TWOJE SALDO = " + player.getBalance() + "$")
+            contentPanel.addComponent(new Label(gameProperties.langMap.get("yourBalance2") + " = " + player.getBalance() + "$")
                 .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT))
             );
 
             contentPanel.addComponent(new EmptySpace());
-            contentPanel.addComponent(new Label("BEAR \'MAM ZACZAC DZIA£AC?\'"));
+            contentPanel.addComponent(new Label("BEAR \'" + gameProperties.langMap.get("sabotageOilfieldShouldIStart") + "\'"));
 
             Panel buttonPanel = new Panel(new GridLayout(2));
 
-            Button declineButton = new Button("NIE", () -> {
+            Button declineButton = new Button(gameProperties.langMap.get("no"), () -> {
                 // Clean up
                 contentPanel.removeAllComponents();
                 return;
             });
             buttonPanel.addComponent(declineButton);
-            buttonPanel.addComponent(new Button("TAK", () -> {
+            buttonPanel.addComponent(new Button(gameProperties.langMap.get("yes"), () -> {
                 gameProperties.tmpConfirm = true;
             }));
 
@@ -275,7 +275,7 @@ public class Sabotage {
             int isSucceedSabotage = random.nextInt(3);
 
             // Animated element
-            Component animatedLabel = new Label("SABOTAZ UDANY")
+            Component animatedLabel = new Label(gameProperties.langMap.get("sabotageSuccessful"))
                 .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
 
             contentPanel.addComponent(animatedLabel);
@@ -283,11 +283,11 @@ public class Sabotage {
             // Generating animation
             for (int i = 0; i < 50; i++) {
                 if (i%2 == 1) {
-                    ((Label)animatedLabel).setText("SABOTAZ NIEUDANY");
+                    ((Label)animatedLabel).setText(gameProperties.langMap.get("sabotageUnsuccessful"));
                     animatedLabel.setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
                 }
                 else {
-                    ((Label)animatedLabel).setText("SABOTAZ UDANY");
+                    ((Label)animatedLabel).setText(gameProperties.langMap.get("sabotageSuccessful"));
                     animatedLabel.setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
                 }
                 
@@ -297,7 +297,7 @@ public class Sabotage {
             // Take actions based on sabotage succession
             if (isSucceedSabotage == 2) {
                 // Inform user about status
-                ((Label)animatedLabel).setText("UDA£O SIE");
+                ((Label)animatedLabel).setText(gameProperties.langMap.get("success"));
                 animatedLabel.setTheme(new SimpleTheme(TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
 
                 // Set new oilfield price
@@ -327,7 +327,7 @@ public class Sabotage {
             }
             else {
                 // Inform user about status
-                ((Label)animatedLabel).setText("NIE UDA£O SIE");
+                ((Label)animatedLabel).setText(gameProperties.langMap.get("failure"));
                 animatedLabel.setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
             }
 
@@ -340,7 +340,7 @@ public class Sabotage {
     }
 
     // Attempt a pump industry sabotage
-    static void attemptPumpIndustrySabotage(Player player, GameProperties gameProperties) throws InterruptedException {
+    static void attemptPumpsIndustrySabotage(Player player, GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -356,13 +356,18 @@ public class Sabotage {
         // Clean up
         contentPanel.removeAllComponents();
 
-        contentPanel.addComponent(new Label("KTORA Z NASTEPUJACYCH FIRM CHCESZ ZASABOTOWAC?"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("whichPumpsIndustryToSabotage")));
         contentPanel.addComponent(new EmptySpace());
 
         // Display all of the industries
 
         // Create table
-        Table<String> industriesTable = new Table<String>("NR", "NAZWA", "CENA", "W£ASNO$C");
+        Table<String> industriesTable = new Table<String>(
+            "NR",
+            gameProperties.langMap.get("name"),
+            gameProperties.langMap.get("price"),
+            gameProperties.langMap.get("property")
+        );
 
         // Add every available industry to table
         industriesTable.getTableModel().addRow("0","-","-","-");
@@ -435,14 +440,19 @@ public class Sabotage {
         // Clean up
         contentPanel.removeAllComponents();
 
-        contentPanel.addComponent(new Label("KTORA Z NASTEPUJACYCH FABRYK WAGONOW BEDZIESZ SABOTOWA£?")
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("whichCarsIndustryToSabotage"))
             .setTheme(new SimpleTheme(TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.YELLOW_BRIGHT)));
         contentPanel.addComponent(new EmptySpace());
 
         // Display all of the industries
 
         // Create table
-        Table<String> industriesTable = new Table<String>("NR", "NAZWA", "CENA", "W£ASNO$C");
+        Table<String> industriesTable = new Table<String>(
+            "NR",
+            gameProperties.langMap.get("name"),
+            gameProperties.langMap.get("price"),
+            gameProperties.langMap.get("property")
+        );
 
         // Add every available industry to table
         industriesTable.getTableModel().addRow("0","-","-","-");
@@ -499,7 +509,7 @@ public class Sabotage {
     }
 
     // Attempt a drill industry sabotage
-    static void attemptDrillIndustrySabotage(Player player, GameProperties gameProperties) throws InterruptedException {
+    static void attemptDrillsIndustrySabotage(Player player, GameProperties gameProperties) throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -515,13 +525,18 @@ public class Sabotage {
         // Clean up
         contentPanel.removeAllComponents();
 
-        contentPanel.addComponent(new Label("KTORA Z NASTEPUJACYCH FABRYK WIERTE£ BEDZIESZ SABOTOWAC?"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("whichDrillsIndustryToSabotage")));
         contentPanel.addComponent(new EmptySpace());
 
         // Display all of the industries
 
         // Create table
-        Table<String> industriesTable = new Table<String>("NR", "NAZWA", "CENA", "W£ASNO$C");
+        Table<String> industriesTable = new Table<String>(
+            "NR",
+            gameProperties.langMap.get("name"),
+            gameProperties.langMap.get("price"),
+            gameProperties.langMap.get("property")
+        );
 
         // Add every available industry to table
         industriesTable.getTableModel().addRow("0","-","-","-");
@@ -593,7 +608,7 @@ public class Sabotage {
         // Clean up
         contentPanel.removeAllComponents();
 
-        contentPanel.addComponent(new Label("TU PADNIE ROZSTRZYGNIECIE!"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("hereWillBeResolution")));
         contentPanel.addComponent(new EmptySpace());
 
         // Create panel for generating options
@@ -628,7 +643,7 @@ public class Sabotage {
 
         contentPanel.addComponent(new EmptySpace());
 
-        contentPanel.addComponent(new Label("WCI$NIJ GUZIK W ODPOWIEDNIM MOMENCIE"));
+        contentPanel.addComponent(new Label(gameProperties.langMap.get("pressButton")));
 
         // Button for confirmation
         Button confirmButton = Elements.confirmButton(gameProperties);
@@ -677,7 +692,7 @@ public class Sabotage {
 
         // Inform about result
         Panel resultPanel = new Panel(new GridLayout(2));
-        resultPanel.addComponent(new Label("WYNIK SABOTAZU :"));
+        resultPanel.addComponent(new Label(gameProperties.langMap.get("sabotageResolution") + " :"));
 
         // Format result
         String resultString = "";
@@ -696,10 +711,10 @@ public class Sabotage {
         contentPanel.addComponent(resultPanel);
         
         if (result > 0) {
-            contentPanel.addComponent(new Label("DOP£ACASZ DO INTERESU!"));
+            contentPanel.addComponent(new Label(gameProperties.langMap.get("sabotageUnsuccessful2")));
         }
         else {
-            contentPanel.addComponent(new Label("UDANE PRZEDSIEWZIECIE!"));
+            contentPanel.addComponent(new Label(gameProperties.langMap.get("sabotageSuccessful2")));
         }
 
         // Button for confirmation
