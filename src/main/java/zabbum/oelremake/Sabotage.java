@@ -32,11 +32,13 @@ public class Sabotage {
         );
 
         // Display sabotage shade
-        for (int i = 0; i < 23; i++) {
-            contentPanel.addComponent(new Label(" ".repeat(i+1) + gameProperties.langMap.get("sabotageFancy")));
-            Thread.sleep(50);
+        if (!gameProperties.isInDevMode) {
+            for (int i = 0; i < 23; i++) {
+                contentPanel.addComponent(new Label(" ".repeat(i+1) + gameProperties.langMap.get("sabotageFancy")));
+                Thread.sleep(50);
+            }
+            Thread.sleep(1000);
         }
-        Thread.sleep(1000);
         contentPanel.removeAllComponents();
 
         // Blue button theme
