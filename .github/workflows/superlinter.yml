@@ -1,17 +1,18 @@
 name: Super-Linter
 
-on: pull_request
+on: [push, pull_request]
 
 jobs:
     super-lint:
-        name: Lint code base
+        name: Lint
         runs-on: ubuntu-latest
+
         permissions:
             contents: read
             packages: read
             # To report GitHub Actions status checks
             statuses: write
-            
+
         steps:
             - name: Checkout code
               uses: actions/checkout@v4.1.7
@@ -22,5 +23,5 @@ jobs:
               uses: github/super-linter@v6
               env:
                 VALIDATE_ALL_CODEBASE: true
-                DEFAULT_BRANCH: ${{ github.event.pull_request.base.ref }}
+                DEFAULT_BRANCH: main
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
