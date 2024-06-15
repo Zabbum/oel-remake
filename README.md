@@ -18,3 +18,5 @@ Project trying to rewrite a Commodore 64 game ***OEL Pompowacze*** in java with 
 ## Current roadmap
 - Make this whole project more modifiable
 - Add option to play via network
+- Fix formatting
+    - Implement javadoc
