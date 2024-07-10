@@ -1,3 +1,5 @@
 .vscode/settings.json
 oel-remake.jar
 target/
+super-linter.log
+super-linter-output/

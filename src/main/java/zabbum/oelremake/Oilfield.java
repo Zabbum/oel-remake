@@ -10,26 +10,69 @@ import com.googlecode.lanterna.gui2.table.Table;
 import java.util.Random;
 import lombok.Data;
 
-public @Data class Oilfield {
+@Data
+public final class Oilfield {
 
-  // Object variables
+  /**
+   * Name of oilfield.
+   */
   private String name;
+  /**
+   * Price of oilfield.
+   */
   private int price;
+  /**
+   * Ownership of oilfield.
+   */
   private Player ownership;
+  /**
+   * Total oil amount in oilfield.
+   */
   private int totalOilAmount;
+  /**
+   * Is oilfield able to pump oil.
+   * false by default,
+   * true if player has reached required depth.
+   */
   private boolean isExploitable;
+  /**
+   * Required depth of digging to make oilfield exploitable.
+   */
   private int requiredDepth;
+  /**
+   * Current digging depth.
+   */
   private int currentDepth;
+  /**
+   * Amount of oil extracted in total.
+   */
   private int oilExtracted;
+  /**
+   * Amount of oil available to sell.
+   */
   private int oilAvailabletoSell;
-
-  // Amounts of exploitation stuff
+  /**
+   * Amount of cars in oilfield.
+   * Cars are needed to sell oil.
+   */
   private int carsAmount;
+  /**
+   * Amount of drills in oilfield.
+   * Drills are needed to dril (bruh).
+   */
   private int drillsAmount;
+  /**
+   * Amount of pumps in oilfield.
+   * Pumps are needed to extract oil from oilfield.
+   */
   private int pumpsAmount;
 
-  // Constructor
-  public Oilfield(String name) {
+  /**
+   * Constructor of an oilfield.
+   * 
+   * @param name name of the oilfield
+   */
+  public Oilfield(final String name) {
     Random random = new Random();
 
     this.name = name;
@@ -46,7 +89,11 @@ public @Data class Oilfield {
     this.pumpsAmount = 0;
   }
 
-  // Is bought
+  /**
+   * Method for checking is oilfield already bought.
+   * 
+   * @return is oilfield bought
+   */
   public boolean isBought() {
     if (this.ownership == null) {
       return false;
@@ -54,18 +101,28 @@ public @Data class Oilfield {
     return true;
   }
 
-  // Extract oil
+  /**
+   * Method to extract oil in the oilfield.
+   * This is executed every round.
+   */
   public void extractOil() {
     this.oilAvailabletoSell += 8000 * this.pumpsAmount;
     this.oilExtracted += 8000 * this.pumpsAmount;
   }
 
-  // Sell oil
-  public void sellOil(int oilAmount) {
+  /**
+   * Method to sell oil from the oilfield.
+   * 
+   * @param oilAmount amount of oil to sell
+   */
+  public void sellOil(final int oilAmount) {
     this.oilAvailabletoSell -= oilAmount;
   }
 
-  // Dig
+  /**
+   * Dig in the oilfield.
+   * This is executed every round.
+   */
   public void dig() {
     Random random = new Random();
 
@@ -73,8 +130,14 @@ public @Data class Oilfield {
     this.currentDepth += 500 - (random.nextInt(30) + 1);
   }
 
-  // Set product amount based on industry type
-  public void addProductAmount(Class<?> industryType, int productsAmount) {
+  /**
+   * Increase product amount based on industry type.
+   * 
+   * @param industryType   type of an industry
+   * @param productsAmount amount of prodduct produced by the industry
+   */
+  public void addProductAmount(
+      final Class<?> industryType, final int productsAmount) {
     if (industryType.equals(CarsIndustry.class)) {
       this.carsAmount += productsAmount;
     } else if (industryType.equals(DrillsIndustry.class)) {
@@ -86,6 +149,11 @@ public @Data class Oilfield {
     }
   }
 
+  /**
+   * Initialize the oilfields.
+   * 
+   * @return array of the oilfields
+   */
   public static Oilfield[] initialize() {
     Oilfield[] oilfields = new Oilfield[12];
 
@@ -106,7 +174,15 @@ public @Data class Oilfield {
     return oilfields;
   }
 
-  public static void buyField(Player player, GameProperties gameProperties)
+  /**
+   * Buy the oilfield by a player.
+   * 
+   * @param player         player that is buying the oilfield
+   * @param gameProperties GameProperties object
+   * @throws InterruptedException interruption signal exception
+   */
+  public static void buyField(
+      final Player player, final GameProperties gameProperties)
       throws InterruptedException {
     // Prepare new graphical settings
     Panel contentPanel = gameProperties.contentPanel;
@@ -125,10 +201,14 @@ public @Data class Oilfield {
     // Display title
     Panel titlePanel = new Panel(new GridLayout(1));
     Game.timeBuffor();
-    titlePanel.setTheme(new SimpleTheme(TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.YELLOW_BRIGHT));
+    titlePanel.setTheme(
+        new SimpleTheme(
+            TextColor.ANSI.BLUE_BRIGHT, TextColor.ANSI.YELLOW_BRIGHT));
     titlePanel.addComponent(new EmptySpace());
     Game.timeBuffor();
-    titlePanel.addComponent(new Label(gameProperties.langMap.get("oilfieldsSale")));
+    titlePanel.addComponent(
+        new Label(
+            gameProperties.langMap.get("oilfieldsSale")));
     titlePanel.addComponent(
         new Label(
             gameProperties.langMap.get("balance2")
@@ -146,8 +226,11 @@ public @Data class Oilfield {
     // Panel for old ownerships
     Panel oldOwnershipPanel = new Panel(new GridLayout(1));
     oldOwnershipPanel.setTheme(
-        new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE_BRIGHT));
-    oldOwnershipPanel.addComponent(new Label(gameProperties.langMap.get("oldOwnership")));
+        new SimpleTheme(
+            TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLUE_BRIGHT));
+    oldOwnershipPanel.addComponent(
+        new Label(
+            gameProperties.langMap.get("oldOwnership")));
     oldOwnershipPanel.addComponent(new EmptySpace());
     oldOwnershipPanel.addComponent(new Label("1-2: SMAR & CO."));
     oldOwnershipPanel.addComponent(new Label("3-4: R.R. INC."));
@@ -162,9 +245,10 @@ public @Data class Oilfield {
     Panel oilfieldsPanel = new Panel(new GridLayout(1));
 
     // Create table
-    Table<String> oilfieldsTable =
-        new Table<String>(
-            "NR", gameProperties.langMap.get("name"), gameProperties.langMap.get("price"));
+    Table<String> oilfieldsTable = new Table<String>(
+        "NR",
+        gameProperties.langMap.get("name"),
+        gameProperties.langMap.get("price"));
 
     // Add every available oilfield to table
     oilfieldsTable.getTableModel().addRow("0", "-", "-");
@@ -198,10 +282,9 @@ public @Data class Oilfield {
     // Wait for selection
     Game.waitForConfirm(gameProperties);
     oilfieldsTable.setEnabled(false);
-    int selectedOilfieldIndex =
-        Integer.parseInt(
-                oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))
-            - 1;
+    int selectedOilfieldIndex = Integer.parseInt(
+        oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))
+        - 1;
 
     // If 0 selected, return
     if (selectedOilfieldIndex == -1) {
