@@ -32,8 +32,16 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import org.json.simple.parser.ParseException;
 
-public class AppLaterna {
-  public static void main(String[] args) throws FileNotFoundException, IOException {
+public class Application {
+  /**
+   * main() method that is executed when class is run
+   * @param args
+   * @throws FileNotFoundException
+   * @throws IOException
+   */
+  public static void main(String[] args)
+      throws FileNotFoundException, IOException {
+    // Final variables
     final Map<String, String> argsMap = CliArgumentsParser.parseArguments(args);
     final GameProperties gameProperties = new GameProperties(34);
 
@@ -51,8 +59,7 @@ public class AppLaterna {
     }
 
     // Set font
-    InputStream inputStream =
-        AppLaterna.class.getClassLoader().getResourceAsStream("font/C64_Pro_Mono-STYLE.ttf");
+    InputStream inputStream = Application.class.getClassLoader().getResourceAsStream("font/C64_Pro_Mono-STYLE.ttf");
     Font font = null;
     try {
       Font fontTmp = Font.createFont(Font.TRUETYPE_FONT, inputStream);
@@ -64,7 +71,7 @@ public class AppLaterna {
     inputStream.close();
 
     // Set lang
-    inputStream = AppLaterna.class.getClassLoader().getResourceAsStream("lang/" + lang + ".json");
+    inputStream = Application.class.getClassLoader().getResourceAsStream("lang/" + lang + ".json");
     try {
       gameProperties.langMap = LangExtractor.getLangData(inputStream);
     } catch (IOException | ParseException e) {
@@ -89,8 +96,7 @@ public class AppLaterna {
       Terminal terminal = terminalFactory.createTerminalEmulator();
 
       // Set icon
-      InputStream iconInputStream =
-          AppLaterna.class.getClassLoader().getResourceAsStream("img/logo.png");
+      InputStream iconInputStream = Application.class.getClassLoader().getResourceAsStream("img/logo.png");
       Image icon = ImageIO.read(iconInputStream);
 
       ((SwingTerminalFrame) terminal).setIconImage(icon);
@@ -103,9 +109,8 @@ public class AppLaterna {
       screen.startScreen();
 
       // Create gui
-      WindowBasedTextGUI gui =
-          new MultiWindowTextGUI(
-              screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLACK));
+      WindowBasedTextGUI gui = new MultiWindowTextGUI(
+          screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLACK));
 
       TextGUIThreadFactory textGUIThreadFactory = new SeparateTextGUIThread.Factory();
       textGUIThread = (SeparateTextGUIThread) (textGUIThreadFactory.createTextGUIThread(gui));
@@ -116,20 +121,19 @@ public class AppLaterna {
       gameProperties.mainThread = Thread.currentThread();
 
       // Thread for controlling window close
-      Thread windowCloseControllThread =
-          new Thread(
-              () -> {
-                while (!gameProperties.textGUIThread.getState().equals(State.STOPPED)) {
-                  try {
-                    Thread.sleep(0);
-                  } catch (InterruptedException e) {
-                    // Auto-generated catch block
-                    e.printStackTrace();
-                  }
-                }
+      Thread windowCloseControllThread = new Thread(
+          () -> {
+            while (!gameProperties.textGUIThread.getState().equals(State.STOPPED)) {
+              try {
+                Thread.sleep(0);
+              } catch (InterruptedException e) {
+                // Auto-generated catch block
+                e.printStackTrace();
+              }
+            }
 
-                gameProperties.mainThread.interrupt();
-              });
+            gameProperties.mainThread.interrupt();
+          });
 
       windowCloseControllThread.start();
 

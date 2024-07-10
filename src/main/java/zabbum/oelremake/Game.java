@@ -108,7 +108,7 @@ public class Game {
     try {
       // Get OEL logo ASCII art
       InputStream oelLogoFile =
-          AppLaterna.class.getClassLoader().getResourceAsStream("arts/oel.json");
+          Application.class.getClassLoader().getResourceAsStream("arts/oel.json");
       contentPanel.addComponent(new ArtObject(oelLogoFile).getImageComponent());
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -195,7 +195,7 @@ public class Game {
     try {
       // Get 1986 ASCII art
       InputStream startYearInputStream =
-          AppLaterna.class.getClassLoader().getResourceAsStream("arts/1986.json");
+          Application.class.getClassLoader().getResourceAsStream("arts/1986.json");
       contentPanel.addComponent(new ArtObject(startYearInputStream).getImageComponent());
     } catch (Exception e) {
       contentPanel.addComponent(new Label("1986"));
@@ -441,7 +441,7 @@ public class Game {
     try {
       // Get drill ASCII art
       InputStream drillArtInputStream =
-          AppLaterna.class.getClassLoader().getResourceAsStream("arts/drill.json");
+          Application.class.getClassLoader().getResourceAsStream("arts/drill.json");
       headerPanel.addComponent(new ArtObject(drillArtInputStream).getImageComponent());
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -560,9 +560,9 @@ public class Game {
     try {
       // Get ASCII arts
       InputStream pumpjackArtInputStream =
-          AppLaterna.class.getClassLoader().getResourceAsStream("arts/pumpjack.json");
+          Application.class.getClassLoader().getResourceAsStream("arts/pumpjack.json");
       InputStream truckArtInputStream =
-          AppLaterna.class.getClassLoader().getResourceAsStream("arts/truck.json");
+          Application.class.getClassLoader().getResourceAsStream("arts/truck.json");
 
       imagePanel.addComponent(new ArtObject(pumpjackArtInputStream).getImageComponent());
       imagePanel.addComponent(new ArtObject(truckArtInputStream).getImageComponent());
