@@ -1,4 +1,4 @@
-name: Super-Linter
+name: Superlinter
 
 on: [push, pull_request]
 
