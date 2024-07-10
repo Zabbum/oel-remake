@@ -6,7 +6,7 @@
     "configurations": [
         {
             "type": "java",
-            "name": "AppLaterna",
+            "name": "Application",
             "request": "launch",
             "mainClass": "zabbum.oelremake.AppLaterna",
             "projectName": "oel-remake",
