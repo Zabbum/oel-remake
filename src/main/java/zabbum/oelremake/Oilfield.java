@@ -175,9 +175,9 @@ public final class Oilfield {
   }
 
   /**
-   * Buy the oilfield by a player.
+   * Menu for buying oilfields.
    * 
-   * @param player         player that is buying the oilfield
+   * @param player         player that is buying an oilfield
    * @param gameProperties GameProperties object
    * @throws InterruptedException interruption signal exception
    */

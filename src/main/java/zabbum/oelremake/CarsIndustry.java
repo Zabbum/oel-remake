@@ -5,8 +5,11 @@ import java.util.Random;
 
 public class CarsIndustry extends AbstractIndustry {
 
-  // Constructor
-  public CarsIndustry(String name) {
+  /**
+   * Constructor of an cars industry.
+   * @param name name of the industry
+   */
+  public CarsIndustry(final String name) {
     super(name);
 
     Random random = new Random();
@@ -15,6 +18,11 @@ public class CarsIndustry extends AbstractIndustry {
     this.setProductsAmount(((int) (this.getIndustryPrice() / 10000)) * 3 + 15);
   }
 
+  /**
+   * Initialize cars industries.
+   * 
+   * @return array of cars industries
+   */
   public static CarsIndustry[] initialize() {
     CarsIndustry[] carsProds = new CarsIndustry[4];
 
@@ -27,7 +35,13 @@ public class CarsIndustry extends AbstractIndustry {
     return carsProds;
   }
 
-  // Menu for buying cars productions
+  /**
+   * Menu for buying cars industries.
+   * 
+   * @param player player that is an industry
+   * @param gameProperties GameProperties object
+   * @throws InterruptedException interruption signal exception
+   */
   public static void buyIndustry(Player player, GameProperties gameProperties)
       throws InterruptedException {
     AbstractIndustry.buyIndustry(
@@ -47,7 +61,13 @@ public class CarsIndustry extends AbstractIndustry {
         50000);
   }
 
-  // Menu for buying cars
+  /**
+   * Menu for buying cars.
+   * 
+   * @param player player that is buying cars
+   * @param gameProperties GameProperties object
+   * @throws InterruptedException interruption signal exception
+   */
   public static void buyProduct(Player player, GameProperties gameProperties)
       throws InterruptedException {
     AbstractIndustry.buyProduct(
