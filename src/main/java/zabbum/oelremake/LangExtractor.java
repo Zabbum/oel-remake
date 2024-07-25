@@ -29,8 +29,6 @@ public class LangExtractor {
         // Create JSONObject
         JSONParser parser = new JSONParser();
         FileReader fileReader = new FileReader(dataFile, StandardCharsets.UTF_8);
-        //Object object = parser.parse(new FileReader(dataFile));
-        //JSONObject dataObject = (JSONObject) object;
         JSONObject dataObject = (JSONObject)(parser.parse(fileReader));
 
         // Create Map object for all the data

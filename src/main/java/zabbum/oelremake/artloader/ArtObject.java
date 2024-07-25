@@ -47,8 +47,6 @@ public @Data class ArtObject {
         // Create JSONObject
         JSONParser parser = new JSONParser();
         FileReader fileReader = new FileReader(dataFile, StandardCharsets.UTF_8);
-        //Object object = parser.parse(fileReader);
-        //JSONObject dataObject = (JSONObject) object;
         JSONObject dataObject = (JSONObject)(parser.parse(fileReader));
         fileReader.close();
 
