@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.io.FileOutputStream;
 
 import org.json.simple.JSONArray;
@@ -45,8 +46,9 @@ public @Data class ArtObject {
 
         // Create JSONObject
         JSONParser parser = new JSONParser();
-        Object object = parser.parse(new FileReader(dataFile));
-        JSONObject dataObject = (JSONObject) object;
+        FileReader fileReader = new FileReader(dataFile, StandardCharsets.UTF_8);
+        JSONObject dataObject = (JSONObject)(parser.parse(fileReader));
+        fileReader.close();
 
         this.width = Integer.parseInt(dataObject.get("width").toString());
         this.height = Integer.parseInt(dataObject.get("height").toString());
