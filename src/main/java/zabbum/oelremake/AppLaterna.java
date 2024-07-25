@@ -66,7 +66,7 @@ public class AppLaterna {
         }
         inputStream.close();
 
-        // Set lang
+        // Set language
         inputStream = AppLaterna.class.getClassLoader().getResourceAsStream("lang/" + lang + ".json");
         try {
             gameProperties.langMap = LangExtractor.getLangData(inputStream);

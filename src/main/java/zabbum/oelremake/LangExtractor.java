@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +28,10 @@ public class LangExtractor {
 
         // Create JSONObject
         JSONParser parser = new JSONParser();
-        Object object = parser.parse(new FileReader(dataFile));
-        JSONObject dataObject = (JSONObject) object;
+        FileReader fileReader = new FileReader(dataFile, StandardCharsets.UTF_8);
+        //Object object = parser.parse(new FileReader(dataFile));
+        //JSONObject dataObject = (JSONObject) object;
+        JSONObject dataObject = (JSONObject)(parser.parse(fileReader));
 
         // Create Map object for all the data
         Map<String, String> langMap = new HashMap<>();
