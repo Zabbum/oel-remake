@@ -1,5 +1,18 @@
 package zabbum.oelremake.artloader;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.io.FileOutputStream;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
@@ -44,10 +57,11 @@ public @Data class ArtObject {
     }
     out.close();
 
-    // Create JSONObject
-    JSONParser parser = new JSONParser();
-    Object object = parser.parse(new FileReader(dataFile));
-    JSONObject dataObject = (JSONObject) object;
+        // Create JSONObject
+        JSONParser parser = new JSONParser();
+        FileReader fileReader = new FileReader(dataFile, StandardCharsets.UTF_8);
+        JSONObject dataObject = (JSONObject)(parser.parse(fileReader));
+        fileReader.close();
 
     this.width = Integer.parseInt(dataObject.get("width").toString());
     this.height = Integer.parseInt(dataObject.get("height").toString());
