@@ -41,6 +41,6 @@ public class LangExtractor {
       langMap.put(keyString, valueString);
     }
 
-    return langMap;
-  }
+        return langMap;
+    }
 }
