@@ -1,4 +1,4 @@
-package com.zabbum.oelremake;
+package zabbum.oelremake;
 
 import static org.junit.Assert.assertTrue;
 

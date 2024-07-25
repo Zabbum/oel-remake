@@ -1,3 +1,5 @@
+# Development notes on original source code
+
 ## Lines in source code
 - 8797 - getting amount of players
 - 9670 - generating oil prizes
@@ -11,7 +13,7 @@
 - `GOSUB21104` - wait
 - `GOSUB21006` - press any key
 - `POKEl,15` - ?
-- `POKE 53280,?`, `POKE 53281,? ` - change colors
+- `POKE 53280,?`, `POKE 53281,?` - change colors
 - `z(x)` = `INT(RND(1)*x)+1`
 
 ## Variable names

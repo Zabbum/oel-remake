@@ -1,0 +1,29 @@
+name: Superlinter
+
+on: [push, pull_request]
+
+jobs:
+    super-lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        
+        continue-on-error: true
+
+        permissions:
+            contents: read
+            packages: read
+            # To report GitHub Actions status checks
+            statuses: write
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4.1.7
+              with:
+                fetch-depth: 0
+
+            - name: Run Super-Linter
+              uses: github/super-linter@v6
+              env:
+                VALIDATE_ALL_CODEBASE: true
+                DEFAULT_BRANCH: main
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
