@@ -6,8 +6,8 @@ import lombok.Getter;
 import zabbum.oelremake.Oilfield;
 import zabbum.oelremake.Operations.BuyableIndustryOperation;
 import zabbum.oelremake.Operations.BuyableProductsOperation;
-import zabbum.oelremake.Player;
 import zabbum.oelremake.Operations.SabotableOperation;
+import zabbum.oelremake.Player;
 
 import java.util.Map;
 

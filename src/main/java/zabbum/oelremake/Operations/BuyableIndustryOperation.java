@@ -14,8 +14,9 @@ public interface BuyableIndustryOperation {
 
     /**
      * Menu for buying industries.
-     * @param player Player buying industry
-     * @param window Lanterna Window
+     *
+     * @param player  Player buying industry
+     * @param window  Lanterna Window
      * @param langMap Map with all the text
      */
     public void buyIndustryMenu(
@@ -26,21 +27,22 @@ public interface BuyableIndustryOperation {
 
     /**
      * Default menu for buying industries.
-     * @param player Player that is buying industry
-     * @param industries List of industries to buy
-     * @param baseForeground Foreground color
-     * @param baseBackground Background color
+     *
+     * @param player             Player that is buying industry
+     * @param industries         List of industries to buy
+     * @param baseForeground     Foreground color
+     * @param baseBackground     Background color
      * @param editableForeground Editable foreground color
      * @param editableBackground Editable background color
      * @param selectedForeground Selected foreground color
      * @param selectedBackground Selected background color
-     * @param guiBackground GUI background
+     * @param guiBackground      GUI background
      * @param industrySale
      * @param industryPrompt
      * @param pricePrompt
-     * @param maxPrice maximum price for the product
-     * @param window Lanterna Window
-     * @param langMap Map with all the text
+     * @param maxPrice           maximum price for the product
+     * @param window             Lanterna Window
+     * @param langMap            Map with all the text
      */
     static void defaultBuyIndustryMenu(
             Player player,
@@ -87,10 +89,10 @@ public interface BuyableIndustryOperation {
         titlePanel.addComponent(new Label(industrySale));
         titlePanel.addComponent(
                 new Label(
-                    langMap.get("balance2")
-                            + ": "
-                            + player.getBalance()
-                            + "$"));
+                        langMap.get("balance2")
+                                + ": "
+                                + player.getBalance()
+                                + "$"));
         titlePanel.addComponent(new EmptySpace());
         contentPanel.addComponent(titlePanel);
 
@@ -170,7 +172,7 @@ public interface BuyableIndustryOperation {
             tmpConfirm.waitForConfirm();
             tmpConfirm.setConfirmStatus(false);
         } while (!(tmpConfirm.isConfirmed() &&
-                SimpleLogic.isValid(productPriceBox.getText(), 0, new int[] {maxPrice})));
+                SimpleLogic.isValid(productPriceBox.getText(), 0, new int[]{maxPrice})));
 
         // Set the price
         industries[selectedIndustryIndex].setProductPrice(Integer.parseInt(productPriceBox.getText()));

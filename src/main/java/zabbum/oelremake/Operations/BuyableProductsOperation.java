@@ -14,10 +14,11 @@ public interface BuyableProductsOperation {
 
     /**
      * Menu for buying products.
-     * @param player Player buying product
+     *
+     * @param player    Player buying product
      * @param oilfields Oilfields to place products on
-     * @param window Lanterna Window
-     * @param langMap Map with all the text
+     * @param window    Lanterna Window
+     * @param langMap   Map with all the text
      */
     public void buyProductsMenu(
             Player player,
@@ -28,6 +29,7 @@ public interface BuyableProductsOperation {
 
     /**
      * Default menu for buying products.
+     *
      * @param player
      * @param industries
      * @param oilfields

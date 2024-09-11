@@ -9,14 +9,14 @@ public class Elements {
         gameProperties.tmpConfirm = false;
 
         Button button =
-            new Button(
-                gameProperties.langMap.get("done"),
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    gameProperties.tmpConfirm = true;
-                  }
-                });
+                new Button(
+                        gameProperties.langMap.get("done"),
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                gameProperties.tmpConfirm = true;
+                            }
+                        });
         return button;
     }
 
