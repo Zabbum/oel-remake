@@ -9,6 +9,7 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.table.Table;
 import java.util.Random;
 import lombok.Data;
+import zabbum.oelremake.Cars.CarsIndustry;
 
 @Data
 public final class Oilfield {

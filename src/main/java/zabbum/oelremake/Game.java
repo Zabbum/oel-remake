@@ -17,6 +17,8 @@ import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.table.Table;
 import java.io.InputStream;
 import java.util.regex.Pattern;
+
+import zabbum.oelremake.Cars.CarsIndustry;
 import zabbum.oelremake.artloader.ArtObject;
 
 public class Game {
@@ -345,7 +347,7 @@ public class Game {
         }
         case "C" -> {
           // Cars productions
-          CarsIndustry.buyIndustry(player, gameProperties);
+          gameProperties.carsIndustryOperations.buyIndustryMenu(player, gameProperties.window, gameProperties.langMap);
         }
         case "D" -> {
           // Oilfields
