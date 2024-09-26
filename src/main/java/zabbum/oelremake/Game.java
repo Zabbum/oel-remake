@@ -329,7 +329,7 @@ public class Game {
             switch (gameProperties.tmpAction) {
                 case "A" -> {
                     // Drills productions
-                    DrillsIndustry.buyIndustry(player, gameProperties);
+                    gameProperties.drillsIndustryOperaions.buyIndustryMenu(player, gameProperties.window, gameProperties.langMap);
                 }
                 case "B" -> {
                     // Pumps productions
@@ -345,7 +345,7 @@ public class Game {
                 }
                 case "E" -> {
                     // Drills
-                    DrillsIndustry.buyProduct(player, gameProperties);
+                    gameProperties.drillsIndustryOperaions.buyProductsMenu(player, gameProperties.oilfields, gameProperties.window, gameProperties.langMap);
                 }
                 case "F" -> {
                     // Pumps
@@ -353,7 +353,7 @@ public class Game {
                 }
                 case "G" -> {
                     // Cars
-                    CarsIndustry.buyProduct(player, gameProperties);
+                    gameProperties.carsIndustryOperations.buyProductsMenu(player, gameProperties.oilfields, gameProperties.window, gameProperties.langMap);
                 }
                 case "H" -> {
                     // Pass

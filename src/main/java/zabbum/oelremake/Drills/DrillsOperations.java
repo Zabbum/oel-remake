@@ -1,4 +1,4 @@
-package zabbum.oelremake.Cars;
+package zabbum.oelremake.Drills;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Window;
@@ -12,30 +12,28 @@ import zabbum.oelremake.Player;
 import java.util.Map;
 
 @Getter
-public class CarsOperations implements BuyableIndustryOperation, BuyableProductsOperation, SabotableOperation {
+public class DrillsOperations implements BuyableIndustryOperation, BuyableProductsOperation, SabotableOperation {
 
-    private final CarsIndustry[] industries;
+    private final DrillsIndustry[] industries;
 
-    public CarsOperations() {
-        industries = initialize();
-    }
+    public DrillsOperations() { industries = initialize(); }
 
     /**
-     * Initialize cars industries.
+     * Initialize drills industries.
      *
      * @return array of cars industries
      */
-    private CarsIndustry[] initialize() {
-        CarsIndustry[] carsIndustries = new CarsIndustry[4];
+    public static DrillsIndustry[] initialize() {
+        DrillsIndustry[] drillProds = new DrillsIndustry[3];
 
-        // Cars productions initialization
-        carsIndustries[0] = new CarsIndustry("WOZ-PRZEWOZ");
-        carsIndustries[1] = new CarsIndustry("WAGONENSITZ");
-        carsIndustries[2] = new CarsIndustry("WORLD CO.");
-        carsIndustries[3] = new CarsIndustry("DRINK TANK INC.");
+        // Drills productions initialization
+        drillProds[0] = new DrillsIndustry("TURBOWIERT");
+        drillProds[1] = new DrillsIndustry("NA B£YSK INC.");
+        drillProds[2] = new DrillsIndustry("PET SHOP&BOYS");
 
-        return carsIndustries;
+        return drillProds;
     }
+
 
     @Override
     public void buyIndustryMenu(Player player, Window window, Map<String, String> langMap) throws InterruptedException {
@@ -49,34 +47,33 @@ public class CarsOperations implements BuyableIndustryOperation, BuyableProducts
                 TextColor.ANSI.WHITE_BRIGHT,
                 TextColor.ANSI.CYAN,
                 TextColor.ANSI.BLUE,
-                langMap.get("carsIndustrySale"),
-                langMap.get("carsIndustryPrompt"),
-                langMap.get("carsPricePrompt"),
-                50000,
+                langMap.get("drillsIndustrySale"),
+                langMap.get("drillsIndustryPrompt"),
+                langMap.get("drillsPricePrompt"),
+                60000,
                 window,
                 langMap
         );
     }
 
     @Override
-    public void buyProductsMenu(Player player, Oilfield[] oilfields, Window window, Map<String, String> langMap)
-            throws InterruptedException {
+    public void buyProductsMenu(Player player, Oilfield[] oilfields, Window window, Map<String, String> langMap) throws InterruptedException {
 
         BuyableProductsOperation.defaultBuyProductsMenu(
                 player,
                 industries,
                 oilfields,
                 TextColor.ANSI.WHITE_BRIGHT,
-                TextColor.ANSI.RED_BRIGHT,
-                TextColor.ANSI.RED_BRIGHT,
+                TextColor.ANSI.YELLOW,
+                TextColor.ANSI.BLUE,
                 TextColor.ANSI.WHITE_BRIGHT,
                 TextColor.ANSI.WHITE_BRIGHT,
                 TextColor.ANSI.CYAN,
-                TextColor.ANSI.RED_BRIGHT,
-                TextColor.ANSI.BLACK,
-                langMap.get("carsHereYouCanBuy"),
-                langMap.get("carsProductsAmountPrompt"),
-                15,
+                TextColor.ANSI.YELLOW,
+                TextColor.ANSI.BLUE,
+                langMap.get("drillsHereYouCanBuy"),
+                langMap.get("drillsProductsAmountPrompt"),
+                10,
                 window,
                 langMap
         );
