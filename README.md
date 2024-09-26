@@ -10,7 +10,7 @@ Project trying to rewrite a Commodore 64 game ***OEL Pompowacze*** in java with 
 
 ## Components
 
-**Application is the main class that you are supposed to run**
+**Application is the main class containing static main() method that you are supposed to run**
 
 - `src/` contains all the source code of remake
 - `vice-snapshots/` - contains VICE64 C64 emulator snapshots from original game
