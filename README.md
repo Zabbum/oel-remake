@@ -3,7 +3,7 @@
 Project trying to rewrite a Commodore 64 game ***OEL Pompowacze*** in java with few improvements
 
 ## Downloading without compiling
-- Install a Java 17 (JRE or JDK) of your choice. (for instance [Amazon Corretto](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/downloads-list.html) or [Liberica](https://bell-sw.com/pages/downloads/#jdk-17-lts)
+- Install a Java 17 (JRE or JDK) of your choice. (for instance [Amazon Corretto](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/downloads-list.html) or [Liberica](https://bell-sw.com/pages/downloads/#jdk-17-lts))
 - Go to the [releases](https://github.com/Zabbum/oel-remake/releases) and download the latest .jar file.
 - Now you can simply run the file and play! 
   - If you want to launch game using command, you can do it using `java -jar path/to/file/oel-remake.jar`
