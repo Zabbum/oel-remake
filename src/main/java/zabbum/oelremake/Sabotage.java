@@ -586,7 +586,7 @@ public class Sabotage {
     static void attemptDrillsIndustrySabotage(Player player, GameProperties gameProperties)
             throws InterruptedException {
         // Variable to store all the industries
-        DrillsIndustry[] drillsIndustries = gameProperties.drillsIndustryOperaions.getIndustries();
+        DrillsIndustry[] drillsIndustries = gameProperties.drillsIndustryOperations.getIndustries();
 
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;

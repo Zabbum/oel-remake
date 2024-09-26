@@ -26,7 +26,7 @@ public class GameProperties {
     public Oilfield[] oilfields;
     public CarsOperations carsIndustryOperations;
     public PumpsOperations pumpsIndustryOperations;
-    public DrillsOperations drillsIndustryOperaions;
+    public DrillsOperations drillsIndustryOperations;
 
     public Double[] oilPrices;
 
@@ -44,7 +44,7 @@ public class GameProperties {
         this.oilfields = Oilfield.initialize();
         this.carsIndustryOperations = new CarsOperations();
         this.pumpsIndustryOperations = new PumpsOperations();
-        this.drillsIndustryOperaions = new DrillsOperations();
+        this.drillsIndustryOperations = new DrillsOperations();
 
         // Generate oil prices
         oilPrices = Oil.generatePrices(roundCount);

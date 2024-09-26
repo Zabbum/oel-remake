@@ -151,7 +151,7 @@ public class ChangePrices {
         }
 
         // Set a new price
-        gameProperties.drillsIndustryOperaions.getIndustries()[selectedIndustryIndex].setProductPrice(proposedPrice);
+        gameProperties.drillsIndustryOperations.getIndustries()[selectedIndustryIndex].setProductPrice(proposedPrice);
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -237,7 +237,7 @@ public class ChangePrices {
     // Change drills prices
     static void drills(Player player, GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
-        AbstractIndustry[] industries = gameProperties.drillsIndustryOperaions.getIndustries();
+        AbstractIndustry[] industries = gameProperties.drillsIndustryOperations.getIndustries();
 
         // Create table
         Table<String> industryTable =
@@ -305,7 +305,7 @@ public class ChangePrices {
         }
 
         // Set a new price
-        gameProperties.drillsIndustryOperaions.getIndustries()[selectedIndustryIndex].setProductPrice(proposedPrice);
+        gameProperties.drillsIndustryOperations.getIndustries()[selectedIndustryIndex].setProductPrice(proposedPrice);
         ;
 
         // Clean up
