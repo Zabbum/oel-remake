@@ -171,8 +171,7 @@ public interface BuyableIndustryOperation {
         do {
             tmpConfirm.waitForConfirm();
             tmpConfirm.setConfirmStatus(false);
-        } while (!(tmpConfirm.isConfirmed() &&
-                SimpleLogic.isValid(productPriceBox.getText(), 0, new int[]{maxPrice})));
+        } while (!(SimpleLogic.isValid(productPriceBox.getText(), 0, new int[]{maxPrice})));
 
         // Set the price
         industries[selectedIndustryIndex].setProductPrice(Integer.parseInt(productPriceBox.getText()));

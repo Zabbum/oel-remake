@@ -28,7 +28,7 @@ public class GameProperties {
     public PumpsOperations pumpsIndustryOperations;
     public DrillsOperations drillsIndustryOperaions;
 
-    public double[] oilPrices;
+    public Double[] oilPrices;
 
     public Player[] players;
 

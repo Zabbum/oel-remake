@@ -302,7 +302,7 @@ public class Game {
         contentPanel.addComponent(new EmptySpace());
 
         // Reduce oil prices
-        Oil.reducePrices(gameProperties);
+        Oil.reducePrices(gameProperties.oilPrices);
         System.out.println("Generated oil prices");
 
         Button confirmButton1 = Elements.confirmButton(gameProperties);

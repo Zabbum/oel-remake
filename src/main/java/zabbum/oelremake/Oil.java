@@ -10,18 +10,18 @@ import java.util.Random;
 
 public class Oil {
     // Generate oil prices
-    public static double[] generatePrices(int roundCount) {
-        double[] oilPrices = new double[roundCount];
+    public static Double[] generatePrices(int roundCount) {
+        Double[] oilPrices = new Double[roundCount];
         Random random = new Random();
 
         // Initialize every value
         for (int i = 0; i < oilPrices.length; i++) {
-            oilPrices[i] = 0;
+            oilPrices[i] = Double.valueOf(0);
         }
 
         // First value
         // 7 - 13
-        oilPrices[0] = random.nextInt(7) + 7;
+        oilPrices[0] = Double.valueOf(random.nextInt(7) + 7);
 
         // Rest of values
         for (int i = 1; i < oilPrices.length; i++) {
@@ -32,7 +32,7 @@ public class Oil {
             }
             //   If greater than 20, set to 20
             if (oilPrices[i] > 20) {
-                oilPrices[i] = 20;
+                oilPrices[i] = Double.valueOf(20);
             }
         }
 
@@ -66,10 +66,10 @@ public class Oil {
     }
 
     // Reduce prices when the graph has been drawn
-    public static void reducePrices(GameProperties gameProperties) {
+    public static void reducePrices(Double[] oilPrices) {
         // Divide each price by 10
-        for (int i = 0; i < gameProperties.oilPrices.length; i++) {
-            gameProperties.oilPrices[i] /= 10;
+        for (int i = 0; i < oilPrices.length; i++) {
+            oilPrices[i] /= 10;
         }
     }
 }
