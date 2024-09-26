@@ -83,7 +83,7 @@ public class ChangePrices {
     // Change pumps prices
     static void pumps(Player player, GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
-        AbstractIndustry[] industries = gameProperties.pumpsIndustries;
+        AbstractIndustry[] industries = gameProperties.pumpsIndustryOperations.getIndustries();
 
         // Create table
         Table<String> industryTable =
@@ -151,7 +151,7 @@ public class ChangePrices {
         }
 
         // Set a new price
-        gameProperties.drillsIndustries[selectedIndustryIndex].setProductPrice(proposedPrice);
+        gameProperties.drillsIndustryOperaions.getIndustries()[selectedIndustryIndex].setProductPrice(proposedPrice);
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -160,7 +160,7 @@ public class ChangePrices {
     // Change cars prices
     static void cars(Player player, GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
-        AbstractIndustry[] industries = gameProperties.carsIndustries;
+        AbstractIndustry[] industries = gameProperties.carsIndustryOperations.getIndustries();
 
         // Create table
         Table<String> industryTable =
@@ -228,7 +228,7 @@ public class ChangePrices {
         }
 
         // Set a new price
-        gameProperties.carsIndustries[selectedIndustryIndex].setProductPrice(proposedPrice);
+        gameProperties.carsIndustryOperations.getIndustries()[selectedIndustryIndex].setProductPrice(proposedPrice);
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -237,7 +237,7 @@ public class ChangePrices {
     // Change drills prices
     static void drills(Player player, GameProperties gameProperties) throws InterruptedException {
         Panel contentPanel = gameProperties.contentPanel;
-        AbstractIndustry[] industries = gameProperties.drillsIndustries;
+        AbstractIndustry[] industries = gameProperties.drillsIndustryOperaions.getIndustries();
 
         // Create table
         Table<String> industryTable =
@@ -305,7 +305,7 @@ public class ChangePrices {
         }
 
         // Set a new price
-        gameProperties.drillsIndustries[selectedIndustryIndex].setProductPrice(proposedPrice);
+        gameProperties.drillsIndustryOperaions.getIndustries()[selectedIndustryIndex].setProductPrice(proposedPrice);
         ;
 
         // Clean up

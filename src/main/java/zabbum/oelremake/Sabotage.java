@@ -5,6 +5,9 @@ import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.graphics.Theme;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.table.Table;
+import zabbum.oelremake.Cars.CarsIndustry;
+import zabbum.oelremake.Drills.DrillsIndustry;
+import zabbum.oelremake.Pumps.PumpsIndustry;
 
 import java.util.List;
 import java.util.Random;
@@ -381,6 +384,9 @@ public class Sabotage {
     // Attempt a pump industry sabotage
     static void attemptPumpsIndustrySabotage(Player player, GameProperties gameProperties)
             throws InterruptedException {
+        // Variable to store all the industries
+        PumpsIndustry[] pumpsIndustries = gameProperties.pumpsIndustryOperations.getIndustries();
+
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -415,21 +421,21 @@ public class Sabotage {
         // Add every available industry to table
         industriesTable.getTableModel().addRow("0", "-", "-", "-");
         for (int industryIndex = 0;
-             industryIndex < gameProperties.pumpsIndustries.length;
+             industryIndex < pumpsIndustries.length;
              industryIndex++) {
             // If industry is bought, display the name
             String ownerName = "---";
 
-            if (gameProperties.pumpsIndustries[industryIndex].isBought()) {
-                ownerName = gameProperties.pumpsIndustries[industryIndex].getOwnership().getName();
+            if (pumpsIndustries[industryIndex].isBought()) {
+                ownerName = pumpsIndustries[industryIndex].getOwnership().getName();
             }
 
             industriesTable
                     .getTableModel()
                     .addRow(
                             String.valueOf(industryIndex + 1),
-                            gameProperties.pumpsIndustries[industryIndex].getName(),
-                            String.valueOf(gameProperties.pumpsIndustries[industryIndex].getIndustryPrice())
+                            pumpsIndustries[industryIndex].getName(),
+                            String.valueOf(pumpsIndustries[industryIndex].getIndustryPrice())
                                     + " $",
                             ownerName);
         }
@@ -464,20 +470,23 @@ public class Sabotage {
         Random random = new Random();
 
         player.decreaseBalance(
-                gameProperties.pumpsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
+                pumpsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
         if (finalResult < 1) {
-            gameProperties.pumpsIndustries[selectedIndustryIndex].setOwnership(null);
-            gameProperties.pumpsIndustries[selectedIndustryIndex].setIndustryPrice(
+            pumpsIndustries[selectedIndustryIndex].setOwnership(null);
+            pumpsIndustries[selectedIndustryIndex].setIndustryPrice(
                     random.nextInt(100000) + 1);
-            gameProperties.pumpsIndustries[selectedIndustryIndex].setProductPrice(0);
-            gameProperties.pumpsIndustries[selectedIndustryIndex].setProductsAmount(
-                    (int) (gameProperties.pumpsIndustries[selectedIndustryIndex].getIndustryPrice() / 10000));
+            pumpsIndustries[selectedIndustryIndex].setProductPrice(0);
+            pumpsIndustries[selectedIndustryIndex].setProductsAmount(
+                    (int) (pumpsIndustries[selectedIndustryIndex].getIndustryPrice() / 10000));
         }
     }
 
     // Attempt a car industry sabotage
     static void attemptCarsIndustrySabotage(Player player, GameProperties gameProperties)
             throws InterruptedException {
+        // Variable to store all the industries
+        CarsIndustry[] carsIndustries = gameProperties.carsIndustryOperations.getIndustries();
+
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -513,21 +522,21 @@ public class Sabotage {
         // Add every available industry to table
         industriesTable.getTableModel().addRow("0", "-", "-", "-");
         for (int industryIndex = 0;
-             industryIndex < gameProperties.carsIndustries.length;
+             industryIndex < carsIndustries.length;
              industryIndex++) {
             // If industry is bought, display the name
             String ownerName = "---";
 
-            if (gameProperties.carsIndustries[industryIndex].isBought()) {
-                ownerName = gameProperties.carsIndustries[industryIndex].getOwnership().getName();
+            if (carsIndustries[industryIndex].isBought()) {
+                ownerName = carsIndustries[industryIndex].getOwnership().getName();
             }
 
             industriesTable
                     .getTableModel()
                     .addRow(
                             String.valueOf(industryIndex + 1),
-                            gameProperties.carsIndustries[industryIndex].getName(),
-                            String.valueOf(gameProperties.carsIndustries[industryIndex].getIndustryPrice())
+                            carsIndustries[industryIndex].getName(),
+                            String.valueOf(carsIndustries[industryIndex].getIndustryPrice())
                                     + " $",
                             ownerName);
         }
@@ -562,20 +571,23 @@ public class Sabotage {
         Random random = new Random();
 
         player.decreaseBalance(
-                gameProperties.carsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
+                carsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
         if (finalResult < 1) {
-            gameProperties.carsIndustries[selectedIndustryIndex].setOwnership(null);
-            gameProperties.carsIndustries[selectedIndustryIndex].setIndustryPrice(
+            carsIndustries[selectedIndustryIndex].setOwnership(null);
+            carsIndustries[selectedIndustryIndex].setIndustryPrice(
                     random.nextInt(200000) + 1);
-            gameProperties.carsIndustries[selectedIndustryIndex].setProductPrice(0);
-            gameProperties.carsIndustries[selectedIndustryIndex].setProductsAmount(
-                    (int) (gameProperties.carsIndustries[selectedIndustryIndex].getIndustryPrice() / 10000));
+            carsIndustries[selectedIndustryIndex].setProductPrice(0);
+            carsIndustries[selectedIndustryIndex].setProductsAmount(
+                    (int) (carsIndustries[selectedIndustryIndex].getIndustryPrice() / 10000));
         }
     }
 
     // Attempt a drill industry sabotage
     static void attemptDrillsIndustrySabotage(Player player, GameProperties gameProperties)
             throws InterruptedException {
+        // Variable to store all the industries
+        DrillsIndustry[] drillsIndustries = gameProperties.drillsIndustryOperaions.getIndustries();
+
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -610,21 +622,21 @@ public class Sabotage {
         // Add every available industry to table
         industriesTable.getTableModel().addRow("0", "-", "-", "-");
         for (int industryIndex = 0;
-             industryIndex < gameProperties.drillsIndustries.length;
+             industryIndex < drillsIndustries.length;
              industryIndex++) {
             // If industry is bought, display the name
             String ownerName = "---";
 
-            if (gameProperties.drillsIndustries[industryIndex].isBought()) {
-                ownerName = gameProperties.drillsIndustries[industryIndex].getOwnership().getName();
+            if (drillsIndustries[industryIndex].isBought()) {
+                ownerName = drillsIndustries[industryIndex].getOwnership().getName();
             }
 
             industriesTable
                     .getTableModel()
                     .addRow(
                             String.valueOf(industryIndex + 1),
-                            gameProperties.drillsIndustries[industryIndex].getName(),
-                            String.valueOf(gameProperties.drillsIndustries[industryIndex].getIndustryPrice())
+                            drillsIndustries[industryIndex].getName(),
+                            String.valueOf(drillsIndustries[industryIndex].getIndustryPrice())
                                     + " $",
                             ownerName);
         }
@@ -659,15 +671,15 @@ public class Sabotage {
         Random random = new Random();
 
         player.decreaseBalance(
-                gameProperties.drillsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
+                drillsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
         if (finalResult < 1) {
-            gameProperties.drillsIndustries[selectedIndustryIndex].setOwnership(null);
-            gameProperties.drillsIndustries[selectedIndustryIndex].setIndustryPrice(
+            drillsIndustries[selectedIndustryIndex].setOwnership(null);
+            drillsIndustries[selectedIndustryIndex].setIndustryPrice(
                     random.nextInt(100000) + 1);
-            gameProperties.drillsIndustries[selectedIndustryIndex].setProductPrice(0);
-            gameProperties.drillsIndustries[selectedIndustryIndex].setProductsAmount(
+            drillsIndustries[selectedIndustryIndex].setProductPrice(0);
+            drillsIndustries[selectedIndustryIndex].setProductsAmount(
                     (int)
-                            (gameProperties.drillsIndustries[selectedIndustryIndex].getIndustryPrice() / 10000));
+                            (drillsIndustries[selectedIndustryIndex].getIndustryPrice() / 10000));
         }
     }
 
