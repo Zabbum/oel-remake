@@ -333,7 +333,7 @@ public class Game {
                 }
                 case "B" -> {
                     // Pumps productions
-                    PumpsIndustry.buyIndustry(player, gameProperties);
+                    gameProperties.pumpsIndustryOperations.buyIndustryMenu(player, gameProperties.window, gameProperties.langMap);
                 }
                 case "C" -> {
                     // Cars productions
@@ -349,7 +349,7 @@ public class Game {
                 }
                 case "F" -> {
                     // Pumps
-                    PumpsIndustry.buyProduct(player, gameProperties);
+                    gameProperties.pumpsIndustryOperations.buyProductsMenu(player, gameProperties.oilfields, gameProperties.window, gameProperties.langMap);
                 }
                 case "G" -> {
                     // Cars

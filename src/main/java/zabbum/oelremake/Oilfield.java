@@ -10,6 +10,7 @@ import com.googlecode.lanterna.gui2.table.Table;
 import lombok.Data;
 import zabbum.oelremake.Cars.CarsIndustry;
 import zabbum.oelremake.Drills.DrillsIndustry;
+import zabbum.oelremake.Pumps.PumpsIndustry;
 
 import java.util.Random;
 
