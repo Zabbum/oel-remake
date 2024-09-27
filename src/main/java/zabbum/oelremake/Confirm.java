@@ -1,12 +1,14 @@
 package zabbum.oelremake;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Setter
 @NoArgsConstructor
 public class Confirm {
-    private boolean confirmStatus = false;
+    protected boolean confirmStatus = false;
 
     public synchronized boolean isConfirmed() {
         return confirmStatus;

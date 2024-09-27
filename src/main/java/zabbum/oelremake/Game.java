@@ -146,15 +146,15 @@ public class Game {
 
         contentPanel.addComponent(new EmptySpace());
 
-        contentPanel.addComponent(Elements.confirmButton(gameProperties));
+        Confirm tmpConfirm = new Confirm();
+
+        contentPanel.addComponent(Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done")));
 
         // If confirm button is pressed and choise is valid, let it be
-        while (!(gameProperties.tmpConfirm
-                && SimpleLogic.isValid(playerAmountTextBox.getText(), 2, new int[]{6}))) {
-
-            gameProperties.tmpConfirm = false;
-            Thread.sleep(0);
-        }
+        do {
+            tmpConfirm.waitForConfirm();
+            tmpConfirm.setConfirmStatus(false);
+        } while (!(SimpleLogic.isValid(playerAmountTextBox.getText(), 2, new int[]{6})));
 
         gameProperties.playerAmount = Integer.parseInt(playerAmountTextBox.getText());
         System.out.println(String.valueOf(gameProperties.playerAmount) + " players");
@@ -325,60 +325,7 @@ public class Game {
             // Display the main menu
             mainMenu(player, gameProperties);
 
-            // Redirect to the valid menu
-            switch (gameProperties.tmpAction) {
-                case "A" -> {
-                    // Drills productions
-                    gameProperties.drillsIndustryOperations.buyIndustryMenu(player,
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "B" -> {
-                    // Pumps productions
-                    gameProperties.pumpsIndustryOperations.buyIndustryMenu(player,
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "C" -> {
-                    // Cars productions
-                    gameProperties.carsIndustryOperations.buyIndustryMenu(player,
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "D" -> {
-                    // Oilfields
-                    gameProperties.oilfieldOperations.buyOilfieldMenu(player,
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "E" -> {
-                    // Drills
-                    gameProperties.drillsIndustryOperations.buyProductsMenu(player,
-                            gameProperties.oilfieldOperations.getOilfields(),
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "F" -> {
-                    // Pumps
-                    gameProperties.pumpsIndustryOperations.buyProductsMenu(player,
-                            gameProperties.oilfieldOperations.getOilfields(),
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "G" -> {
-                    // Cars
-                    gameProperties.carsIndustryOperations.buyProductsMenu(player,
-                            gameProperties.oilfieldOperations.getOilfields(),
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "H" -> {
-                    // Pass
-                }
-                case "I" -> {
-                    // Attempt sabotage
-                    Sabotage.doSabotage(player, gameProperties);
-                }
-                case "J" -> {
-                    // Change prices
-                }
-                default -> {
-                    System.out.println("No value provided. This could be an error.");
-                }
-            }
+
         }
         endRound(gameProperties);
     }
@@ -652,18 +599,17 @@ public class Game {
             contentPanel.addComponent(oilAmountToSellTextBox);
             oilAmountToSellTextBox.takeFocus();
 
-            contentPanel.addComponent(Elements.confirmButton(gameProperties));
+            Confirm tmpConfirm = new Confirm();
+            contentPanel.addComponent(Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done")));
 
             // If confirm button is pressed and choise is valid, let it be
-            while (!(gameProperties.tmpConfirm
-                    && SimpleLogic.isValid(
+            do {
+                tmpConfirm.waitForConfirm();
+                tmpConfirm.setConfirmStatus(false);
+            } while (!(SimpleLogic.isValid(
                     oilAmountToSellTextBox.getText(),
                     0,
-                    new int[]{oilfield.getCarsAmount() * 7000, oilfield.getOilAvailabletoSell()}))) {
-
-                gameProperties.tmpConfirm = false;
-                Thread.sleep(0);
-            }
+                    new int[]{oilfield.getCarsAmount() * 7000, oilfield.getOilAvailabletoSell()})));
 
             // Take actions
             int oilAmount = Integer.parseInt(oilAmountToSellTextBox.getText());
@@ -673,12 +619,14 @@ public class Game {
 
         // If cannot sell oil
         else {
-            Button confirmButton = Elements.confirmButton(gameProperties);
+            Confirm tmpConfirm = new Confirm();
+
+            Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
             contentPanel.addComponent(confirmButton);
             confirmButton.takeFocus();
 
             // Wait for confirmation
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
         }
 
         // Clean up
@@ -885,6 +833,9 @@ public class Game {
 
         contentPanel.addComponent(new EmptySpace());
 
+        // Confirm variable
+        ConfirmAction tmpConfirm = new ConfirmAction();
+
         // Options pt. 1
         contentPanel.addComponent(
                 new Label(" " + gameProperties.langMap.get("buying") + " ")
@@ -893,10 +844,7 @@ public class Game {
         Component firstButton =
                 new Button(
                         gameProperties.langMap.get("drillsIndustries"),
-                        () -> {
-                            gameProperties.tmpAction = "A";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("A"))
                         .setTheme(blackButton);
         contentPanel.addComponent(firstButton);
         ((Interactable) firstButton).takeFocus();
@@ -904,47 +852,29 @@ public class Game {
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("pumpsIndustries"),
-                        () -> {
-                            gameProperties.tmpAction = "B";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("B")));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("carsIndustries"),
-                        () -> {
-                            gameProperties.tmpAction = "C";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("C"))
                         .setTheme(blackButton));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("oilfields"),
-                        () -> {
-                            gameProperties.tmpAction = "D";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("D")));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("drills"),
-                        () -> {
-                            gameProperties.tmpAction = "E";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("E"))
                         .setTheme(blackButton));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("pumps"),
-                        () -> {
-                            gameProperties.tmpAction = "F";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("F")));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("cars"),
-                        () -> {
-                            gameProperties.tmpAction = "G";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("G"))
                         .setTheme(blackButton));
 
         // Space
@@ -958,28 +888,75 @@ public class Game {
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("nextPlayer"),
-                        () -> {
-                            gameProperties.tmpAction = "H";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("H")));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("attemptSabotage"),
-                        () -> {
-                            gameProperties.tmpAction = "I";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("I"))
                         .setTheme(blackButton));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("changePrices"),
-                        () -> {
-                            gameProperties.tmpAction = "J";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("J")));
 
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
         contentPanel.removeAllComponents();
+
+        // Redirect to the valid menu
+        switch (tmpConfirm.getAction()) {
+            case "A" -> {
+                // Drills productions
+                gameProperties.drillsIndustryOperations.buyIndustryMenu(player,
+                        gameProperties.window, gameProperties.langMap);
+            }
+            case "B" -> {
+                // Pumps productions
+                gameProperties.pumpsIndustryOperations.buyIndustryMenu(player,
+                        gameProperties.window, gameProperties.langMap);
+            }
+            case "C" -> {
+                // Cars productions
+                gameProperties.carsIndustryOperations.buyIndustryMenu(player,
+                        gameProperties.window, gameProperties.langMap);
+            }
+            case "D" -> {
+                // Oilfields
+                gameProperties.oilfieldOperations.buyOilfieldMenu(player,
+                        gameProperties.window, gameProperties.langMap);
+            }
+            case "E" -> {
+                // Drills
+                gameProperties.drillsIndustryOperations.buyProductsMenu(player,
+                        gameProperties.oilfieldOperations.getOilfields(),
+                        gameProperties.window, gameProperties.langMap);
+            }
+            case "F" -> {
+                // Pumps
+                gameProperties.pumpsIndustryOperations.buyProductsMenu(player,
+                        gameProperties.oilfieldOperations.getOilfields(),
+                        gameProperties.window, gameProperties.langMap);
+            }
+            case "G" -> {
+                // Cars
+                gameProperties.carsIndustryOperations.buyProductsMenu(player,
+                        gameProperties.oilfieldOperations.getOilfields(),
+                        gameProperties.window, gameProperties.langMap);
+            }
+            case "H" -> {
+                // Pass
+            }
+            case "I" -> {
+                // Attempt sabotage
+                Sabotage.doSabotage(player, gameProperties);
+            }
+            case "J" -> {
+                // Change prices
+                ChangePrices.menu(player, gameProperties);
+            }
+            default -> {
+                System.out.println("No value provided. This could be an error.");
+            }
+        }
     }
 
     @Deprecated

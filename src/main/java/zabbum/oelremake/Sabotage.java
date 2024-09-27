@@ -70,14 +70,13 @@ public class Sabotage {
         contentPanel.addComponent(new Label(gameProperties.langMap.get("sabotagePossibilities")));
         contentPanel.addComponent(new EmptySpace());
 
+        ConfirmAction tmpConfirm = new ConfirmAction();
+
         // Display options
         Component firstButton =
                 new Button(
                         gameProperties.langMap.get("sabotageOilfield"),
-                        () -> {
-                            gameProperties.tmpAction = "0";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("0"))
                         .setTheme(blueButton);
         contentPanel.addComponent(firstButton);
         ((Interactable) firstButton).takeFocus();
@@ -85,36 +84,27 @@ public class Sabotage {
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("sabotagePumpsIndustry"),
-                        () -> {
-                            gameProperties.tmpAction = "1";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("1"))
                         .setTheme(yellowButton));
 
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("sabotageCarsIndustry"),
-                        () -> {
-                            gameProperties.tmpAction = "2";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("2"))
                         .setTheme(blueButton));
 
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("sabotageDrillsIndustry"),
-                        () -> {
-                            gameProperties.tmpAction = "3";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("3"))
                         .setTheme(yellowButton));
 
         // Wait for response
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
         contentPanel.removeAllComponents();
 
         // Redirect to valid menu
-        int action = Integer.parseInt(gameProperties.tmpAction);
+        int action = Integer.parseInt(tmpConfirm.getAction());
 
         switch (action) {
             case 0 -> {

@@ -34,7 +34,6 @@ public class GameProperties {
     public Player[] players;
 
     public boolean tmpConfirm;
-    public String tmpAction;
 
     public GameProperties(int roundCount) {
         this.roundCount = roundCount;
