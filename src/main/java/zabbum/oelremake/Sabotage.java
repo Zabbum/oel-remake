@@ -365,15 +365,15 @@ public class Sabotage {
                 gameProperties.oilfields[selectedOilfieldIndex].setOilExtracted(0);
                 // Reset amount of oil available to sell
                 gameProperties.oilfields[selectedOilfieldIndex].setOilAvailabletoSell(0);
-                ;
 
-                Thread.sleep(3000);
             } else {
                 // Inform user about status
                 ((Label) animatedLabel).setText(gameProperties.langMap.get("failure"));
                 animatedLabel.setTheme(
                         new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
             }
+
+            Thread.sleep(3000);
         }
 
         // Clean up
