@@ -36,6 +36,8 @@ jobs:
         uses: softprops/action-gh-release@v2.0.8
         with:
           files: target/oel-remake.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Butler push
         uses: yeslayla/butler-publish-itchio-action@v1.0.3
