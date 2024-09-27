@@ -1,15 +1,15 @@
-package zabbum.oelremake.Plants.Industries;
+package zabbum.oelremake.plants.industries;
 
 import lombok.Getter;
 import lombok.Setter;
-import zabbum.oelremake.Plants.AbstractPlant;
+import zabbum.oelremake.plants.AbstractPlant;
 
 @Getter
 @Setter
 // and make AbstractIndustry and Oilfield extend that class
 public abstract class AbstractIndustry extends AbstractPlant {
-    private int productsAmount;
-    private double productPrice;
+    protected int productsAmount;
+    protected double productPrice;
 
     /**
      * Constructor of a Plant.

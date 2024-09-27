@@ -6,6 +6,7 @@ import com.googlecode.lanterna.graphics.Theme;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.table.Table;
 import zabbum.oelremake.artloader.ArtObject;
+import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.io.InputStream;
 import java.util.regex.Pattern;
@@ -328,31 +329,41 @@ public class Game {
             switch (gameProperties.tmpAction) {
                 case "A" -> {
                     // Drills productions
-                    gameProperties.drillsIndustryOperations.buyIndustryMenu(player, gameProperties.window, gameProperties.langMap);
+                    gameProperties.drillsIndustryOperations.buyIndustryMenu(player,
+                            gameProperties.window, gameProperties.langMap);
                 }
                 case "B" -> {
                     // Pumps productions
-                    gameProperties.pumpsIndustryOperations.buyIndustryMenu(player, gameProperties.window, gameProperties.langMap);
+                    gameProperties.pumpsIndustryOperations.buyIndustryMenu(player,
+                            gameProperties.window, gameProperties.langMap);
                 }
                 case "C" -> {
                     // Cars productions
-                    gameProperties.carsIndustryOperations.buyIndustryMenu(player, gameProperties.window, gameProperties.langMap);
+                    gameProperties.carsIndustryOperations.buyIndustryMenu(player,
+                            gameProperties.window, gameProperties.langMap);
                 }
                 case "D" -> {
                     // Oilfields
-                    Oilfield.buyField(player, gameProperties);
+                    gameProperties.oilfieldOperations.buyOilfieldMenu(player,
+                            gameProperties.window, gameProperties.langMap);
                 }
                 case "E" -> {
                     // Drills
-                    gameProperties.drillsIndustryOperations.buyProductsMenu(player, gameProperties.oilfields, gameProperties.window, gameProperties.langMap);
+                    gameProperties.drillsIndustryOperations.buyProductsMenu(player,
+                            gameProperties.oilfieldOperations.getOilfields(),
+                            gameProperties.window, gameProperties.langMap);
                 }
                 case "F" -> {
                     // Pumps
-                    gameProperties.pumpsIndustryOperations.buyProductsMenu(player, gameProperties.oilfields, gameProperties.window, gameProperties.langMap);
+                    gameProperties.pumpsIndustryOperations.buyProductsMenu(player,
+                            gameProperties.oilfieldOperations.getOilfields(),
+                            gameProperties.window, gameProperties.langMap);
                 }
                 case "G" -> {
                     // Cars
-                    gameProperties.carsIndustryOperations.buyProductsMenu(player, gameProperties.oilfields, gameProperties.window, gameProperties.langMap);
+                    gameProperties.carsIndustryOperations.buyProductsMenu(player,
+                            gameProperties.oilfieldOperations.getOilfields(),
+                            gameProperties.window, gameProperties.langMap);
                 }
                 case "H" -> {
                     // Pass
@@ -380,7 +391,7 @@ public class Game {
         for (Player player : gameProperties.players) {
 
             // Oilfields overview
-            for (Oilfield oilfield : gameProperties.oilfields) {
+            for (Oilfield oilfield : gameProperties.oilfieldOperations.getOilfields()) {
                 // Clean up
                 contentPanel.removeAllComponents();
 
@@ -971,6 +982,7 @@ public class Game {
         contentPanel.removeAllComponents();
     }
 
+    @Deprecated
     public static void waitForConfirm(GameProperties gameProperties) throws InterruptedException {
         gameProperties.tmpConfirm = false;
         while (!gameProperties.tmpConfirm) {

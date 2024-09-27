@@ -1,4 +1,4 @@
-package zabbum.oelremake.Plants;
+package zabbum.oelremake.plants;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,9 +7,9 @@ import zabbum.oelremake.Player;
 @Getter
 @Setter
 public abstract class AbstractPlant {
-    private String name;
-    private int plantPrice;
-    private Player ownership;
+    protected String name;
+    protected int plantPrice;
+    protected Player ownership;
 
     /**
      * Constructor of a Plant.

@@ -1,6 +1,6 @@
-package zabbum.oelremake.Operations;
+package zabbum.oelremake.operations;
 
-import zabbum.oelremake.Plants.Industries.AbstractIndustry;
+import zabbum.oelremake.plants.industries.AbstractIndustry;
 
 public interface SabotableOperation {
     /**

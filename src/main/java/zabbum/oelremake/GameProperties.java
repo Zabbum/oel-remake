@@ -3,9 +3,10 @@ package zabbum.oelremake;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.SeparateTextGUIThread;
 import com.googlecode.lanterna.gui2.Window;
-import zabbum.oelremake.Plants.Industries.Cars.CarsOperations;
-import zabbum.oelremake.Plants.Industries.Drills.DrillsOperations;
-import zabbum.oelremake.Plants.Industries.Pumps.PumpsOperations;
+import zabbum.oelremake.plants.industries.Cars.CarsOperations;
+import zabbum.oelremake.plants.industries.Drills.DrillsOperations;
+import zabbum.oelremake.plants.industries.Pumps.PumpsOperations;
+import zabbum.oelremake.plants.oilfield.OilfieldOperations;
 
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class GameProperties {
     public int currentRound;
     public int playerAmount;
 
-    public Oilfield[] oilfields;
+    public OilfieldOperations oilfieldOperations;
     public CarsOperations carsIndustryOperations;
     public PumpsOperations pumpsIndustryOperations;
     public DrillsOperations drillsIndustryOperations;
@@ -41,7 +42,7 @@ public class GameProperties {
         this.isInDevMode = false;
 
         // Initialize industries
-        this.oilfields = Oilfield.initialize();
+        this.oilfieldOperations = new OilfieldOperations();
         this.carsIndustryOperations = new CarsOperations();
         this.pumpsIndustryOperations = new PumpsOperations();
         this.drillsIndustryOperations = new DrillsOperations();

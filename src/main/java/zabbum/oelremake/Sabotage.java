@@ -5,9 +5,10 @@ import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.graphics.Theme;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.table.Table;
-import zabbum.oelremake.Plants.Industries.Cars.CarsIndustry;
-import zabbum.oelremake.Plants.Industries.Drills.DrillsIndustry;
-import zabbum.oelremake.Plants.Industries.Pumps.PumpsIndustry;
+import zabbum.oelremake.plants.industries.Cars.CarsIndustry;
+import zabbum.oelremake.plants.industries.Drills.DrillsIndustry;
+import zabbum.oelremake.plants.industries.Pumps.PumpsIndustry;
+import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.util.List;
 import java.util.Random;
@@ -138,6 +139,9 @@ public class Sabotage {
     // Attempt a oilfield sabotage
     static void attemptOilfieldSabotage(Player player, GameProperties gameProperties)
             throws InterruptedException {
+
+        Oilfield[] oilfields = gameProperties.oilfieldOperations.getOilfields();
+
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
@@ -202,20 +206,20 @@ public class Sabotage {
             // Add every available oilfield to table
             oilfieldsTable.getTableModel().addRow("0", "-", "-");
             for (int oilfieldIndex = 0;
-                 oilfieldIndex < gameProperties.oilfields.length;
+                 oilfieldIndex < oilfields.length;
                  oilfieldIndex++) {
                 // If oilfield is bought, display the name
                 String ownerName = "---";
 
-                if (gameProperties.oilfields[oilfieldIndex].isBought()) {
-                    ownerName = gameProperties.oilfields[oilfieldIndex].getOwnership().getName();
+                if (oilfields[oilfieldIndex].isBought()) {
+                    ownerName = oilfields[oilfieldIndex].getOwnership().getName();
                 }
 
                 oilfieldsTable
                         .getTableModel()
                         .addRow(
                                 String.valueOf(oilfieldIndex + 1),
-                                gameProperties.oilfields[oilfieldIndex].getName(),
+                                oilfields[oilfieldIndex].getName(),
                                 ownerName);
             }
 
@@ -343,28 +347,28 @@ public class Sabotage {
                         new SimpleTheme(TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
 
                 // Set new oilfield price
-                gameProperties.oilfields[selectedOilfieldIndex].setPrice(random.nextInt(50000) + 30001);
+                oilfields[selectedOilfieldIndex].setPlantPrice(random.nextInt(50000) + 30001);
                 // Set new oil amount
-                gameProperties.oilfields[selectedOilfieldIndex].setTotalOilAmount(
+                oilfields[selectedOilfieldIndex].setTotalOilAmount(
                         random.nextInt(200000) + 1);
                 // Revoke ownership
-                gameProperties.oilfields[selectedOilfieldIndex].setOwnership(null);
+                oilfields[selectedOilfieldIndex].setOwnership(null);
                 // Revoke ability to pump oil
-                gameProperties.oilfields[selectedOilfieldIndex].setExploitable(false);
+                oilfields[selectedOilfieldIndex].setExploitable(false);
                 // Set new requred depth to pump oil
-                gameProperties.oilfields[selectedOilfieldIndex].setRequiredDepth(random.nextInt(4500) + 1);
+                oilfields[selectedOilfieldIndex].setRequiredDepth(random.nextInt(4500) + 1);
                 // Reset amount of pumps
-                gameProperties.oilfields[selectedOilfieldIndex].setPumpsAmount(0);
+                oilfields[selectedOilfieldIndex].setPumpsAmount(0);
                 // Reset amount of cars
-                gameProperties.oilfields[selectedOilfieldIndex].setCarsAmount(0);
+                oilfields[selectedOilfieldIndex].setCarsAmount(0);
                 // Reset amount of drills
-                gameProperties.oilfields[selectedOilfieldIndex].setDrillsAmount(0);
+                oilfields[selectedOilfieldIndex].setDrillsAmount(0);
                 // Reset current digging depth
-                gameProperties.oilfields[selectedOilfieldIndex].setCurrentDepth(0);
+                oilfields[selectedOilfieldIndex].setCurrentDepth(0);
                 // Reset amount of oil pumped out
-                gameProperties.oilfields[selectedOilfieldIndex].setOilExtracted(0);
+                oilfields[selectedOilfieldIndex].setOilExtracted(0);
                 // Reset amount of oil available to sell
-                gameProperties.oilfields[selectedOilfieldIndex].setOilAvailabletoSell(0);
+                oilfields[selectedOilfieldIndex].setOilAvailabletoSell(0);
 
             } else {
                 // Inform user about status

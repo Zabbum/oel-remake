@@ -1,12 +1,12 @@
-package zabbum.oelremake.Plants.Industries.Cars;
+package zabbum.oelremake.plants.industries.Cars;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Window;
 import lombok.Getter;
-import zabbum.oelremake.Oilfield;
-import zabbum.oelremake.Operations.BuyableIndustryOperation;
-import zabbum.oelremake.Operations.BuyableProductsOperation;
-import zabbum.oelremake.Operations.SabotableOperation;
+import zabbum.oelremake.operations.BuyableIndustryOperation;
+import zabbum.oelremake.operations.BuyableProductsOperation;
+import zabbum.oelremake.operations.SabotableOperation;
+import zabbum.oelremake.plants.oilfield.Oilfield;
 import zabbum.oelremake.Player;
 
 import java.util.Map;

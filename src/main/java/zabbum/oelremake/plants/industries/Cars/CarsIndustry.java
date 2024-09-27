@@ -1,6 +1,6 @@
-package zabbum.oelremake.Plants.Industries.Cars;
+package zabbum.oelremake.plants.industries.Cars;
 
-import zabbum.oelremake.Plants.Industries.AbstractIndustry;
+import zabbum.oelremake.plants.industries.AbstractIndustry;
 
 import java.util.Random;
 

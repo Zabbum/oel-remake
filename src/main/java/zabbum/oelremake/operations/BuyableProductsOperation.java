@@ -1,4 +1,4 @@
-package zabbum.oelremake.Operations;
+package zabbum.oelremake.operations;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -6,7 +6,8 @@ import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.table.Table;
 import zabbum.oelremake.*;
-import zabbum.oelremake.Plants.Industries.AbstractIndustry;
+import zabbum.oelremake.plants.industries.AbstractIndustry;
+import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.util.Map;
 import java.util.regex.Pattern;
