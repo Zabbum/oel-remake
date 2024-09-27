@@ -22,14 +22,6 @@ public class Elements {
 
     // The new confirm button
     public static Button newConfirmButton(Confirm confirm, String text) {
-        return new Button(
-                text,
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        confirm.confirm();
-                    }
-                }
-        );
+        return new Button(text, confirm::confirm);
     }
 }

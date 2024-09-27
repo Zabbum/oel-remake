@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ConfirmAction extends Confirm{
+public class ConfirmAction extends Confirm {
     private String action = "";
 
     public synchronized void confirm(final String action) {

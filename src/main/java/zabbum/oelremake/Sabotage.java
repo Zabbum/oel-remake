@@ -213,17 +213,16 @@ public class Sabotage {
                                 ownerName);
             }
 
-            oilfieldsTable.setSelectAction(
-                    () -> {
-                        gameProperties.tmpConfirm = true;
-                    });
+            Confirm tmpConfirm = new Confirm();
+
+            oilfieldsTable.setSelectAction(tmpConfirm::confirm);
 
             // Display table
             contentPanel.addComponent(oilfieldsTable);
             oilfieldsTable.takeFocus();
 
             // Wait for selection
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
             int selectedOilfieldIndex =
                     Integer.parseInt(
                             oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))
@@ -280,6 +279,8 @@ public class Sabotage {
 
             Panel buttonPanel = new Panel(new GridLayout(2));
 
+            tmpConfirm = new Confirm();
+
             Button declineButton =
                     new Button(
                             gameProperties.langMap.get("no"),
@@ -291,15 +292,12 @@ public class Sabotage {
             buttonPanel.addComponent(declineButton);
             buttonPanel.addComponent(
                     new Button(
-                            gameProperties.langMap.get("yes"),
-                            () -> {
-                                gameProperties.tmpConfirm = true;
-                            }));
+                            gameProperties.langMap.get("yes"), tmpConfirm::confirm));
 
             contentPanel.addComponent(buttonPanel);
             contentPanel.addComponent(new EmptySpace());
 
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
 
             // Reduce player's balance
             player.decreaseBalance(fees1 + fees2);
@@ -434,17 +432,16 @@ public class Sabotage {
                             ownerName);
         }
 
-        industriesTable.setSelectAction(
-                () -> {
-                    gameProperties.tmpConfirm = true;
-                });
+        Confirm tmpConfirm = new Confirm();
+
+        industriesTable.setSelectAction(tmpConfirm::confirm);
 
         // Display table
         contentPanel.addComponent(industriesTable);
         industriesTable.takeFocus();
 
         // Wait for selection
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
         int selectedIndustryIndex =
                 Integer.parseInt(
                         industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))
@@ -535,17 +532,16 @@ public class Sabotage {
                             ownerName);
         }
 
-        industriesTable.setSelectAction(
-                () -> {
-                    gameProperties.tmpConfirm = true;
-                });
+        Confirm tmpConfirm = new Confirm();
+
+        industriesTable.setSelectAction(tmpConfirm::confirm);
 
         // Display table
         contentPanel.addComponent(industriesTable);
         industriesTable.takeFocus();
 
         // Wait for selection
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
         int selectedIndustryIndex =
                 Integer.parseInt(
                         industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))
@@ -635,17 +631,16 @@ public class Sabotage {
                             ownerName);
         }
 
-        industriesTable.setSelectAction(
-                () -> {
-                    gameProperties.tmpConfirm = true;
-                });
+        Confirm tmpConfirm = new Confirm();
+
+        industriesTable.setSelectAction(tmpConfirm::confirm);
 
         // Display table
         contentPanel.addComponent(industriesTable);
         industriesTable.takeFocus();
 
         // Wait for selection
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
         int selectedIndustryIndex =
                 Integer.parseInt(
                         industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))
@@ -735,16 +730,17 @@ public class Sabotage {
         contentPanel.addComponent(new Label(gameProperties.langMap.get("pressButton")));
 
         // Button for confirmation
-        Button confirmButton = Elements.confirmButton(gameProperties);
+        Confirm tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Cycle through options until selection isn't selected
-        while (!gameProperties.tmpConfirm) {
+        while (!tmpConfirm.isConfirmed()) {
             // Cycle through options
             for (int i = 0; i < results.length; i++) {
                 // If button is pressed, break
-                if (gameProperties.tmpConfirm) {
+                if (tmpConfirm.isConfirmed()) {
                     break;
                 }
 
@@ -759,7 +755,6 @@ public class Sabotage {
                 optionsTable.getTableModel().setCell(3, i, "");
             }
         }
-        gameProperties.tmpConfirm = false;
 
         double result = 0;
 
@@ -804,12 +799,13 @@ public class Sabotage {
         }
 
         // Button for confirmation
-        confirmButton = Elements.confirmButton(gameProperties);
+        tmpConfirm = new Confirm();
+        confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Clean up
         contentPanel.removeAllComponents();
