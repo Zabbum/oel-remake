@@ -1,10 +1,14 @@
 package zabbum.oelremake;
 
-import java.util.Map;
-
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.SeparateTextGUIThread;
 import com.googlecode.lanterna.gui2.Window;
+import zabbum.oelremake.plants.industries.Cars.CarsOperations;
+import zabbum.oelremake.plants.industries.Drills.DrillsOperations;
+import zabbum.oelremake.plants.industries.Pumps.PumpsOperations;
+import zabbum.oelremake.plants.oilfield.OilfieldOperations;
+
+import java.util.Map;
 
 public class GameProperties {
     public Map<String, String> langMap;
@@ -20,12 +24,12 @@ public class GameProperties {
     public int currentRound;
     public int playerAmount;
 
-    public Oilfield[] oilfields;
-    public CarsIndustry[] carsIndustries;
-    public PumpsIndustry[] pumpsIndustries;
-    public DrillsIndustry[] drillsIndustries;
+    public OilfieldOperations oilfieldOperations;
+    public CarsOperations carsIndustryOperations;
+    public PumpsOperations pumpsIndustryOperations;
+    public DrillsOperations drillsIndustryOperations;
 
-    public double[] oilPrices;
+    public Double[] oilPrices;
 
     public Player[] players;
 
@@ -38,13 +42,12 @@ public class GameProperties {
         this.isInDevMode = false;
 
         // Initialize industries
-        this.oilfields = Oilfield.initialize();
-        this.carsIndustries = CarsIndustry.initialize();
-        this.pumpsIndustries = PumpsIndustry.initialize();
-        this.drillsIndustries = DrillsIndustry.initialize();
+        this.oilfieldOperations = new OilfieldOperations();
+        this.carsIndustryOperations = new CarsOperations();
+        this.pumpsIndustryOperations = new PumpsOperations();
+        this.drillsIndustryOperations = new DrillsOperations();
 
         // Generate oil prices
         oilPrices = Oil.generatePrices(roundCount);
     }
-    
 }

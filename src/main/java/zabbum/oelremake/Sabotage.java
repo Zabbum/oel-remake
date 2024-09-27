@@ -1,40 +1,42 @@
 package zabbum.oelremake;
 
-import java.util.List;
-import java.util.Random;
-
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.graphics.Theme;
-import com.googlecode.lanterna.gui2.Button;
-import com.googlecode.lanterna.gui2.Component;
-import com.googlecode.lanterna.gui2.EmptySpace;
-import com.googlecode.lanterna.gui2.GridLayout;
-import com.googlecode.lanterna.gui2.Interactable;
-import com.googlecode.lanterna.gui2.Label;
-import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.table.Table;
+import zabbum.oelremake.plants.industries.Cars.CarsIndustry;
+import zabbum.oelremake.plants.industries.Drills.DrillsIndustry;
+import zabbum.oelremake.plants.industries.Pumps.PumpsIndustry;
+import zabbum.oelremake.plants.oilfield.Oilfield;
+
+import java.util.List;
+import java.util.Random;
 
 public class Sabotage {
-    
+
     // Do a sabotage
-    public static void doSabotage(Player player, GameProperties gameProperties) throws InterruptedException {
+    public static void doSabotage(Player player, GameProperties gameProperties)
+            throws InterruptedException {
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
         gameProperties.window.setTheme(
-            SimpleTheme.makeTheme(false,
-                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK_BRIGHT,
-                TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.WHITE_BRIGHT,
-                TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
-                TextColor.ANSI.BLACK_BRIGHT
-            )
-        );
+                SimpleTheme.makeTheme(
+                        false,
+                        TextColor.ANSI.WHITE_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.WHITE_BRIGHT,
+                        TextColor.ANSI.CYAN,
+                        TextColor.ANSI.BLUE_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT));
 
         // Display sabotage shade
         if (!gameProperties.isInDevMode) {
             for (int i = 0; i < 23; i++) {
-                contentPanel.addComponent(new Label(" ".repeat(i+1) + gameProperties.langMap.get("sabotageFancy")));
+                contentPanel.addComponent(
+                        new Label(" ".repeat(i + 1) + gameProperties.langMap.get("sabotageFancy")));
                 Thread.sleep(50);
             }
             Thread.sleep(1000);
@@ -42,54 +44,70 @@ public class Sabotage {
         contentPanel.removeAllComponents();
 
         // Blue button theme
-        Theme blueButton = SimpleTheme.makeTheme(false,
-            TextColor.ANSI.BLUE, TextColor.ANSI.BLACK_BRIGHT,
-            TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.BLUE,
-            TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
-            TextColor.ANSI.BLACK_BRIGHT
-        );
+        Theme blueButton =
+                SimpleTheme.makeTheme(
+                        false,
+                        TextColor.ANSI.BLUE,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.BLUE,
+                        TextColor.ANSI.WHITE_BRIGHT,
+                        TextColor.ANSI.CYAN,
+                        TextColor.ANSI.BLACK_BRIGHT);
         // Yellow button theme
-        Theme yellowButton = SimpleTheme.makeTheme(false,
-            TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT,
-            TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.YELLOW_BRIGHT,
-            TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.CYAN,
-            TextColor.ANSI.BLACK_BRIGHT
-        );
+        Theme yellowButton =
+                SimpleTheme.makeTheme(
+                        false,
+                        TextColor.ANSI.YELLOW_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.YELLOW_BRIGHT,
+                        TextColor.ANSI.WHITE_BRIGHT,
+                        TextColor.ANSI.CYAN,
+                        TextColor.ANSI.BLACK_BRIGHT);
 
         // Inform user what can they do
         contentPanel.addComponent(new Label(gameProperties.langMap.get("sabotagePossibilities")));
         contentPanel.addComponent(new EmptySpace());
 
         // Display options
-        Component firstButton = new Button(gameProperties.langMap.get("sabotageOilfield"),
-            () -> {
-                gameProperties.tmpAction = "0";
-                gameProperties.tmpConfirm = true;
-            }
-        ).setTheme(blueButton);
+        Component firstButton =
+                new Button(
+                        gameProperties.langMap.get("sabotageOilfield"),
+                        () -> {
+                            gameProperties.tmpAction = "0";
+                            gameProperties.tmpConfirm = true;
+                        })
+                        .setTheme(blueButton);
         contentPanel.addComponent(firstButton);
-        ((Interactable)firstButton).takeFocus();
+        ((Interactable) firstButton).takeFocus();
 
-        contentPanel.addComponent(new Button(gameProperties.langMap.get("sabotagePumpsIndustry"),
-            () -> {
-                gameProperties.tmpAction = "1";
-                gameProperties.tmpConfirm = true;
-            }
-        ).setTheme(yellowButton));
+        contentPanel.addComponent(
+                new Button(
+                        gameProperties.langMap.get("sabotagePumpsIndustry"),
+                        () -> {
+                            gameProperties.tmpAction = "1";
+                            gameProperties.tmpConfirm = true;
+                        })
+                        .setTheme(yellowButton));
 
-        contentPanel.addComponent(new Button(gameProperties.langMap.get("sabotageCarsIndustry"),
-            () -> {
-                gameProperties.tmpAction = "2";
-                gameProperties.tmpConfirm = true;
-            }
-        ).setTheme(blueButton));
+        contentPanel.addComponent(
+                new Button(
+                        gameProperties.langMap.get("sabotageCarsIndustry"),
+                        () -> {
+                            gameProperties.tmpAction = "2";
+                            gameProperties.tmpConfirm = true;
+                        })
+                        .setTheme(blueButton));
 
-        contentPanel.addComponent(new Button(gameProperties.langMap.get("sabotageDrillsIndustry"),
-            () -> {
-                gameProperties.tmpAction = "3";
-                gameProperties.tmpConfirm = true;
-            }
-        ).setTheme(yellowButton));
+        contentPanel.addComponent(
+                new Button(
+                        gameProperties.langMap.get("sabotageDrillsIndustry"),
+                        () -> {
+                            gameProperties.tmpAction = "3";
+                            gameProperties.tmpConfirm = true;
+                        })
+                        .setTheme(yellowButton));
 
         // Wait for response
         Game.waitForConfirm(gameProperties);
@@ -111,27 +129,35 @@ public class Sabotage {
             case 3 -> {
                 attemptDrillsIndustrySabotage(player, gameProperties);
             }
-            default -> {}
+            default -> {
+            }
         }
         // Clean up
         contentPanel.removeAllComponents();
     }
 
     // Attempt a oilfield sabotage
-    static void attemptOilfieldSabotage(Player player, GameProperties gameProperties) throws InterruptedException {
+    static void attemptOilfieldSabotage(Player player, GameProperties gameProperties)
+            throws InterruptedException {
+
+        Oilfield[] oilfields = gameProperties.oilfieldOperations.getOilfields();
+
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
         gameProperties.window.setTheme(
-            SimpleTheme.makeTheme(false,
-                TextColor.ANSI.BLACK, TextColor.ANSI.BLACK_BRIGHT,
-                TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.BLACK,
-                TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
-                TextColor.ANSI.BLACK_BRIGHT
-            )
-        );
+                SimpleTheme.makeTheme(
+                        false,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.CYAN,
+                        TextColor.ANSI.BLUE_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT));
 
-        contentPanel.addComponent(new Label(String.format(gameProperties.langMap.get("oilfieldSabotageChances"), 50)));
+        contentPanel.addComponent(
+                new Label(String.format(gameProperties.langMap.get("oilfieldSabotageChances"), 50)));
         contentPanel.addComponent(new EmptySpace());
 
         Button confirmButton = Elements.confirmButton(gameProperties);
@@ -147,56 +173,60 @@ public class Sabotage {
         // Generate is succeed
         Random random = new Random();
         boolean isSucceed = random.nextBoolean();
-        
+
         // If action is succeed
         if (isSucceed) {
             // Setup colors
             gameProperties.window.setTheme(
-                SimpleTheme.makeTheme(false,
-                    TextColor.ANSI.WHITE, TextColor.ANSI.BLACK_BRIGHT,
-                    TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.WHITE,
-                    TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
-                    TextColor.ANSI.BLACK_BRIGHT
-                )
-            );
+                    SimpleTheme.makeTheme(
+                            false,
+                            TextColor.ANSI.WHITE,
+                            TextColor.ANSI.BLACK_BRIGHT,
+                            TextColor.ANSI.BLACK_BRIGHT,
+                            TextColor.ANSI.WHITE,
+                            TextColor.ANSI.CYAN,
+                            TextColor.ANSI.BLUE_BRIGHT,
+                            TextColor.ANSI.BLACK_BRIGHT));
 
-            contentPanel.addComponent(new Label("HELLO! I'M AGENT FUNNY HAPPY BEAR")
-                .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT))
-            );
-            contentPanel.addComponent(new Label(gameProperties.langMap.get("whichOilfieldToSabotage"))
-                .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT))
-            );
+            contentPanel.addComponent(
+                    new Label("HELLO! I'M AGENT FUNNY HAPPY BEAR")
+                            .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT)));
+            contentPanel.addComponent(
+                    new Label(gameProperties.langMap.get("whichOilfieldToSabotage"))
+                            .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT)));
             contentPanel.addComponent(new EmptySpace());
 
             // Display all of the oilfields
 
             // Create table
-            Table<String> oilfieldsTable = new Table<String>(
-                "NR",
-                gameProperties.langMap.get("name"),
-                gameProperties.langMap.get("property")
-            );
+            Table<String> oilfieldsTable =
+                    new Table<String>(
+                            "NR", gameProperties.langMap.get("name"), gameProperties.langMap.get("property"));
 
             // Add every available oilfield to table
-            oilfieldsTable.getTableModel().addRow("0","-","-");
-            for (int oilfieldIndex = 0; oilfieldIndex < gameProperties.oilfields.length; oilfieldIndex++) {
+            oilfieldsTable.getTableModel().addRow("0", "-", "-");
+            for (int oilfieldIndex = 0;
+                 oilfieldIndex < oilfields.length;
+                 oilfieldIndex++) {
                 // If oilfield is bought, display the name
                 String ownerName = "---";
 
-                if (gameProperties.oilfields[oilfieldIndex].isBought()) {
-                    ownerName = gameProperties.oilfields[oilfieldIndex].getOwnership().getName();
+                if (oilfields[oilfieldIndex].isBought()) {
+                    ownerName = oilfields[oilfieldIndex].getOwnership().getName();
                 }
 
-                oilfieldsTable.getTableModel().addRow(
-                    String.valueOf(oilfieldIndex+1),
-                    gameProperties.oilfields[oilfieldIndex].getName(),
-                    ownerName
-                );
+                oilfieldsTable
+                        .getTableModel()
+                        .addRow(
+                                String.valueOf(oilfieldIndex + 1),
+                                oilfields[oilfieldIndex].getName(),
+                                ownerName);
             }
 
-            oilfieldsTable.setSelectAction(() -> {
-                gameProperties.tmpConfirm = true;
-            });
+            oilfieldsTable.setSelectAction(
+                    () -> {
+                        gameProperties.tmpConfirm = true;
+                    });
 
             // Display table
             contentPanel.addComponent(oilfieldsTable);
@@ -204,7 +234,10 @@ public class Sabotage {
 
             // Wait for selection
             Game.waitForConfirm(gameProperties);
-            int selectedOilfieldIndex = Integer.parseInt(oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))-1;
+            int selectedOilfieldIndex =
+                    Integer.parseInt(
+                            oilfieldsTable.getTableModel().getRow(oilfieldsTable.getSelectedRow()).get(0))
+                            - 1;
 
             // If 0 selected, return
             if (selectedOilfieldIndex == -1) {
@@ -219,12 +252,12 @@ public class Sabotage {
 
             // Inform user about the costs
             contentPanel.removeAllComponents();
-            contentPanel.addComponent(new Label(gameProperties.langMap.get("sabotageOilfieldData"))
-                .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT))
-            );
-            contentPanel.addComponent(new Label(gameProperties.langMap.get("sabotageOilfieldCosts"))
-                .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT))
-            );
+            contentPanel.addComponent(
+                    new Label(gameProperties.langMap.get("sabotageOilfieldData"))
+                            .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT)));
+            contentPanel.addComponent(
+                    new Label(gameProperties.langMap.get("sabotageOilfieldCosts"))
+                            .setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT)));
 
             Panel costPanel = new Panel(new GridLayout(3));
 
@@ -242,98 +275,109 @@ public class Sabotage {
 
             contentPanel.addComponent(costPanel);
 
-            contentPanel.addComponent(new Label(gameProperties.langMap.get("chancesAre") + " 33%.")
-                .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.BLACK_BRIGHT))
-            );
+            contentPanel.addComponent(
+                    new Label(gameProperties.langMap.get("chancesAre") + " 33%.")
+                            .setTheme(new SimpleTheme(TextColor.ANSI.BLACK, TextColor.ANSI.BLACK_BRIGHT)));
 
-            contentPanel.addComponent(new Label(gameProperties.langMap.get("yourBalance2") + " = " + player.getBalance() + "$")
-                .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT))
-            );
+            contentPanel.addComponent(
+                    new Label(gameProperties.langMap.get("yourBalance2") + " = " + player.getBalance() + "$")
+                            .setTheme(
+                                    new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT)));
 
             contentPanel.addComponent(new EmptySpace());
-            contentPanel.addComponent(new Label("BEAR \'" + gameProperties.langMap.get("sabotageOilfieldShouldIStart") + "\'"));
+            contentPanel.addComponent(
+                    new Label("BEAR \'" + gameProperties.langMap.get("sabotageOilfieldShouldIStart") + "\'"));
 
             Panel buttonPanel = new Panel(new GridLayout(2));
 
-            Button declineButton = new Button(gameProperties.langMap.get("no"), () -> {
-                // Clean up
-                contentPanel.removeAllComponents();
-                return;
-            });
+            Button declineButton =
+                    new Button(
+                            gameProperties.langMap.get("no"),
+                            () -> {
+                                // Clean up
+                                contentPanel.removeAllComponents();
+                                return;
+                            });
             buttonPanel.addComponent(declineButton);
-            buttonPanel.addComponent(new Button(gameProperties.langMap.get("yes"), () -> {
-                gameProperties.tmpConfirm = true;
-            }));
+            buttonPanel.addComponent(
+                    new Button(
+                            gameProperties.langMap.get("yes"),
+                            () -> {
+                                gameProperties.tmpConfirm = true;
+                            }));
 
             contentPanel.addComponent(buttonPanel);
             contentPanel.addComponent(new EmptySpace());
 
             Game.waitForConfirm(gameProperties);
 
-            //Reduce player's balance
+            // Reduce player's balance
             player.decreaseBalance(fees1 + fees2);
 
             // Generate if action is succeed or not
             int isSucceedSabotage = random.nextInt(3);
 
             // Animated element
-            Component animatedLabel = new Label(gameProperties.langMap.get("sabotageSuccessful"))
-                .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
+            Component animatedLabel =
+                    new Label(gameProperties.langMap.get("sabotageSuccessful"))
+                            .setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
 
             contentPanel.addComponent(animatedLabel);
 
             // Generating animation
             for (int i = 0; i < 50; i++) {
-                if (i%2 == 1) {
-                    ((Label)animatedLabel).setText(gameProperties.langMap.get("sabotageUnsuccessful"));
-                    animatedLabel.setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
+                if (i % 2 == 1) {
+                    ((Label) animatedLabel).setText(gameProperties.langMap.get("sabotageUnsuccessful"));
+                    animatedLabel.setTheme(
+                            new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
+                } else {
+                    ((Label) animatedLabel).setText(gameProperties.langMap.get("sabotageSuccessful"));
+                    animatedLabel.setTheme(
+                            new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
                 }
-                else {
-                    ((Label)animatedLabel).setText(gameProperties.langMap.get("sabotageSuccessful"));
-                    animatedLabel.setTheme(new SimpleTheme(TextColor.ANSI.YELLOW_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
-                }
-                
+
                 Thread.sleep(100);
             }
 
             // Take actions based on sabotage succession
             if (isSucceedSabotage == 2) {
                 // Inform user about status
-                ((Label)animatedLabel).setText(gameProperties.langMap.get("success"));
-                animatedLabel.setTheme(new SimpleTheme(TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
+                ((Label) animatedLabel).setText(gameProperties.langMap.get("success"));
+                animatedLabel.setTheme(
+                        new SimpleTheme(TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
 
                 // Set new oilfield price
-                gameProperties.oilfields[selectedOilfieldIndex].setPrice(random.nextInt(50000) + 30001);
+                oilfields[selectedOilfieldIndex].setPlantPrice(random.nextInt(50000) + 30001);
                 // Set new oil amount
-                gameProperties.oilfields[selectedOilfieldIndex].setTotalOilAmount(random.nextInt(200000) + 1);
+                oilfields[selectedOilfieldIndex].setTotalOilAmount(
+                        random.nextInt(200000) + 1);
                 // Revoke ownership
-                gameProperties.oilfields[selectedOilfieldIndex].setOwnership(null);
+                oilfields[selectedOilfieldIndex].setOwnership(null);
                 // Revoke ability to pump oil
-                gameProperties.oilfields[selectedOilfieldIndex].setExploitable(false);
+                oilfields[selectedOilfieldIndex].setExploitable(false);
                 // Set new requred depth to pump oil
-                gameProperties.oilfields[selectedOilfieldIndex].setRequiredDepth(random.nextInt(4500) + 1);
+                oilfields[selectedOilfieldIndex].setRequiredDepth(random.nextInt(4500) + 1);
                 // Reset amount of pumps
-                gameProperties.oilfields[selectedOilfieldIndex].setPumpsAmount(0);
+                oilfields[selectedOilfieldIndex].setPumpsAmount(0);
                 // Reset amount of cars
-                gameProperties.oilfields[selectedOilfieldIndex].setCarsAmount(0);
+                oilfields[selectedOilfieldIndex].setCarsAmount(0);
                 // Reset amount of drills
-                gameProperties.oilfields[selectedOilfieldIndex].setDrillsAmount(0);
+                oilfields[selectedOilfieldIndex].setDrillsAmount(0);
                 // Reset current digging depth
-                gameProperties.oilfields[selectedOilfieldIndex].setCurrentDepth(0);
+                oilfields[selectedOilfieldIndex].setCurrentDepth(0);
                 // Reset amount of oil pumped out
-                gameProperties.oilfields[selectedOilfieldIndex].setOilExtracted(0);
+                oilfields[selectedOilfieldIndex].setOilExtracted(0);
                 // Reset amount of oil available to sell
-                gameProperties.oilfields[selectedOilfieldIndex].setOilAvailabletoSell(0);;
+                oilfields[selectedOilfieldIndex].setOilAvailabletoSell(0);
 
-                Thread.sleep(3000);
-            }
-            else {
+            } else {
                 // Inform user about status
-                ((Label)animatedLabel).setText(gameProperties.langMap.get("failure"));
-                animatedLabel.setTheme(new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
+                ((Label) animatedLabel).setText(gameProperties.langMap.get("failure"));
+                animatedLabel.setTheme(
+                        new SimpleTheme(TextColor.ANSI.RED_BRIGHT, TextColor.ANSI.BLACK_BRIGHT));
             }
 
-            
+            Thread.sleep(3000);
         }
 
         // Clean up
@@ -342,56 +386,68 @@ public class Sabotage {
     }
 
     // Attempt a pump industry sabotage
-    static void attemptPumpsIndustrySabotage(Player player, GameProperties gameProperties) throws InterruptedException {
+    static void attemptPumpsIndustrySabotage(Player player, GameProperties gameProperties)
+            throws InterruptedException {
+        // Variable to store all the industries
+        PumpsIndustry[] pumpsIndustries = gameProperties.pumpsIndustryOperations.getIndustries();
+
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
         gameProperties.window.setTheme(
-            SimpleTheme.makeTheme(false,
-                TextColor.ANSI.BLACK, TextColor.ANSI.BLACK_BRIGHT,
-                TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.BLACK,
-                TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
-                TextColor.ANSI.BLACK_BRIGHT
-            )
-        );
+                SimpleTheme.makeTheme(
+                        false,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.CYAN,
+                        TextColor.ANSI.BLUE_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT));
 
         // Clean up
         contentPanel.removeAllComponents();
 
-        contentPanel.addComponent(new Label(gameProperties.langMap.get("whichPumpsIndustryToSabotage")));
+        contentPanel.addComponent(
+                new Label(gameProperties.langMap.get("whichPumpsIndustryToSabotage")));
         contentPanel.addComponent(new EmptySpace());
 
         // Display all of the industries
 
         // Create table
-        Table<String> industriesTable = new Table<String>(
-            "NR",
-            gameProperties.langMap.get("name"),
-            gameProperties.langMap.get("price"),
-            gameProperties.langMap.get("property")
-        );
+        Table<String> industriesTable =
+                new Table<String>(
+                        "NR",
+                        gameProperties.langMap.get("name"),
+                        gameProperties.langMap.get("price"),
+                        gameProperties.langMap.get("property"));
 
         // Add every available industry to table
-        industriesTable.getTableModel().addRow("0","-","-","-");
-        for (int industryIndex = 0; industryIndex < gameProperties.pumpsIndustries.length; industryIndex++) {
+        industriesTable.getTableModel().addRow("0", "-", "-", "-");
+        for (int industryIndex = 0;
+             industryIndex < pumpsIndustries.length;
+             industryIndex++) {
             // If industry is bought, display the name
             String ownerName = "---";
 
-            if (gameProperties.pumpsIndustries[industryIndex].isBought()) {
-                ownerName = gameProperties.pumpsIndustries[industryIndex].getOwnership().getName();
+            if (pumpsIndustries[industryIndex].isBought()) {
+                ownerName = pumpsIndustries[industryIndex].getOwnership().getName();
             }
 
-            industriesTable.getTableModel().addRow(
-                String.valueOf(industryIndex+1),
-                gameProperties.pumpsIndustries[industryIndex].getName(),
-                String.valueOf(gameProperties.pumpsIndustries[industryIndex].getIndustryPrice()) + " $",
-                ownerName
-            );
+            industriesTable
+                    .getTableModel()
+                    .addRow(
+                            String.valueOf(industryIndex + 1),
+                            pumpsIndustries[industryIndex].getName(),
+                            String.valueOf(pumpsIndustries[industryIndex].getPlantPrice())
+                                    + " $",
+                            ownerName);
         }
 
-        industriesTable.setSelectAction(() -> {
-            gameProperties.tmpConfirm = true;
-        });
+        industriesTable.setSelectAction(
+                () -> {
+                    gameProperties.tmpConfirm = true;
+                });
 
         // Display table
         contentPanel.addComponent(industriesTable);
@@ -399,7 +455,10 @@ public class Sabotage {
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
+        int selectedIndustryIndex =
+                Integer.parseInt(
+                        industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))
+                        - 1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
@@ -414,69 +473,82 @@ public class Sabotage {
         // Take actions
         Random random = new Random();
 
-        player.decreaseBalance(gameProperties.pumpsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
+        player.decreaseBalance(
+                pumpsIndustries[selectedIndustryIndex].getPlantPrice() * finalResult);
         if (finalResult < 1) {
-            gameProperties.pumpsIndustries[selectedIndustryIndex].setOwnership(null);
-            gameProperties.pumpsIndustries[selectedIndustryIndex].setIndustryPrice(random.nextInt(100000)+1);
-            gameProperties.pumpsIndustries[selectedIndustryIndex].setProductPrice(0);
-            gameProperties.pumpsIndustries[selectedIndustryIndex].setProductsAmount(
-                (int)(gameProperties.pumpsIndustries[selectedIndustryIndex].getIndustryPrice()/10000)
-            );
+            pumpsIndustries[selectedIndustryIndex].setOwnership(null);
+            pumpsIndustries[selectedIndustryIndex].setPlantPrice(
+                    random.nextInt(100000) + 1);
+            pumpsIndustries[selectedIndustryIndex].setProductPrice(0);
+            pumpsIndustries[selectedIndustryIndex].setProductsAmount(
+                    (int) (pumpsIndustries[selectedIndustryIndex].getPlantPrice() / 10000));
         }
     }
 
     // Attempt a car industry sabotage
-    static void attemptCarsIndustrySabotage(Player player, GameProperties gameProperties) throws InterruptedException {
+    static void attemptCarsIndustrySabotage(Player player, GameProperties gameProperties)
+            throws InterruptedException {
+        // Variable to store all the industries
+        CarsIndustry[] carsIndustries = gameProperties.carsIndustryOperations.getIndustries();
+
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
         gameProperties.window.setTheme(
-            SimpleTheme.makeTheme(false,
-                TextColor.ANSI.BLACK, TextColor.ANSI.BLACK_BRIGHT,
-                TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.BLACK,
-                TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
-                TextColor.ANSI.BLACK_BRIGHT
-            )
-        );
+                SimpleTheme.makeTheme(
+                        false,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.CYAN,
+                        TextColor.ANSI.BLUE_BRIGHT,
+                        TextColor.ANSI.BLACK_BRIGHT));
 
         // Clean up
         contentPanel.removeAllComponents();
 
-        contentPanel.addComponent(new Label(gameProperties.langMap.get("whichCarsIndustryToSabotage"))
-            .setTheme(new SimpleTheme(TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.YELLOW_BRIGHT)));
+        contentPanel.addComponent(
+                new Label(gameProperties.langMap.get("whichCarsIndustryToSabotage"))
+                        .setTheme(new SimpleTheme(TextColor.ANSI.BLACK_BRIGHT, TextColor.ANSI.YELLOW_BRIGHT)));
         contentPanel.addComponent(new EmptySpace());
 
         // Display all of the industries
 
         // Create table
-        Table<String> industriesTable = new Table<String>(
-            "NR",
-            gameProperties.langMap.get("name"),
-            gameProperties.langMap.get("price"),
-            gameProperties.langMap.get("property")
-        );
+        Table<String> industriesTable =
+                new Table<String>(
+                        "NR",
+                        gameProperties.langMap.get("name"),
+                        gameProperties.langMap.get("price"),
+                        gameProperties.langMap.get("property"));
 
         // Add every available industry to table
-        industriesTable.getTableModel().addRow("0","-","-","-");
-        for (int industryIndex = 0; industryIndex < gameProperties.carsIndustries.length; industryIndex++) {
+        industriesTable.getTableModel().addRow("0", "-", "-", "-");
+        for (int industryIndex = 0;
+             industryIndex < carsIndustries.length;
+             industryIndex++) {
             // If industry is bought, display the name
             String ownerName = "---";
 
-            if (gameProperties.carsIndustries[industryIndex].isBought()) {
-                ownerName = gameProperties.carsIndustries[industryIndex].getOwnership().getName();
+            if (carsIndustries[industryIndex].isBought()) {
+                ownerName = carsIndustries[industryIndex].getOwnership().getName();
             }
 
-            industriesTable.getTableModel().addRow(
-                String.valueOf(industryIndex+1),
-                gameProperties.carsIndustries[industryIndex].getName(),
-                String.valueOf(gameProperties.carsIndustries[industryIndex].getIndustryPrice()) + " $",
-                ownerName
-            );
+            industriesTable
+                    .getTableModel()
+                    .addRow(
+                            String.valueOf(industryIndex + 1),
+                            carsIndustries[industryIndex].getName(),
+                            String.valueOf(carsIndustries[industryIndex].getPlantPrice())
+                                    + " $",
+                            ownerName);
         }
 
-        industriesTable.setSelectAction(() -> {
-            gameProperties.tmpConfirm = true;
-        });
+        industriesTable.setSelectAction(
+                () -> {
+                    gameProperties.tmpConfirm = true;
+                });
 
         // Display table
         contentPanel.addComponent(industriesTable);
@@ -484,7 +556,10 @@ public class Sabotage {
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
+        int selectedIndustryIndex =
+                Integer.parseInt(
+                        industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))
+                        - 1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
@@ -499,68 +574,81 @@ public class Sabotage {
         // Take actions
         Random random = new Random();
 
-        player.decreaseBalance(gameProperties.carsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
+        player.decreaseBalance(
+                carsIndustries[selectedIndustryIndex].getPlantPrice() * finalResult);
         if (finalResult < 1) {
-            gameProperties.carsIndustries[selectedIndustryIndex].setOwnership(null);
-            gameProperties.carsIndustries[selectedIndustryIndex].setIndustryPrice(random.nextInt(200000)+1);
-            gameProperties.carsIndustries[selectedIndustryIndex].setProductPrice(0);
-            gameProperties.carsIndustries[selectedIndustryIndex].setProductsAmount(
-                (int)(gameProperties.carsIndustries[selectedIndustryIndex].getIndustryPrice()/10000)
-            );
+            carsIndustries[selectedIndustryIndex].setOwnership(null);
+            carsIndustries[selectedIndustryIndex].setPlantPrice(
+                    random.nextInt(200000) + 1);
+            carsIndustries[selectedIndustryIndex].setProductPrice(0);
+            carsIndustries[selectedIndustryIndex].setProductsAmount(
+                    (int) (carsIndustries[selectedIndustryIndex].getPlantPrice() / 10000));
         }
     }
 
     // Attempt a drill industry sabotage
-    static void attemptDrillsIndustrySabotage(Player player, GameProperties gameProperties) throws InterruptedException {
+    static void attemptDrillsIndustrySabotage(Player player, GameProperties gameProperties)
+            throws InterruptedException {
+        // Variable to store all the industries
+        DrillsIndustry[] drillsIndustries = gameProperties.drillsIndustryOperations.getIndustries();
+
         // Prepare new graphical settings
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
         gameProperties.window.setTheme(
-            SimpleTheme.makeTheme(false,
-                TextColor.ANSI.BLACK, TextColor.ANSI.WHITE,
-                TextColor.ANSI.WHITE, TextColor.ANSI.BLACK,
-                TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
-                TextColor.ANSI.WHITE
-            )
-        );
+                SimpleTheme.makeTheme(
+                        false,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.WHITE,
+                        TextColor.ANSI.WHITE,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.CYAN,
+                        TextColor.ANSI.BLUE_BRIGHT,
+                        TextColor.ANSI.WHITE));
 
         // Clean up
         contentPanel.removeAllComponents();
 
-        contentPanel.addComponent(new Label(gameProperties.langMap.get("whichDrillsIndustryToSabotage")));
+        contentPanel.addComponent(
+                new Label(gameProperties.langMap.get("whichDrillsIndustryToSabotage")));
         contentPanel.addComponent(new EmptySpace());
 
         // Display all of the industries
 
         // Create table
-        Table<String> industriesTable = new Table<String>(
-            "NR",
-            gameProperties.langMap.get("name"),
-            gameProperties.langMap.get("price"),
-            gameProperties.langMap.get("property")
-        );
+        Table<String> industriesTable =
+                new Table<String>(
+                        "NR",
+                        gameProperties.langMap.get("name"),
+                        gameProperties.langMap.get("price"),
+                        gameProperties.langMap.get("property"));
 
         // Add every available industry to table
-        industriesTable.getTableModel().addRow("0","-","-","-");
-        for (int industryIndex = 0; industryIndex < gameProperties.drillsIndustries.length; industryIndex++) {
+        industriesTable.getTableModel().addRow("0", "-", "-", "-");
+        for (int industryIndex = 0;
+             industryIndex < drillsIndustries.length;
+             industryIndex++) {
             // If industry is bought, display the name
             String ownerName = "---";
 
-            if (gameProperties.drillsIndustries[industryIndex].isBought()) {
-                ownerName = gameProperties.drillsIndustries[industryIndex].getOwnership().getName();
+            if (drillsIndustries[industryIndex].isBought()) {
+                ownerName = drillsIndustries[industryIndex].getOwnership().getName();
             }
 
-            industriesTable.getTableModel().addRow(
-                String.valueOf(industryIndex+1),
-                gameProperties.drillsIndustries[industryIndex].getName(),
-                String.valueOf(gameProperties.drillsIndustries[industryIndex].getIndustryPrice()) + " $",
-                ownerName
-            );
+            industriesTable
+                    .getTableModel()
+                    .addRow(
+                            String.valueOf(industryIndex + 1),
+                            drillsIndustries[industryIndex].getName(),
+                            String.valueOf(drillsIndustries[industryIndex].getPlantPrice())
+                                    + " $",
+                            ownerName);
         }
 
-        industriesTable.setSelectAction(() -> {
-            gameProperties.tmpConfirm = true;
-        });
+        industriesTable.setSelectAction(
+                () -> {
+                    gameProperties.tmpConfirm = true;
+                });
 
         // Display table
         contentPanel.addComponent(industriesTable);
@@ -568,7 +656,10 @@ public class Sabotage {
 
         // Wait for selection
         Game.waitForConfirm(gameProperties);
-        int selectedIndustryIndex = Integer.parseInt(industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))-1;
+        int selectedIndustryIndex =
+                Integer.parseInt(
+                        industriesTable.getTableModel().getRow(industriesTable.getSelectedRow()).get(0))
+                        - 1;
 
         // If 0 selected, return
         if (selectedIndustryIndex == -1) {
@@ -583,14 +674,16 @@ public class Sabotage {
         // Take actions
         Random random = new Random();
 
-        player.decreaseBalance(gameProperties.drillsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
+        player.decreaseBalance(
+                drillsIndustries[selectedIndustryIndex].getPlantPrice() * finalResult);
         if (finalResult < 1) {
-            gameProperties.drillsIndustries[selectedIndustryIndex].setOwnership(null);
-            gameProperties.drillsIndustries[selectedIndustryIndex].setIndustryPrice(random.nextInt(100000)+1);
-            gameProperties.drillsIndustries[selectedIndustryIndex].setProductPrice(0);
-            gameProperties.drillsIndustries[selectedIndustryIndex].setProductsAmount(
-                (int)(gameProperties.drillsIndustries[selectedIndustryIndex].getIndustryPrice()/10000)
-            );
+            drillsIndustries[selectedIndustryIndex].setOwnership(null);
+            drillsIndustries[selectedIndustryIndex].setPlantPrice(
+                    random.nextInt(100000) + 1);
+            drillsIndustries[selectedIndustryIndex].setProductPrice(0);
+            drillsIndustries[selectedIndustryIndex].setProductsAmount(
+                    (int)
+                            (drillsIndustries[selectedIndustryIndex].getPlantPrice() / 10000));
         }
     }
 
@@ -599,13 +692,15 @@ public class Sabotage {
         Panel contentPanel = gameProperties.contentPanel;
         contentPanel.setLayoutManager(new GridLayout(1));
         gameProperties.window.setTheme(
-            SimpleTheme.makeTheme(false,
-                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK,
-                TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT,
-                TextColor.ANSI.CYAN, TextColor.ANSI.BLUE_BRIGHT,
-                TextColor.ANSI.BLACK
-            )
-        );
+                SimpleTheme.makeTheme(
+                        false,
+                        TextColor.ANSI.WHITE_BRIGHT,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.WHITE_BRIGHT,
+                        TextColor.ANSI.CYAN,
+                        TextColor.ANSI.BLUE_BRIGHT,
+                        TextColor.ANSI.BLACK));
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -614,15 +709,17 @@ public class Sabotage {
         contentPanel.addComponent(new EmptySpace());
 
         // Create panel for generating options
-        Table<String> optionsTable = new Table<String>(" ","  "," "," ");
+        Table<String> optionsTable = new Table<String>(" ", "  ", " ", " ");
         optionsTable.setTheme(
-            SimpleTheme.makeTheme(false,
-                TextColor.ANSI.BLACK, TextColor.ANSI.WHITE_BRIGHT,
-                TextColor.ANSI.WHITE_BRIGHT, TextColor.ANSI.BLACK,
-                TextColor.ANSI.CYAN, TextColor.ANSI.WHITE_BRIGHT,
-                TextColor.ANSI.WHITE_BRIGHT
-            )
-        );
+                SimpleTheme.makeTheme(
+                        false,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.WHITE_BRIGHT,
+                        TextColor.ANSI.WHITE_BRIGHT,
+                        TextColor.ANSI.BLACK,
+                        TextColor.ANSI.CYAN,
+                        TextColor.ANSI.WHITE_BRIGHT,
+                        TextColor.ANSI.WHITE_BRIGHT));
 
         int[] results = new int[]{50, -20, 40, -10, 30, -30, 10, -40, 20, -50};
 
@@ -663,10 +760,9 @@ public class Sabotage {
 
                 // Remove arrow from previous option
                 if (i == 0) {
-                    optionsTable.getTableModel().setCell(3, results.length-1, " ");
-                }
-                else {
-                    optionsTable.getTableModel().setCell(3, i-1, " ");
+                    optionsTable.getTableModel().setCell(3, results.length - 1, " ");
+                } else {
+                    optionsTable.getTableModel().setCell(3, i - 1, " ");
                 }
 
                 // Add arrow to current option
@@ -701,21 +797,19 @@ public class Sabotage {
 
         if (result < 0) {
             resultString += "-";
-        }
-        else {
+        } else {
             resultString += "+";
         }
-        resultString += String.valueOf(Math.abs((int)(100*result)));
+        resultString += String.valueOf(Math.abs((int) (100 * result)));
         resultString += "%";
         resultPanel.addComponent(new Label(resultString));
 
         // Display result
         contentPanel.addComponent(resultPanel);
-        
+
         if (result > 0) {
             contentPanel.addComponent(new Label(gameProperties.langMap.get("sabotageUnsuccessful2")));
-        }
-        else {
+        } else {
             contentPanel.addComponent(new Label(gameProperties.langMap.get("sabotageSuccessful2")));
         }
 
