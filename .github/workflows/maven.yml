@@ -35,7 +35,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2.0.8
         with:
-          files: target/oel-remake-*.jar
+          files: target/oel-remake.jar
 
       - name: Butler push
         uses: yeslayla/butler-publish-itchio-action@v1.0.3
@@ -44,7 +44,7 @@ jobs:
           CHANNEL: linux
           ITCH_GAME: oel-remake
           ITCH_USER: Zabbum
-          PACKAGE: target/oel-remake-*.jar
+          PACKAGE: target/oel-remake.jar
 
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
