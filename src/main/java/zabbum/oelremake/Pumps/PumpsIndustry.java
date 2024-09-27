@@ -16,7 +16,7 @@ public class PumpsIndustry extends AbstractIndustry {
 
         Random random = new Random();
 
-        this.setIndustryPrice(random.nextInt(80000) + 36000);
-        this.setProductsAmount(((int) (this.getIndustryPrice() / 10000)) * 7 + 25);
+        this.setPlantPrice(random.nextInt(80000) + 36000);
+        this.setProductsAmount(((int) (this.getPlantPrice() / 10000)) * 7 + 25);
     }
 }

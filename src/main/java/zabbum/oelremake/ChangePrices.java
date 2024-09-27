@@ -100,7 +100,7 @@ public class ChangePrices {
                         .addRow(
                                 String.valueOf(industryIndex + 1),
                                 industries[industryIndex].getName(),
-                                String.valueOf(industries[industryIndex].getIndustryPrice()) + "$");
+                                String.valueOf(industries[industryIndex].getPlantPrice()) + "$");
             }
         }
 
@@ -177,7 +177,7 @@ public class ChangePrices {
                         .addRow(
                                 String.valueOf(industryIndex + 1),
                                 industries[industryIndex].getName(),
-                                String.valueOf(industries[industryIndex].getIndustryPrice()) + "$");
+                                String.valueOf(industries[industryIndex].getPlantPrice()) + "$");
             }
         }
 
@@ -254,7 +254,7 @@ public class ChangePrices {
                         .addRow(
                                 String.valueOf(industryIndex + 1),
                                 industries[industryIndex].getName(),
-                                String.valueOf(industries[industryIndex].getIndustryPrice()) + "$");
+                                String.valueOf(industries[industryIndex].getPlantPrice()) + "$");
             }
         }
 

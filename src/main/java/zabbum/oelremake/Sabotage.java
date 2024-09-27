@@ -435,7 +435,7 @@ public class Sabotage {
                     .addRow(
                             String.valueOf(industryIndex + 1),
                             pumpsIndustries[industryIndex].getName(),
-                            String.valueOf(pumpsIndustries[industryIndex].getIndustryPrice())
+                            String.valueOf(pumpsIndustries[industryIndex].getPlantPrice())
                                     + " $",
                             ownerName);
         }
@@ -470,14 +470,14 @@ public class Sabotage {
         Random random = new Random();
 
         player.decreaseBalance(
-                pumpsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
+                pumpsIndustries[selectedIndustryIndex].getPlantPrice() * finalResult);
         if (finalResult < 1) {
             pumpsIndustries[selectedIndustryIndex].setOwnership(null);
-            pumpsIndustries[selectedIndustryIndex].setIndustryPrice(
+            pumpsIndustries[selectedIndustryIndex].setPlantPrice(
                     random.nextInt(100000) + 1);
             pumpsIndustries[selectedIndustryIndex].setProductPrice(0);
             pumpsIndustries[selectedIndustryIndex].setProductsAmount(
-                    (int) (pumpsIndustries[selectedIndustryIndex].getIndustryPrice() / 10000));
+                    (int) (pumpsIndustries[selectedIndustryIndex].getPlantPrice() / 10000));
         }
     }
 
@@ -536,7 +536,7 @@ public class Sabotage {
                     .addRow(
                             String.valueOf(industryIndex + 1),
                             carsIndustries[industryIndex].getName(),
-                            String.valueOf(carsIndustries[industryIndex].getIndustryPrice())
+                            String.valueOf(carsIndustries[industryIndex].getPlantPrice())
                                     + " $",
                             ownerName);
         }
@@ -571,14 +571,14 @@ public class Sabotage {
         Random random = new Random();
 
         player.decreaseBalance(
-                carsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
+                carsIndustries[selectedIndustryIndex].getPlantPrice() * finalResult);
         if (finalResult < 1) {
             carsIndustries[selectedIndustryIndex].setOwnership(null);
-            carsIndustries[selectedIndustryIndex].setIndustryPrice(
+            carsIndustries[selectedIndustryIndex].setPlantPrice(
                     random.nextInt(200000) + 1);
             carsIndustries[selectedIndustryIndex].setProductPrice(0);
             carsIndustries[selectedIndustryIndex].setProductsAmount(
-                    (int) (carsIndustries[selectedIndustryIndex].getIndustryPrice() / 10000));
+                    (int) (carsIndustries[selectedIndustryIndex].getPlantPrice() / 10000));
         }
     }
 
@@ -636,7 +636,7 @@ public class Sabotage {
                     .addRow(
                             String.valueOf(industryIndex + 1),
                             drillsIndustries[industryIndex].getName(),
-                            String.valueOf(drillsIndustries[industryIndex].getIndustryPrice())
+                            String.valueOf(drillsIndustries[industryIndex].getPlantPrice())
                                     + " $",
                             ownerName);
         }
@@ -671,15 +671,15 @@ public class Sabotage {
         Random random = new Random();
 
         player.decreaseBalance(
-                drillsIndustries[selectedIndustryIndex].getIndustryPrice() * finalResult);
+                drillsIndustries[selectedIndustryIndex].getPlantPrice() * finalResult);
         if (finalResult < 1) {
             drillsIndustries[selectedIndustryIndex].setOwnership(null);
-            drillsIndustries[selectedIndustryIndex].setIndustryPrice(
+            drillsIndustries[selectedIndustryIndex].setPlantPrice(
                     random.nextInt(100000) + 1);
             drillsIndustries[selectedIndustryIndex].setProductPrice(0);
             drillsIndustries[selectedIndustryIndex].setProductsAmount(
                     (int)
-                            (drillsIndustries[selectedIndustryIndex].getIndustryPrice() / 10000));
+                            (drillsIndustries[selectedIndustryIndex].getPlantPrice() / 10000));
         }
     }
 

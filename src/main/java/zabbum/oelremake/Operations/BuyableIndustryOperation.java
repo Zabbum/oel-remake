@@ -117,7 +117,7 @@ public interface BuyableIndustryOperation {
                                 String.valueOf(industryIndex + 1),
                                 industries[industryIndex].getName(),
                                 String.valueOf(industries[industryIndex].getProductsAmount()),
-                                industries[industryIndex].getIndustryPrice() + "$");
+                                industries[industryIndex].getPlantPrice() + "$");
             }
         }
 
@@ -148,7 +148,7 @@ public interface BuyableIndustryOperation {
 
         // Note purchase
         industries[selectedIndustryIndex].setOwnership(player);
-        player.decreaseBalance(industries[selectedIndustryIndex].getIndustryPrice());
+        player.decreaseBalance(industries[selectedIndustryIndex].getPlantPrice());
 
         // Inform user about purchase
         contentPanel.addComponent(new EmptySpace());

@@ -16,7 +16,7 @@ public class DrillsIndustry extends AbstractIndustry {
 
         Random random = new Random();
 
-        this.setIndustryPrice(random.nextInt(50000) + 10000);
-        this.setProductsAmount(((int) (this.getIndustryPrice() / 10000)) * 8 + 25);
+        this.setPlantPrice(random.nextInt(50000) + 10000);
+        this.setProductsAmount(((int) (this.getPlantPrice() / 10000)) * 8 + 25);
     }
 }

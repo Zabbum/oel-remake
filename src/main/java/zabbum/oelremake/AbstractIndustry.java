@@ -1,31 +1,28 @@
 package zabbum.oelremake;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-
-// TODO: Create class AbstractPlacement that is basically AbstractIndustry, but without products
+@Getter
+@Setter
 // and make AbstractIndustry and Oilfield extend that class
-public abstract class AbstractIndustry {
-    private String name;
-    private int industryPrice;
-    private Player ownership;
-
+public abstract class AbstractIndustry extends AbstractPlant {
     private int productsAmount;
     private double productPrice;
 
-    // Constructor
+    /**
+     * Constructor of a Plant.
+     *
+     * @param name       Name of a plant
+     */
     public AbstractIndustry(String name) {
-        this.name = name;
-        this.ownership = null;
+        super(name);
     }
 
-    // Is bought
-    public boolean isBought() {
-        return this.ownership != null;
-    }
-
-    // Buy products
+    /**
+     * Method to reduce wanted products amount from the industry.
+     * @param productsAmount    Amount of products to reduce amount of
+     */
     public void buyProducts(int productsAmount) {
         this.productsAmount -= productsAmount;
     }
