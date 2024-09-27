@@ -5,9 +5,9 @@ import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.graphics.Theme;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.table.Table;
-import zabbum.oelremake.Cars.CarsIndustry;
-import zabbum.oelremake.Drills.DrillsIndustry;
-import zabbum.oelremake.Pumps.PumpsIndustry;
+import zabbum.oelremake.Plants.Industries.Cars.CarsIndustry;
+import zabbum.oelremake.Plants.Industries.Drills.DrillsIndustry;
+import zabbum.oelremake.Plants.Industries.Pumps.PumpsIndustry;
 
 import java.util.List;
 import java.util.Random;

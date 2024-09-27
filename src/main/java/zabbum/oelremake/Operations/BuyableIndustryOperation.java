@@ -6,6 +6,7 @@ import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.table.Table;
 import zabbum.oelremake.*;
+import zabbum.oelremake.Plants.Industries.AbstractIndustry;
 
 import java.util.Map;
 import java.util.regex.Pattern;

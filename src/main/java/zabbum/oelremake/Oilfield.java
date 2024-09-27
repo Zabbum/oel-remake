@@ -8,9 +8,9 @@ import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.table.Table;
 import lombok.Data;
-import zabbum.oelremake.Cars.CarsIndustry;
-import zabbum.oelremake.Drills.DrillsIndustry;
-import zabbum.oelremake.Pumps.PumpsIndustry;
+import zabbum.oelremake.Plants.Industries.Cars.CarsIndustry;
+import zabbum.oelremake.Plants.Industries.Drills.DrillsIndustry;
+import zabbum.oelremake.Plants.Industries.Pumps.PumpsIndustry;
 
 import java.util.Random;
 

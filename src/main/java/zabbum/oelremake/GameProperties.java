@@ -3,9 +3,9 @@ package zabbum.oelremake;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.SeparateTextGUIThread;
 import com.googlecode.lanterna.gui2.Window;
-import zabbum.oelremake.Cars.CarsOperations;
-import zabbum.oelremake.Drills.DrillsOperations;
-import zabbum.oelremake.Pumps.PumpsOperations;
+import zabbum.oelremake.Plants.Industries.Cars.CarsOperations;
+import zabbum.oelremake.Plants.Industries.Drills.DrillsOperations;
+import zabbum.oelremake.Plants.Industries.Pumps.PumpsOperations;
 
 import java.util.Map;
 

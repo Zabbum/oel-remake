@@ -5,7 +5,6 @@ import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.graphics.Theme;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.table.Table;
-import zabbum.oelremake.Cars.CarsIndustry;
 import zabbum.oelremake.artloader.ArtObject;
 
 import java.io.InputStream;

@@ -1,7 +1,8 @@
-package zabbum.oelremake;
+package zabbum.oelremake.Plants.Industries;
 
 import lombok.Getter;
 import lombok.Setter;
+import zabbum.oelremake.Plants.AbstractPlant;
 
 @Getter
 @Setter
