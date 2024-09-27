@@ -16,7 +16,9 @@ public class OilfieldOperations {
 
     private final Oilfield[] oilfields;
 
-    public OilfieldOperations() { oilfields = initialize(); }
+    public OilfieldOperations() {
+        oilfields = initialize();
+    }
 
     /**
      * Initialize the oilfields.
@@ -46,8 +48,8 @@ public class OilfieldOperations {
     public void buyOilfieldMenu(
             final Player player,
             final Window window,
-            final Map<String,String> langMap
-            ) throws InterruptedException {
+            final Map<String, String> langMap
+    ) throws InterruptedException {
 
         // Prepare new graphical settings
         Panel contentPanel = (Panel) window.getComponent();

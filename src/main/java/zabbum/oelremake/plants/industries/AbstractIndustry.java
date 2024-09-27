@@ -14,7 +14,7 @@ public abstract class AbstractIndustry extends AbstractPlant {
     /**
      * Constructor of a Plant.
      *
-     * @param name       Name of a plant
+     * @param name Name of a plant
      */
     public AbstractIndustry(String name) {
         super(name);
@@ -22,7 +22,8 @@ public abstract class AbstractIndustry extends AbstractPlant {
 
     /**
      * Method to reduce wanted products amount from the industry.
-     * @param productsAmount    Amount of products to reduce amount of
+     *
+     * @param productsAmount Amount of products to reduce amount of
      */
     public void buyProducts(int productsAmount) {
         this.productsAmount -= productsAmount;

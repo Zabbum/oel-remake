@@ -13,7 +13,8 @@ public abstract class AbstractPlant {
 
     /**
      * Constructor of a Plant.
-     * @param name          Name of a plant
+     *
+     * @param name Name of a plant
      */
     public AbstractPlant(String name) {
         this.name = name;
@@ -22,7 +23,8 @@ public abstract class AbstractPlant {
 
     /**
      * Method to get if plant is bought.
-     * @return  true if is bought, false if is not
+     *
+     * @return true if is bought, false if is not
      */
     public boolean isBought() {
         return this.ownership != null;

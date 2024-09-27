@@ -3,11 +3,11 @@ package zabbum.oelremake.plants.industries.Cars;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Window;
 import lombok.Getter;
+import zabbum.oelremake.Player;
 import zabbum.oelremake.operations.BuyableIndustryOperation;
 import zabbum.oelremake.operations.BuyableProductsOperation;
 import zabbum.oelremake.operations.SabotableOperation;
 import zabbum.oelremake.plants.oilfield.Oilfield;
-import zabbum.oelremake.Player;
 
 import java.util.Map;
 

@@ -1,38 +1,82 @@
 {
-    "width": 11,
-    "height": 6,
-    "defaultForegroundColor": "BLACK",
-    "defaultBackgroundColor": "WHITE_BRIGHT",
-    "rows": [
-        [
-            {"content": "  "},
-            {"content": "◢ÛÛÛÛ◣", "fColor": "BLUE"},
-            {"content": "Ü", "fColor": "BLACK_BRIGHT"},
-            {"content": "__"}
-        ],
-        [
-            {"content": "  "},
-            {"content": "ÛÛÛÛÛ◤", "fColor": "BLUE"},
-            {"content": "ß", "fColor": "BLACK_BRIGHT"},
-            {"content": "▔▔"}
-        ],
-        [
-            {"content": "  "},
-            {"content": "Û", "fColor": "BLUE"},
-            {"content": "Ý", "fColor": "RED_BRIGHT"},
-            {"content": "  "},
-            {"content": "Ý", "fColor": "BLUE"}
-        ],
-        [
-            {"content": "  "},
-            {"content": "Û", "fColor": "BLUE"}
-        ],
-        [
-            {"content": " "},
-            {"content": "╭╯"}
-        ],
-        [
-            {"content": "Ä╯"}
-        ]
+  "width": 11,
+  "height": 6,
+  "defaultForegroundColor": "BLACK",
+  "defaultBackgroundColor": "WHITE_BRIGHT",
+  "rows": [
+    [
+      {
+        "content": "  "
+      },
+      {
+        "content": "◢ÛÛÛÛ◣",
+        "fColor": "BLUE"
+      },
+      {
+        "content": "Ü",
+        "fColor": "BLACK_BRIGHT"
+      },
+      {
+        "content": "__"
+      }
+    ],
+    [
+      {
+        "content": "  "
+      },
+      {
+        "content": "ÛÛÛÛÛ◤",
+        "fColor": "BLUE"
+      },
+      {
+        "content": "ß",
+        "fColor": "BLACK_BRIGHT"
+      },
+      {
+        "content": "▔▔"
+      }
+    ],
+    [
+      {
+        "content": "  "
+      },
+      {
+        "content": "Û",
+        "fColor": "BLUE"
+      },
+      {
+        "content": "Ý",
+        "fColor": "RED_BRIGHT"
+      },
+      {
+        "content": "  "
+      },
+      {
+        "content": "Ý",
+        "fColor": "BLUE"
+      }
+    ],
+    [
+      {
+        "content": "  "
+      },
+      {
+        "content": "Û",
+        "fColor": "BLUE"
+      }
+    ],
+    [
+      {
+        "content": " "
+      },
+      {
+        "content": "╭╯"
+      }
+    ],
+    [
+      {
+        "content": "Ä╯"
+      }
     ]
+  ]
 }

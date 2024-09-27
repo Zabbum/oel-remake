@@ -1,23 +1,33 @@
 {
-    "width": 13,
-    "height": 5,
-    "defaultForegroundColor": "BLUE_BRIGHT",
-    "defaultBackgroundColor": "RED",
-    "rows": [
-        [
-            {"content": "² ²²² ²²² ²²²"}
-        ],
-        [
-            {"content": "² ² ² ² ² ²"}
-        ],
-        [
-            {"content": "² ²²² ²²² ²²²"}
-        ],
-        [
-            {"content": "²   ² ² ² ² ²"}
-        ],
-        [
-            {"content": "² ²²² ²²² ²²²"}
-        ]
+  "width": 13,
+  "height": 5,
+  "defaultForegroundColor": "BLUE_BRIGHT",
+  "defaultBackgroundColor": "RED",
+  "rows": [
+    [
+      {
+        "content": "² ²²² ²²² ²²²"
+      }
+    ],
+    [
+      {
+        "content": "² ² ² ² ² ²"
+      }
+    ],
+    [
+      {
+        "content": "² ²²² ²²² ²²²"
+      }
+    ],
+    [
+      {
+        "content": "²   ² ² ² ² ²"
+      }
+    ],
+    [
+      {
+        "content": "² ²²² ²²² ²²²"
+      }
     ]
+  ]
 }

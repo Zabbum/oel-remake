@@ -3,11 +3,11 @@ package zabbum.oelremake.plants.industries.Drills;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Window;
 import lombok.Getter;
-import zabbum.oelremake.plants.oilfield.Oilfield;
+import zabbum.oelremake.Player;
 import zabbum.oelremake.operations.BuyableIndustryOperation;
 import zabbum.oelremake.operations.BuyableProductsOperation;
 import zabbum.oelremake.operations.SabotableOperation;
-import zabbum.oelremake.Player;
+import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.util.Map;
 
@@ -16,7 +16,9 @@ public class DrillsOperations implements BuyableIndustryOperation, BuyableProduc
 
     private final DrillsIndustry[] industries;
 
-    public DrillsOperations() { industries = initialize(); }
+    public DrillsOperations() {
+        industries = initialize();
+    }
 
     /**
      * Initialize drills industries.
