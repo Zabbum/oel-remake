@@ -30,38 +30,31 @@ public class ChangePrices {
         contentPanel.addComponent(new Label(gameProperties.langMap.get("whatPriceWillYouBeChanging")));
         contentPanel.addComponent(new EmptySpace());
 
+        ConfirmAction tmpConfirm = new ConfirmAction();
+
         // Display options
-        Component firstButton =
+        Interactable firstButton =
                 new Button(
                         gameProperties.langMap.get("pumpsPrices"),
-                        () -> {
-                            gameProperties.tmpAction = "0";
-                            gameProperties.tmpConfirm = true;
-                        });
+                        () -> tmpConfirm.confirm("1"));
         contentPanel.addComponent(firstButton);
-        ((Interactable) firstButton).takeFocus();
+        firstButton.takeFocus();
 
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("carsPrices"),
-                        () -> {
-                            gameProperties.tmpAction = "1";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("2")));
 
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("drillsPrices"),
-                        () -> {
-                            gameProperties.tmpAction = "2";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("3")));
 
-        // Wait for response
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
+
         contentPanel.removeAllComponents();
 
-        int action = Integer.parseInt(gameProperties.tmpAction);
+        int action = Integer.parseInt(tmpConfirm.getAction());
 
         switch (action) {
             case 0 -> {
@@ -92,7 +85,7 @@ public class ChangePrices {
                         "NR", gameProperties.langMap.get("industryName"), gameProperties.langMap.get("price"));
 
         // Add every available industry to table
-        industryTable.getTableModel().addRow("0", "-", "-", "-");
+        industryTable.getTableModel().addRow("0", "-", "-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
             if (!industries[industryIndex].isBought()) {
                 // If industry is not bought, make it possible to buy it
@@ -101,14 +94,12 @@ public class ChangePrices {
                         .addRow(
                                 String.valueOf(industryIndex + 1),
                                 industries[industryIndex].getName(),
-                                String.valueOf(industries[industryIndex].getPlantPrice()) + "$");
+                                String.valueOf(industries[industryIndex].getProductPrice()) + "$");
             }
         }
 
-        industryTable.setSelectAction(
-                () -> {
-                    gameProperties.tmpConfirm = true;
-                });
+        Confirm tmpConfirm = new Confirm();
+        industryTable.setSelectAction(tmpConfirm::confirm);
 
         // Display table
         contentPanel.addComponent(industryTable);
@@ -116,7 +107,7 @@ public class ChangePrices {
         contentPanel.addComponent(new EmptySpace());
 
         // Wait for selection
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
         int selectedIndustryIndex =
                 Integer.parseInt(
                         industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))
@@ -138,11 +129,15 @@ public class ChangePrices {
             productPriceBox = new TextBox(new TerminalSize(6, 1));
             productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
             contentPanel.addComponent(productPriceBox);
-            contentPanel.addComponent(Elements.confirmButton(gameProperties));
+
+            tmpConfirm = new Confirm();
+
+            contentPanel.addComponent(Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done")));
 
             // Wait for selection
             productPriceBox.takeFocus();
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
+
             try {
                 proposedPrice = Integer.parseInt(productPriceBox.getText());
             } catch (NumberFormatException e) {
@@ -169,7 +164,7 @@ public class ChangePrices {
                         "NR", gameProperties.langMap.get("industryName"), gameProperties.langMap.get("price"));
 
         // Add every available industry to table
-        industryTable.getTableModel().addRow("0", "-", "-", "-");
+        industryTable.getTableModel().addRow("0", "-", "-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
             if (!industries[industryIndex].isBought()) {
                 // If industry is not bought, make it possible to buy it
@@ -178,14 +173,12 @@ public class ChangePrices {
                         .addRow(
                                 String.valueOf(industryIndex + 1),
                                 industries[industryIndex].getName(),
-                                String.valueOf(industries[industryIndex].getPlantPrice()) + "$");
+                                String.valueOf(industries[industryIndex].getProductPrice()) + "$");
             }
         }
 
-        industryTable.setSelectAction(
-                () -> {
-                    gameProperties.tmpConfirm = true;
-                });
+        Confirm tmpConfirm = new Confirm();
+        industryTable.setSelectAction(tmpConfirm::confirm);
 
         // Display table
         contentPanel.addComponent(industryTable);
@@ -193,7 +186,7 @@ public class ChangePrices {
         contentPanel.addComponent(new EmptySpace());
 
         // Wait for selection
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
         int selectedIndustryIndex =
                 Integer.parseInt(
                         industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))
@@ -215,11 +208,13 @@ public class ChangePrices {
             productPriceBox = new TextBox(new TerminalSize(6, 1));
             productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
             contentPanel.addComponent(productPriceBox);
-            contentPanel.addComponent(Elements.confirmButton(gameProperties));
+
+            tmpConfirm = new Confirm();
+            contentPanel.addComponent(Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done")));
 
             // Wait for selection
             productPriceBox.takeFocus();
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
             try {
                 proposedPrice = Integer.parseInt(productPriceBox.getText());
             } catch (NumberFormatException e) {
@@ -246,7 +241,7 @@ public class ChangePrices {
                         "NR", gameProperties.langMap.get("industryName"), gameProperties.langMap.get("price"));
 
         // Add every available industry to table
-        industryTable.getTableModel().addRow("0", "-", "-", "-");
+        industryTable.getTableModel().addRow("0", "-", "-");
         for (int industryIndex = 0; industryIndex < industries.length; industryIndex++) {
             if (!industries[industryIndex].isBought()) {
                 // If industry is not bought, make it possible to buy it
@@ -255,14 +250,12 @@ public class ChangePrices {
                         .addRow(
                                 String.valueOf(industryIndex + 1),
                                 industries[industryIndex].getName(),
-                                String.valueOf(industries[industryIndex].getPlantPrice()) + "$");
+                                String.valueOf(industries[industryIndex].getProductPrice()) + "$");
             }
         }
 
-        industryTable.setSelectAction(
-                () -> {
-                    gameProperties.tmpConfirm = true;
-                });
+        Confirm tmpConfirm = new Confirm();
+        industryTable.setSelectAction(tmpConfirm::confirm);
 
         // Display table
         contentPanel.addComponent(industryTable);
@@ -270,7 +263,7 @@ public class ChangePrices {
         contentPanel.addComponent(new EmptySpace());
 
         // Wait for selection
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
         int selectedIndustryIndex =
                 Integer.parseInt(
                         industryTable.getTableModel().getRow(industryTable.getSelectedRow()).get(0))
@@ -292,11 +285,13 @@ public class ChangePrices {
             productPriceBox = new TextBox(new TerminalSize(6, 1));
             productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
             contentPanel.addComponent(productPriceBox);
-            contentPanel.addComponent(Elements.confirmButton(gameProperties));
+
+            tmpConfirm = new Confirm();
+            contentPanel.addComponent(Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done")));
 
             // Wait for selection
             productPriceBox.takeFocus();
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
             try {
                 proposedPrice = Integer.parseInt(productPriceBox.getText());
             } catch (Exception e) {
@@ -307,7 +302,6 @@ public class ChangePrices {
 
         // Set a new price
         gameProperties.drillsIndustryOperations.getIndustries()[selectedIndustryIndex].setProductPrice(proposedPrice);
-        ;
 
         // Clean up
         contentPanel.removeAllComponents();

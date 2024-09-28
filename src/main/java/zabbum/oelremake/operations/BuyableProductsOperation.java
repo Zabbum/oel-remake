@@ -5,7 +5,10 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.table.Table;
-import zabbum.oelremake.*;
+import zabbum.oelremake.Confirm;
+import zabbum.oelremake.Elements;
+import zabbum.oelremake.Game;
+import zabbum.oelremake.Player;
 import zabbum.oelremake.plants.industries.AbstractIndustry;
 import zabbum.oelremake.plants.oilfield.Oilfield;
 

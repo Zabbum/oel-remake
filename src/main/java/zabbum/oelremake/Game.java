@@ -9,17 +9,10 @@ import zabbum.oelremake.artloader.ArtObject;
 import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Game {
-
-    // Insert empty space
-    public static EmptySpace emptyLine(int horizontalSpan) {
-        EmptySpace emptySpace = new EmptySpace();
-        emptySpace.setLayoutData(GridLayout.createHorizontallyFilledLayoutData(horizontalSpan));
-
-        return emptySpace;
-    }
 
     // Sleep
     public static void sleep(long time, GameProperties gameProperties) throws InterruptedException {
@@ -51,7 +44,7 @@ public class Game {
 
         // Create table for results
         Table<String> resultsTable =
-                new Table<String>(
+                new Table<>(
                         gameProperties.langMap.get("player").toUpperCase(),
                         gameProperties.langMap.get("loan"),
                         gameProperties.langMap.get("balance"));
@@ -72,12 +65,13 @@ public class Game {
 
         contentPanel.addComponent(new Label(gameProperties.langMap.get("congratulationsToTheWinners")));
 
-        Button confirmButton = Elements.confirmButton(gameProperties);
+        Confirm tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
     }
 
     // Display OEL logo
@@ -99,9 +93,9 @@ public class Game {
         Game.timeBuffor();
         try {
             // Get OEL logo ASCII art
-            InputStream oelLogoFile =
+            InputStream oelLogoFileStream =
                     Application.class.getClassLoader().getResourceAsStream("arts/oel.json");
-            contentPanel.addComponent(new ArtObject(oelLogoFile).getImageComponent());
+            contentPanel.addComponent(new ArtObject(Objects.requireNonNull(oelLogoFileStream)).getImageComponent());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             contentPanel.addComponent(new Label("OEL"));
@@ -146,18 +140,18 @@ public class Game {
 
         contentPanel.addComponent(new EmptySpace());
 
-        contentPanel.addComponent(Elements.confirmButton(gameProperties));
+        Confirm tmpConfirm = new Confirm();
+
+        contentPanel.addComponent(Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done")));
 
         // If confirm button is pressed and choise is valid, let it be
-        while (!(gameProperties.tmpConfirm
-                && SimpleLogic.isValid(playerAmountTextBox.getText(), 2, new int[]{6}))) {
-
-            gameProperties.tmpConfirm = false;
-            Thread.sleep(0);
-        }
+        do {
+            tmpConfirm.waitForConfirm();
+            tmpConfirm.setConfirmStatus(false);
+        } while (!(SimpleLogic.isValid(playerAmountTextBox.getText(), 2, new int[]{6})));
 
         gameProperties.playerAmount = Integer.parseInt(playerAmountTextBox.getText());
-        System.out.println(String.valueOf(gameProperties.playerAmount) + " players");
+        System.out.println(gameProperties.playerAmount + " players");
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -207,7 +201,7 @@ public class Game {
         for (int i = 0; i < gameProperties.playerAmount; i++) {
             promptPanel.addComponent(new Label("?"));
             playerNames[i] =
-                    new TextBox(gameProperties.langMap.get("player") + " " + String.valueOf(i + 1));
+                    new TextBox(gameProperties.langMap.get("player") + " " + (i + 1));
             promptPanel.addComponent(playerNames[i]);
         }
 
@@ -216,15 +210,16 @@ public class Game {
         playerNames[0].takeFocus();
 
         // Confirmation button
-        contentPanel.addComponent(Elements.confirmButton(gameProperties));
+        Confirm tmpConfirm = new Confirm();
+        contentPanel.addComponent(Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done")));
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Create player objects
         gameProperties.players = new Player[gameProperties.playerAmount];
         for (int i = 0; i < playerNames.length; i++) {
-            System.out.println(String.valueOf(i) + ": " + playerNames[i].getText());
+            System.out.println(i + ": " + playerNames[i].getText());
             gameProperties.players[i] = new Player(playerNames[i].getText());
         }
 
@@ -234,12 +229,14 @@ public class Game {
         contentPanel.addComponent(
                 new Label(String.format(gameProperties.langMap.get("everyPlayerHas"), 123421)));
         contentPanel.addComponent(new EmptySpace());
-        Button confirmButton = Elements.confirmButton(gameProperties);
+
+        tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -265,12 +262,13 @@ public class Game {
         Game.timeBuffor();
         contentPanel.addComponent(new Label(gameProperties.langMap.get("theWinnerWillBe2")));
         contentPanel.addComponent(new EmptySpace());
-        Button confirmButton = Elements.confirmButton(gameProperties);
+        Confirm tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Prepare new graphical settings
         contentPanel.removeAllComponents();
@@ -305,13 +303,14 @@ public class Game {
         Oil.reducePrices(gameProperties.oilPrices);
         System.out.println("Generated oil prices");
 
-        Button confirmButton1 = Elements.confirmButton(gameProperties);
+        tmpConfirm = new Confirm();
+        Button confirmButton1 = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
 
         contentPanel.addComponent(confirmButton1);
         confirmButton1.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -325,60 +324,7 @@ public class Game {
             // Display the main menu
             mainMenu(player, gameProperties);
 
-            // Redirect to the valid menu
-            switch (gameProperties.tmpAction) {
-                case "A" -> {
-                    // Drills productions
-                    gameProperties.drillsIndustryOperations.buyIndustryMenu(player,
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "B" -> {
-                    // Pumps productions
-                    gameProperties.pumpsIndustryOperations.buyIndustryMenu(player,
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "C" -> {
-                    // Cars productions
-                    gameProperties.carsIndustryOperations.buyIndustryMenu(player,
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "D" -> {
-                    // Oilfields
-                    gameProperties.oilfieldOperations.buyOilfieldMenu(player,
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "E" -> {
-                    // Drills
-                    gameProperties.drillsIndustryOperations.buyProductsMenu(player,
-                            gameProperties.oilfieldOperations.getOilfields(),
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "F" -> {
-                    // Pumps
-                    gameProperties.pumpsIndustryOperations.buyProductsMenu(player,
-                            gameProperties.oilfieldOperations.getOilfields(),
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "G" -> {
-                    // Cars
-                    gameProperties.carsIndustryOperations.buyProductsMenu(player,
-                            gameProperties.oilfieldOperations.getOilfields(),
-                            gameProperties.window, gameProperties.langMap);
-                }
-                case "H" -> {
-                    // Pass
-                }
-                case "I" -> {
-                    // Attempt sabotage
-                    Sabotage.doSabotage(player, gameProperties);
-                }
-                case "J" -> {
-                    // Change prices
-                }
-                default -> {
-                    System.out.println("No value provided. This could be an error.");
-                }
-            }
+
         }
         endRound(gameProperties);
     }
@@ -520,12 +466,13 @@ public class Game {
         }
 
         // Button for confirmation
-        Button confirmButton = Elements.confirmButton(gameProperties);
+        Confirm tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -606,7 +553,7 @@ public class Game {
                 new Label(
                         gameProperties.langMap.get("oilSellPrice")
                                 + " = "
-                                + String.valueOf(gameProperties.oilPrices[gameProperties.currentRound - 1])
+                                + gameProperties.oilPrices[gameProperties.currentRound - 1]
                                 + " $")
                         .setTheme(new SimpleTheme(TextColor.ANSI.BLUE, TextColor.ANSI.YELLOW)));
 
@@ -615,23 +562,23 @@ public class Game {
         contentPanel.addComponent(
                 new Panel(new GridLayout(2))
                         .addComponent(new Label(gameProperties.langMap.get("pumpAmount")))
-                        .addComponent(new Label(": " + String.valueOf(oilfield.getPumpsAmount())))
+                        .addComponent(new Label(": " + oilfield.getPumpsAmount()))
                         .addComponent(
                                 new Label(gameProperties.langMap.get("pumpedOut"))
                                         .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
                         .addComponent(
-                                new Label(": " + String.valueOf(oilfield.getOilAvailabletoSell()))
+                                new Label(": " + oilfield.getOilAvailabletoSell())
                                         .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
                         .addComponent(new Label(gameProperties.langMap.get("carsAmount")))
-                        .addComponent(new Label(": " + String.valueOf(oilfield.getCarsAmount())))
+                        .addComponent(new Label(": " + oilfield.getCarsAmount()))
                         .addComponent(
                                 new Label(gameProperties.langMap.get("maxExport"))
                                         .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
                         .addComponent(
-                                new Label(": " + String.valueOf(oilfield.getCarsAmount() * 7000))
+                                new Label(": " + oilfield.getCarsAmount() * 7000)
                                         .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
                         .addComponent(new Label(gameProperties.langMap.get("yourBalance")))
-                        .addComponent(new Label(": " + String.valueOf(player.getBalance()))));
+                        .addComponent(new Label(": " + player.getBalance())));
 
         contentPanel.addComponent(new EmptySpace());
 
@@ -652,18 +599,17 @@ public class Game {
             contentPanel.addComponent(oilAmountToSellTextBox);
             oilAmountToSellTextBox.takeFocus();
 
-            contentPanel.addComponent(Elements.confirmButton(gameProperties));
+            Confirm tmpConfirm = new Confirm();
+            contentPanel.addComponent(Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done")));
 
             // If confirm button is pressed and choise is valid, let it be
-            while (!(gameProperties.tmpConfirm
-                    && SimpleLogic.isValid(
+            do {
+                tmpConfirm.waitForConfirm();
+                tmpConfirm.setConfirmStatus(false);
+            } while (!(SimpleLogic.isValid(
                     oilAmountToSellTextBox.getText(),
                     0,
-                    new int[]{oilfield.getCarsAmount() * 7000, oilfield.getOilAvailabletoSell()}))) {
-
-                gameProperties.tmpConfirm = false;
-                Thread.sleep(0);
-            }
+                    new int[]{oilfield.getCarsAmount() * 7000, oilfield.getOilAvailabletoSell()})));
 
             // Take actions
             int oilAmount = Integer.parseInt(oilAmountToSellTextBox.getText());
@@ -673,12 +619,14 @@ public class Game {
 
         // If cannot sell oil
         else {
-            Button confirmButton = Elements.confirmButton(gameProperties);
+            Confirm tmpConfirm = new Confirm();
+
+            Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
             contentPanel.addComponent(confirmButton);
             confirmButton.takeFocus();
 
             // Wait for confirmation
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
         }
 
         // Clean up
@@ -705,7 +653,7 @@ public class Game {
                 new Label(
                         gameProperties.langMap.get("year")
                                 + ": "
-                                + String.valueOf(1985 + gameProperties.currentRound)));
+                                + (1985 + gameProperties.currentRound)));
         contentPanel.addComponent(new EmptySpace());
 
         Game.timeBuffor();
@@ -715,19 +663,20 @@ public class Game {
             playersPanel.addComponent(new Label(player.getName()));
             playersPanel.addComponent(
                     new Label(
-                            gameProperties.langMap.get("balance") + ": " + String.valueOf(player.getBalance())));
+                            gameProperties.langMap.get("balance") + ": " + player.getBalance()));
         }
 
         contentPanel.addComponent(playersPanel);
 
         contentPanel.addComponent(new EmptySpace());
 
-        Button confirmButton = Elements.confirmButton(gameProperties);
+        Confirm tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -773,22 +722,23 @@ public class Game {
             Panel loanPanel = new Panel(new GridLayout(2));
 
             loanPanel.addComponent(new Label(gameProperties.langMap.get("toPay") + ":"));
-            loanPanel.addComponent(new Label(String.valueOf(player.getDebt()) + " $"));
+            loanPanel.addComponent(new Label(player.getDebt() + " $"));
             loanPanel.addComponent(new Label(gameProperties.langMap.get("nextRate") + ":"));
             loanPanel.addComponent(new Label("5000 $"));
             loanPanel.addComponent(new Label(gameProperties.langMap.get("yourBalance") + ":"));
-            loanPanel.addComponent(new Label(String.valueOf(player.getBalance()) + " $"));
+            loanPanel.addComponent(new Label(player.getBalance() + " $"));
 
             contentPanel.addComponent(loanPanel);
 
             contentPanel.addComponent(new EmptySpace());
 
-            Button confirmButton = Elements.confirmButton(gameProperties);
+            Confirm tmpConfirm = new Confirm();
+            Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
             contentPanel.addComponent(confirmButton);
             confirmButton.takeFocus();
 
             // Wait for confirmation
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
 
             // Clean up
             contentPanel.removeAllComponents();
@@ -826,12 +776,13 @@ public class Game {
             // Take debt
             player.takeDebt();
 
-            Button confirmButton = Elements.confirmButton(gameProperties);
+            Confirm tmpConfirm = new Confirm();
+            Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
             contentPanel.addComponent(confirmButton);
             confirmButton.takeFocus();
 
             // Wait for confirmation
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
 
             // Clean up
             contentPanel.removeAllComponents();
@@ -885,6 +836,9 @@ public class Game {
 
         contentPanel.addComponent(new EmptySpace());
 
+        // Confirm variable
+        ConfirmAction tmpConfirm = new ConfirmAction();
+
         // Options pt. 1
         contentPanel.addComponent(
                 new Label(" " + gameProperties.langMap.get("buying") + " ")
@@ -893,10 +847,7 @@ public class Game {
         Component firstButton =
                 new Button(
                         gameProperties.langMap.get("drillsIndustries"),
-                        () -> {
-                            gameProperties.tmpAction = "A";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("A"))
                         .setTheme(blackButton);
         contentPanel.addComponent(firstButton);
         ((Interactable) firstButton).takeFocus();
@@ -904,47 +855,29 @@ public class Game {
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("pumpsIndustries"),
-                        () -> {
-                            gameProperties.tmpAction = "B";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("B")));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("carsIndustries"),
-                        () -> {
-                            gameProperties.tmpAction = "C";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("C"))
                         .setTheme(blackButton));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("oilfields"),
-                        () -> {
-                            gameProperties.tmpAction = "D";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("D")));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("drills"),
-                        () -> {
-                            gameProperties.tmpAction = "E";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("E"))
                         .setTheme(blackButton));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("pumps"),
-                        () -> {
-                            gameProperties.tmpAction = "F";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("F")));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("cars"),
-                        () -> {
-                            gameProperties.tmpAction = "G";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("G"))
                         .setTheme(blackButton));
 
         // Space
@@ -958,37 +891,56 @@ public class Game {
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("nextPlayer"),
-                        () -> {
-                            gameProperties.tmpAction = "H";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("H")));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("attemptSabotage"),
-                        () -> {
-                            gameProperties.tmpAction = "I";
-                            gameProperties.tmpConfirm = true;
-                        })
+                        () -> tmpConfirm.confirm("I"))
                         .setTheme(blackButton));
         contentPanel.addComponent(
                 new Button(
                         gameProperties.langMap.get("changePrices"),
-                        () -> {
-                            gameProperties.tmpAction = "J";
-                            gameProperties.tmpConfirm = true;
-                        }));
+                        () -> tmpConfirm.confirm("J")));
 
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
         contentPanel.removeAllComponents();
-    }
 
-    @Deprecated
-    public static void waitForConfirm(GameProperties gameProperties) throws InterruptedException {
-        gameProperties.tmpConfirm = false;
-        while (!gameProperties.tmpConfirm) {
-            Thread.sleep(0);
+        // Redirect to the valid menu
+        switch (tmpConfirm.getAction()) {
+            case "A" -> // Drills productions
+                    gameProperties.drillsIndustryOperations.buyIndustryMenu(player,
+                            gameProperties.window, gameProperties.langMap);
+            case "B" -> // Pumps productions
+                    gameProperties.pumpsIndustryOperations.buyIndustryMenu(player,
+                            gameProperties.window, gameProperties.langMap);
+            case "C" -> // Cars productions
+                    gameProperties.carsIndustryOperations.buyIndustryMenu(player,
+                            gameProperties.window, gameProperties.langMap);
+            case "D" -> // Oilfields
+                    gameProperties.oilfieldOperations.buyOilfieldMenu(player,
+                            gameProperties.window, gameProperties.langMap);
+            case "E" -> // Drills
+                    gameProperties.drillsIndustryOperations.buyProductsMenu(player,
+                            gameProperties.oilfieldOperations.getOilfields(),
+                            gameProperties.window,
+                            gameProperties.langMap);
+            case "F" -> // Pumps
+                    gameProperties.pumpsIndustryOperations.buyProductsMenu(player,
+                            gameProperties.oilfieldOperations.getOilfields(),
+                            gameProperties.window, gameProperties.langMap);
+            case "G" -> // Cars
+                    gameProperties.carsIndustryOperations.buyProductsMenu(player,
+                            gameProperties.oilfieldOperations.getOilfields(),
+                            gameProperties.window, gameProperties.langMap);
+            case "H" -> {
+                // Pass
+            }
+            case "I" -> // Attempt sabotage
+                    Sabotage.doSabotage(player, gameProperties);
+            case "J" -> // Change prices
+                    ChangePrices.menu(player, gameProperties);
+            default -> System.out.println("No value provided. This could be an error.");
         }
-        gameProperties.tmpConfirm = false;
     }
 
     public static void timeBuffor() throws InterruptedException {
