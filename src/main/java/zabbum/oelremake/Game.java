@@ -9,6 +9,7 @@ import zabbum.oelremake.artloader.ArtObject;
 import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Game {
@@ -92,9 +93,9 @@ public class Game {
         Game.timeBuffor();
         try {
             // Get OEL logo ASCII art
-            InputStream oelLogoFile =
+            InputStream oelLogoFileStream =
                     Application.class.getClassLoader().getResourceAsStream("arts/oel.json");
-            contentPanel.addComponent(new ArtObject(oelLogoFile).getImageComponent());
+            contentPanel.addComponent(new ArtObject(Objects.requireNonNull(oelLogoFileStream)).getImageComponent());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             contentPanel.addComponent(new Label("OEL"));
