@@ -72,12 +72,13 @@ public class Game {
 
         contentPanel.addComponent(new Label(gameProperties.langMap.get("congratulationsToTheWinners")));
 
-        Button confirmButton = Elements.confirmButton(gameProperties);
+        Confirm tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
     }
 
     // Display OEL logo
@@ -216,10 +217,11 @@ public class Game {
         playerNames[0].takeFocus();
 
         // Confirmation button
-        contentPanel.addComponent(Elements.confirmButton(gameProperties));
+        Confirm tmpConfirm = new Confirm();
+        contentPanel.addComponent(Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done")));
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Create player objects
         gameProperties.players = new Player[gameProperties.playerAmount];
@@ -234,12 +236,14 @@ public class Game {
         contentPanel.addComponent(
                 new Label(String.format(gameProperties.langMap.get("everyPlayerHas"), 123421)));
         contentPanel.addComponent(new EmptySpace());
-        Button confirmButton = Elements.confirmButton(gameProperties);
+
+        tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -265,12 +269,13 @@ public class Game {
         Game.timeBuffor();
         contentPanel.addComponent(new Label(gameProperties.langMap.get("theWinnerWillBe2")));
         contentPanel.addComponent(new EmptySpace());
-        Button confirmButton = Elements.confirmButton(gameProperties);
+        Confirm tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Prepare new graphical settings
         contentPanel.removeAllComponents();
@@ -305,13 +310,14 @@ public class Game {
         Oil.reducePrices(gameProperties.oilPrices);
         System.out.println("Generated oil prices");
 
-        Button confirmButton1 = Elements.confirmButton(gameProperties);
+        tmpConfirm = new Confirm();
+        Button confirmButton1 = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
 
         contentPanel.addComponent(confirmButton1);
         confirmButton1.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -467,12 +473,13 @@ public class Game {
         }
 
         // Button for confirmation
-        Button confirmButton = Elements.confirmButton(gameProperties);
+        Confirm tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -670,12 +677,13 @@ public class Game {
 
         contentPanel.addComponent(new EmptySpace());
 
-        Button confirmButton = Elements.confirmButton(gameProperties);
+        Confirm tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -731,12 +739,13 @@ public class Game {
 
             contentPanel.addComponent(new EmptySpace());
 
-            Button confirmButton = Elements.confirmButton(gameProperties);
+            Confirm tmpConfirm = new Confirm();
+            Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
             contentPanel.addComponent(confirmButton);
             confirmButton.takeFocus();
 
             // Wait for confirmation
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
 
             // Clean up
             contentPanel.removeAllComponents();
@@ -774,12 +783,13 @@ public class Game {
             // Take debt
             player.takeDebt();
 
-            Button confirmButton = Elements.confirmButton(gameProperties);
+            Confirm tmpConfirm = new Confirm();
+            Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
             contentPanel.addComponent(confirmButton);
             confirmButton.takeFocus();
 
             // Wait for confirmation
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
 
             // Clean up
             contentPanel.removeAllComponents();
@@ -957,15 +967,6 @@ public class Game {
                 System.out.println("No value provided. This could be an error.");
             }
         }
-    }
-
-    @Deprecated
-    public static void waitForConfirm(GameProperties gameProperties) throws InterruptedException {
-        gameProperties.tmpConfirm = false;
-        while (!gameProperties.tmpConfirm) {
-            Thread.sleep(0);
-        }
-        gameProperties.tmpConfirm = false;
     }
 
     public static void timeBuffor() throws InterruptedException {

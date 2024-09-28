@@ -150,12 +150,13 @@ public class Sabotage {
                 new Label(String.format(gameProperties.langMap.get("oilfieldSabotageChances"), 50)));
         contentPanel.addComponent(new EmptySpace());
 
-        Button confirmButton = Elements.confirmButton(gameProperties);
+        Confirm tmpConfirm = new Confirm();
+        Button confirmButton = Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done"));
         contentPanel.addComponent(confirmButton);
         confirmButton.takeFocus();
 
         // Wait for confirmation
-        Game.waitForConfirm(gameProperties);
+        tmpConfirm.waitForConfirm();
 
         // Prepare new graphical settings
         contentPanel.removeAllComponents();
@@ -213,7 +214,7 @@ public class Sabotage {
                                 ownerName);
             }
 
-            Confirm tmpConfirm = new Confirm();
+            tmpConfirm = new Confirm();
 
             oilfieldsTable.setSelectAction(tmpConfirm::confirm);
 

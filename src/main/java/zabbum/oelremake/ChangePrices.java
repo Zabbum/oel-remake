@@ -208,11 +208,13 @@ public class ChangePrices {
             productPriceBox = new TextBox(new TerminalSize(6, 1));
             productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
             contentPanel.addComponent(productPriceBox);
-            contentPanel.addComponent(Elements.confirmButton(gameProperties));
+
+            tmpConfirm = new Confirm();
+            contentPanel.addComponent(Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done")));
 
             // Wait for selection
             productPriceBox.takeFocus();
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
             try {
                 proposedPrice = Integer.parseInt(productPriceBox.getText());
             } catch (NumberFormatException e) {
@@ -283,11 +285,13 @@ public class ChangePrices {
             productPriceBox = new TextBox(new TerminalSize(6, 1));
             productPriceBox.setValidationPattern(Pattern.compile("[0-9]*"));
             contentPanel.addComponent(productPriceBox);
-            contentPanel.addComponent(Elements.confirmButton(gameProperties));
+
+            tmpConfirm = new Confirm();
+            contentPanel.addComponent(Elements.newConfirmButton(tmpConfirm, gameProperties.langMap.get("done")));
 
             // Wait for selection
             productPriceBox.takeFocus();
-            Game.waitForConfirm(gameProperties);
+            tmpConfirm.waitForConfirm();
             try {
                 proposedPrice = Integer.parseInt(productPriceBox.getText());
             } catch (Exception e) {
@@ -298,7 +302,6 @@ public class ChangePrices {
 
         // Set a new price
         gameProperties.drillsIndustryOperations.getIndustries()[selectedIndustryIndex].setProductPrice(proposedPrice);
-        ;
 
         // Clean up
         contentPanel.removeAllComponents();
