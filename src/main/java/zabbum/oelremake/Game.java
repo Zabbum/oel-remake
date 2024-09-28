@@ -13,14 +13,6 @@ import java.util.regex.Pattern;
 
 public class Game {
 
-    // Insert empty space
-    public static EmptySpace emptyLine(int horizontalSpan) {
-        EmptySpace emptySpace = new EmptySpace();
-        emptySpace.setLayoutData(GridLayout.createHorizontallyFilledLayoutData(horizontalSpan));
-
-        return emptySpace;
-    }
-
     // Sleep
     public static void sleep(long time, GameProperties gameProperties) throws InterruptedException {
         if (!gameProperties.isInDevMode) {
@@ -51,7 +43,7 @@ public class Game {
 
         // Create table for results
         Table<String> resultsTable =
-                new Table<String>(
+                new Table<>(
                         gameProperties.langMap.get("player").toUpperCase(),
                         gameProperties.langMap.get("loan"),
                         gameProperties.langMap.get("balance"));
@@ -158,7 +150,7 @@ public class Game {
         } while (!(SimpleLogic.isValid(playerAmountTextBox.getText(), 2, new int[]{6})));
 
         gameProperties.playerAmount = Integer.parseInt(playerAmountTextBox.getText());
-        System.out.println(String.valueOf(gameProperties.playerAmount) + " players");
+        System.out.println(gameProperties.playerAmount + " players");
 
         // Clean up
         contentPanel.removeAllComponents();
@@ -208,7 +200,7 @@ public class Game {
         for (int i = 0; i < gameProperties.playerAmount; i++) {
             promptPanel.addComponent(new Label("?"));
             playerNames[i] =
-                    new TextBox(gameProperties.langMap.get("player") + " " + String.valueOf(i + 1));
+                    new TextBox(gameProperties.langMap.get("player") + " " + (i + 1));
             promptPanel.addComponent(playerNames[i]);
         }
 
@@ -226,7 +218,7 @@ public class Game {
         // Create player objects
         gameProperties.players = new Player[gameProperties.playerAmount];
         for (int i = 0; i < playerNames.length; i++) {
-            System.out.println(String.valueOf(i) + ": " + playerNames[i].getText());
+            System.out.println(i + ": " + playerNames[i].getText());
             gameProperties.players[i] = new Player(playerNames[i].getText());
         }
 
@@ -560,7 +552,7 @@ public class Game {
                 new Label(
                         gameProperties.langMap.get("oilSellPrice")
                                 + " = "
-                                + String.valueOf(gameProperties.oilPrices[gameProperties.currentRound - 1])
+                                + gameProperties.oilPrices[gameProperties.currentRound - 1]
                                 + " $")
                         .setTheme(new SimpleTheme(TextColor.ANSI.BLUE, TextColor.ANSI.YELLOW)));
 
@@ -569,23 +561,23 @@ public class Game {
         contentPanel.addComponent(
                 new Panel(new GridLayout(2))
                         .addComponent(new Label(gameProperties.langMap.get("pumpAmount")))
-                        .addComponent(new Label(": " + String.valueOf(oilfield.getPumpsAmount())))
+                        .addComponent(new Label(": " + oilfield.getPumpsAmount()))
                         .addComponent(
                                 new Label(gameProperties.langMap.get("pumpedOut"))
                                         .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
                         .addComponent(
-                                new Label(": " + String.valueOf(oilfield.getOilAvailabletoSell()))
+                                new Label(": " + oilfield.getOilAvailabletoSell())
                                         .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
                         .addComponent(new Label(gameProperties.langMap.get("carsAmount")))
-                        .addComponent(new Label(": " + String.valueOf(oilfield.getCarsAmount())))
+                        .addComponent(new Label(": " + oilfield.getCarsAmount()))
                         .addComponent(
                                 new Label(gameProperties.langMap.get("maxExport"))
                                         .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
                         .addComponent(
-                                new Label(": " + String.valueOf(oilfield.getCarsAmount() * 7000))
+                                new Label(": " + oilfield.getCarsAmount() * 7000)
                                         .setTheme(new SimpleTheme(TextColor.ANSI.GREEN_BRIGHT, TextColor.ANSI.YELLOW)))
                         .addComponent(new Label(gameProperties.langMap.get("yourBalance")))
-                        .addComponent(new Label(": " + String.valueOf(player.getBalance()))));
+                        .addComponent(new Label(": " + player.getBalance())));
 
         contentPanel.addComponent(new EmptySpace());
 
@@ -660,7 +652,7 @@ public class Game {
                 new Label(
                         gameProperties.langMap.get("year")
                                 + ": "
-                                + String.valueOf(1985 + gameProperties.currentRound)));
+                                + (1985 + gameProperties.currentRound)));
         contentPanel.addComponent(new EmptySpace());
 
         Game.timeBuffor();
@@ -670,7 +662,7 @@ public class Game {
             playersPanel.addComponent(new Label(player.getName()));
             playersPanel.addComponent(
                     new Label(
-                            gameProperties.langMap.get("balance") + ": " + String.valueOf(player.getBalance())));
+                            gameProperties.langMap.get("balance") + ": " + player.getBalance()));
         }
 
         contentPanel.addComponent(playersPanel);
@@ -729,11 +721,11 @@ public class Game {
             Panel loanPanel = new Panel(new GridLayout(2));
 
             loanPanel.addComponent(new Label(gameProperties.langMap.get("toPay") + ":"));
-            loanPanel.addComponent(new Label(String.valueOf(player.getDebt()) + " $"));
+            loanPanel.addComponent(new Label(player.getDebt() + " $"));
             loanPanel.addComponent(new Label(gameProperties.langMap.get("nextRate") + ":"));
             loanPanel.addComponent(new Label("5000 $"));
             loanPanel.addComponent(new Label(gameProperties.langMap.get("yourBalance") + ":"));
-            loanPanel.addComponent(new Label(String.valueOf(player.getBalance()) + " $"));
+            loanPanel.addComponent(new Label(player.getBalance() + " $"));
 
             contentPanel.addComponent(loanPanel);
 
@@ -914,58 +906,39 @@ public class Game {
 
         // Redirect to the valid menu
         switch (tmpConfirm.getAction()) {
-            case "A" -> {
-                // Drills productions
-                gameProperties.drillsIndustryOperations.buyIndustryMenu(player,
-                        gameProperties.window, gameProperties.langMap);
-            }
-            case "B" -> {
-                // Pumps productions
-                gameProperties.pumpsIndustryOperations.buyIndustryMenu(player,
-                        gameProperties.window, gameProperties.langMap);
-            }
-            case "C" -> {
-                // Cars productions
-                gameProperties.carsIndustryOperations.buyIndustryMenu(player,
-                        gameProperties.window, gameProperties.langMap);
-            }
-            case "D" -> {
-                // Oilfields
-                gameProperties.oilfieldOperations.buyOilfieldMenu(player,
-                        gameProperties.window, gameProperties.langMap);
-            }
-            case "E" -> {
-                // Drills
-                gameProperties.drillsIndustryOperations.buyProductsMenu(player,
-                        gameProperties.oilfieldOperations.getOilfields(),
-                        gameProperties.window, gameProperties.langMap);
-            }
-            case "F" -> {
-                // Pumps
-                gameProperties.pumpsIndustryOperations.buyProductsMenu(player,
-                        gameProperties.oilfieldOperations.getOilfields(),
-                        gameProperties.window, gameProperties.langMap);
-            }
-            case "G" -> {
-                // Cars
-                gameProperties.carsIndustryOperations.buyProductsMenu(player,
-                        gameProperties.oilfieldOperations.getOilfields(),
-                        gameProperties.window, gameProperties.langMap);
-            }
+            case "A" -> // Drills productions
+                    gameProperties.drillsIndustryOperations.buyIndustryMenu(player,
+                            gameProperties.window, gameProperties.langMap);
+            case "B" -> // Pumps productions
+                    gameProperties.pumpsIndustryOperations.buyIndustryMenu(player,
+                            gameProperties.window, gameProperties.langMap);
+            case "C" -> // Cars productions
+                    gameProperties.carsIndustryOperations.buyIndustryMenu(player,
+                            gameProperties.window, gameProperties.langMap);
+            case "D" -> // Oilfields
+                    gameProperties.oilfieldOperations.buyOilfieldMenu(player,
+                            gameProperties.window, gameProperties.langMap);
+            case "E" -> // Drills
+                    gameProperties.drillsIndustryOperations.buyProductsMenu(player,
+                            gameProperties.oilfieldOperations.getOilfields(),
+                            gameProperties.window,
+                            gameProperties.langMap);
+            case "F" -> // Pumps
+                    gameProperties.pumpsIndustryOperations.buyProductsMenu(player,
+                            gameProperties.oilfieldOperations.getOilfields(),
+                            gameProperties.window, gameProperties.langMap);
+            case "G" -> // Cars
+                    gameProperties.carsIndustryOperations.buyProductsMenu(player,
+                            gameProperties.oilfieldOperations.getOilfields(),
+                            gameProperties.window, gameProperties.langMap);
             case "H" -> {
                 // Pass
             }
-            case "I" -> {
-                // Attempt sabotage
-                Sabotage.doSabotage(player, gameProperties);
-            }
-            case "J" -> {
-                // Change prices
-                ChangePrices.menu(player, gameProperties);
-            }
-            default -> {
-                System.out.println("No value provided. This could be an error.");
-            }
+            case "I" -> // Attempt sabotage
+                    Sabotage.doSabotage(player, gameProperties);
+            case "J" -> // Change prices
+                    ChangePrices.menu(player, gameProperties);
+            default -> System.out.println("No value provided. This could be an error.");
         }
     }
 
