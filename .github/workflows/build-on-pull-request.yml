@@ -21,7 +21,11 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Build Appimage with jpackage
-        run: jpackage --input oel-remake/ --main-jar target/oel-remake.jar --main-class Application --type app-image --dest app-image
+        run: |
+          pwd
+          ls
+          ls target/
+          jpackage --input oel-remake/ --main-jar target/oel-remake.jar --main-class Application --type app-image --dest app-image
 
       - name: Test
         run: |
