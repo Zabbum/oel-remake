@@ -18,12 +18,12 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn clean package
 
       - name: Build Appimage with jpackage
         run: |
           cd ..
-          jpackage --input oel-remake/ --main-jar target/oel-remake.jar --main-class Application --type app-image --dest app-image
+          jpackage --input oel-remake/ --main-jar target/oel-remake-jar-with-dependencies.jar --main-class Application --type app-image --dest app-image
 
       - name: Test
         run: |
@@ -31,7 +31,13 @@ jobs:
           pwd
           ls
 
-      - name: Upload artifacts
+      - name: Upload jar artifact
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: jar
+          path: /home/runner/work/oel-remake/oel-remake/target/oel-remake-jar-with-dependencies.jar
+
+      - name: Upload Appimage artifact
         uses: actions/upload-artifact@v4.4.3
         with:
           name: appimage

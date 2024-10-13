@@ -15,7 +15,6 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFrame;
-import org.json.simple.parser.ParseException;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -34,7 +33,7 @@ public final class Application {
      * @throws IOException           input output exception
      */
     public static void main(final String[] args)
-            throws FileNotFoundException, IOException {
+            throws IOException {
         // Final variables
         final Map<String, String> argsMap = CliArgumentsParser.parseArguments(args);
         final GameProperties gameProperties = new GameProperties(34);
@@ -73,7 +72,7 @@ public final class Application {
                 .getResourceAsStream("lang/" + lang + ".json");
         try {
             gameProperties.langMap = LangExtractor.getLangData(inputStream);
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return;
         }
@@ -189,7 +188,7 @@ public final class Application {
 
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         } finally {
             if (screen != null) {
                 try {
