@@ -25,6 +25,9 @@ jobs:
           pwd
           ls
           cd ..
+          echo ------AFTER CD ..-------
+          pwd
+          ls
           jpackage --input oel-remake/ --main-jar target/oel-remake.jar --main-class Application --type app-image --dest app-image
 
       - name: Test
