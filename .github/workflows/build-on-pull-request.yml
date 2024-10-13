@@ -22,9 +22,7 @@ jobs:
 
       - name: Build Appimage with jpackage
         run: |
-          pwd
-          ls
-          ls target/
+          cd ..
           jpackage --input oel-remake/ --main-jar target/oel-remake.jar --main-class Application --type app-image --dest app-image
 
       - name: Test
