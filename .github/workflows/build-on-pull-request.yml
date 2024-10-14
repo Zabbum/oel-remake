@@ -20,10 +20,35 @@ jobs:
       - name: Build with Maven
         run: mvn clean package
 
-      - name: Build Appimage with jpackage
+      - name: Build with jpackage
         run: |
           cd ..
-          jpackage --verbose --input oel-remake/ --main-jar target/oel-remake-jar-with-dependencies.jar --type app-image --dest app-image --java-options "--enable-assertions --showversion --verbose --debug"
+          jpackage --verbose --input oel-remake/ --main-jar target/oel-remake-jar-with-dependencies.jar --type app-image --dest app-image
+
+      - name: Install appimagetool
+        run: |
+          sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
+          sudo chmod +x /usr/local/bin/appimagetool
+
+      - name: Create AppImage
+        run: |
+          cd ../app-image/Application
+          ln -s lib/Application.png Application.png
+          touch oel-remake.desktop
+          echo [Desktop Entry] >> oel-remake.desktop
+          echo Version=1.0 >> oel-remake.desktop
+          echo Name=oel-remake >> oel-remake.desktop
+          echo Comment=Attempt to port C64 game OEL to modern system >> oel-remake.desktop
+          echo Exec=AppRun >> oel-remake.desktop
+          echo Terminal=false >> oel-remake.desktop
+          echo Type=Application >> oel-remake.desktop
+          echo Categories=Game >> oel-remake.desktop
+          echo Icon=Application >> oel-remake.desktop
+          touch AppRun
+          echo #!/bin/bash >> AppRun
+          echo exec "$APPDIR/bin/Application" >> AppRun
+          cd ..
+          appimagetool Application/ oel-remake.AppImage
 
       - name: Upload jar artifact
         uses: actions/upload-artifact@v4.4.3
@@ -35,5 +60,5 @@ jobs:
         uses: actions/upload-artifact@v4.4.3
         with:
           name: appimage
-          path: /home/runner/work/oel-remake/app-image/Application/bin/Application
+          path: /home/runner/work/oel-remake/app-image/oel-remake.AppImage
 
