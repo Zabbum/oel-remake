@@ -46,7 +46,7 @@ jobs:
           echo Categories=Game >> oel-remake.desktop
           echo Icon=Application >> oel-remake.desktop
           touch AppRun
-          echo #!/bin/bash >> AppRun
+          echo '#!/bin/bash' >> AppRun
           echo exec "$APPDIR/bin/Application" >> AppRun
           sudo chmod +x AppRun
           cd ..
