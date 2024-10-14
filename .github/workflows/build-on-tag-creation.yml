@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: Build jar, AppImage and release on Github and itch.io
 
 on:
   push:
@@ -99,8 +99,8 @@ jobs:
           CHANNEL: linux
           ITCH_GAME: oel-remake
           ITCH_USER: Zabbum
-          PACKAGE: /home/runner/work/oel-remake/app-image/oel-remake.AppImage
-          VERSION_FILE: /home/runner/work/oel-remake/oel-remake/VERSION
+          PACKAGE: ../app-image/oel-remake.AppImage
+          VERSION_FILE: VERSION
 
       # Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
