@@ -1,5 +1,6 @@
 package zabbum.oelremake.artloader;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
@@ -8,13 +9,11 @@ import com.googlecode.lanterna.graphics.BasicTextImage;
 import com.googlecode.lanterna.graphics.TextImage;
 import com.googlecode.lanterna.gui2.ImageComponent;
 import lombok.Data;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public @Data class ArtObject {
     // Private variables
@@ -26,33 +25,22 @@ public @Data class ArtObject {
 
     // Constructor
     public ArtObject(InputStream inputStream)
-            throws FileNotFoundException,
-            IOException,
-            ParseException,
+            throws IOException,
             ColorNotFoundException,
             BadImageSizeProvidedException {
-        // Transform InputStream to file
-        File dataFile = File.createTempFile("art", ".json");
-        FileOutputStream out = new FileOutputStream(dataFile);
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            out.write(buffer, 0, bytesRead);
-        }
-        out.close();
 
-        // Create JSONObject
-        JSONParser parser = new JSONParser();
-        FileReader fileReader = new FileReader(dataFile, StandardCharsets.UTF_8);
-        JSONObject dataObject = (JSONObject) (parser.parse(fileReader));
-        fileReader.close();
+        InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+        String json = new BufferedReader(reader).lines().collect(Collectors.joining("\n"));
 
-        this.width = Integer.parseInt(dataObject.get("width").toString());
-        this.height = Integer.parseInt(dataObject.get("height").toString());
-        this.defaultForegroundColor = toTextColor(dataObject.get("defaultForegroundColor").toString());
-        this.defaultBackgroundColor = toTextColor(dataObject.get("defaultBackgroundColor").toString());
+        ObjectMapper objectMapper = new ObjectMapper();
+        Art art = objectMapper.readValue(json, Art.class);
 
-        createTextImage(dataObject);
+        this.width = art.getWidth();
+        this.height = art.getHeight();
+        this.defaultForegroundColor = toTextColor(art.getDefaultForegroundColor());
+        this.defaultBackgroundColor = toTextColor(art.getDefaultBackgroundColor());
+
+        createTextImage(art);
     }
 
     public ImageComponent getImageComponent() {
@@ -63,7 +51,7 @@ public @Data class ArtObject {
     }
 
     // Create TextImage object
-    private void createTextImage(JSONObject dataObject)
+    private void createTextImage(Art art)
             throws ColorNotFoundException, BadImageSizeProvidedException {
         // Create canvas
         textImage =
@@ -72,7 +60,7 @@ public @Data class ArtObject {
                         TextCharacter.fromCharacter(' ', defaultForegroundColor, defaultBackgroundColor)[0]);
 
         // Create array with all the rows
-        JSONArray rows = (JSONArray) dataObject.get("rows");
+        List<List<Series>> rows = art.getRows();
 
         // For every row
         for (int rowIndex = 0; rowIndex < rows.size(); rowIndex++) {
@@ -87,7 +75,7 @@ public @Data class ArtObject {
 
             // For every character sequence
             for (int seriesIndex = 0;
-                 seriesIndex < ((JSONArray) rows.get(rowIndex)).size();
+                 seriesIndex < rows.get(rowIndex).size();
                  seriesIndex++) {
                 // If accessing bigger index, than provided in file,
                 // throw exception
@@ -96,28 +84,28 @@ public @Data class ArtObject {
                 }
 
                 // Object with sequence
-                JSONObject series = (JSONObject) (((JSONArray) rows.get(rowIndex)).get(seriesIndex));
+                Series series = rows.get(rowIndex).get(seriesIndex);
 
                 // Declare colors
                 TextColor fColor;
                 TextColor bColor;
 
                 // Set foreground color for current sequence
-                if (series.get("fColor") != null) {
-                    fColor = toTextColor(series.get("fColor").toString());
+                if (series.getFColor() != null) {
+                    fColor = toTextColor(series.getFColor());
                 } else {
                     fColor = defaultForegroundColor;
                 }
 
                 // Set Background color for current sequence
-                if (series.get("bColor") != null) {
-                    bColor = toTextColor(series.get("bColor").toString());
+                if (series.getBColor() != null) {
+                    bColor = toTextColor(series.getBColor());
                 } else {
                     bColor = defaultBackgroundColor;
                 }
 
                 // For each character in sequence
-                for (char currChar : ((String) (series.get("content"))).toCharArray()) {
+                for (char currChar : series.getContent().toCharArray()) {
                     // Draw character
                     textImage.setCharacterAt(
                             new TerminalPosition(columnIndex, rowIndex),
