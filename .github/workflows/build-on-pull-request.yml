@@ -27,9 +27,8 @@ jobs:
 
       - name: Test
         run: |
-          cd ..
-          pwd
-          ls
+          cd /home/runner/work/oel-remake/app-image/Application/bin/
+          ./Application
 
       - name: Upload jar artifact
         uses: actions/upload-artifact@v4.4.3
