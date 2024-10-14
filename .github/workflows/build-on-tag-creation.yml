@@ -90,7 +90,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test if appimage exists?
-        run: ls /home/runner/work/oel-remake/app-image/
+        run: |
+          ls /home/runner/work/oel-remake/app-image/
+          cp /home/runner/work/oel-remake/app-image/oel-remake.AppImage /home/runner/work/oel-remake/oel-remake/target/
+          echo ----repo dir----
+          echo ls
+          echo ----target dir----
+          echo ls target/
 
       - name: Release on itch.io
         uses: yeslayla/butler-publish-itchio-action@v1.0.3
@@ -99,7 +105,7 @@ jobs:
           CHANNEL: linux
           ITCH_GAME: oel-remake
           ITCH_USER: Zabbum
-          PACKAGE: ../app-image/oel-remake.AppImage
+          PACKAGE: target/oel-remake.AppImage
           VERSION_FILE: VERSION
 
       # Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
