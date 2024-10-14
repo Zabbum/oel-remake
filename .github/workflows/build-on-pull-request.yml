@@ -3,7 +3,6 @@ name: Java CI with Maven
 on: pull_request
 
 jobs:
-  # Building to jar
   build-linux:
     runs-on: ubuntu-latest
     steps:
