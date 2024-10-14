@@ -27,6 +27,7 @@ jobs:
 
       - name: Install appimagetool
         run: |
+          sudo apt install -y fuse zsync
           sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
           sudo chmod +x /usr/local/bin/appimagetool
 
