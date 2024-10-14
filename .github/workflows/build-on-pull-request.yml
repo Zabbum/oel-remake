@@ -23,12 +23,7 @@ jobs:
       - name: Build Appimage with jpackage
         run: |
           cd ..
-          jpackage --verbose --input oel-remake/ --main-jar target/oel-remake-jar-with-dependencies.jar --type app-image --dest app-image
-
-      - name: Test
-        run: |
-          cd /home/runner/work/oel-remake/app-image/Application/bin/
-          ./Application
+          jpackage --verbose --input oel-remake/ --main-jar target/oel-remake-jar-with-dependencies.jar --type app-image --dest app-image --java-options "--enable-assertions --showversion --verbose --debug"
 
       - name: Upload jar artifact
         uses: actions/upload-artifact@v4.4.3
