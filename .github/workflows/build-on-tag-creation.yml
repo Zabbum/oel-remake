@@ -89,6 +89,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Test if appimage exists?
+        run: ls /home/runner/work/oel-remake/app-image/
+
       - name: Release on itch.io
         uses: yeslayla/butler-publish-itchio-action@v1.0.3
         env:
