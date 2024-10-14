@@ -83,7 +83,9 @@ jobs:
       - name: Release on Github
         uses: softprops/action-gh-release@v2.0.8
         with:
-          files: /home/runner/work/oel-remake/oel-remake/target/oel-remake-jar-with-dependencies.jar
+          files: |
+            /home/runner/work/oel-remake/oel-remake/target/oel-remake-jar-with-dependencies.jar
+            /home/runner/work/oel-remake/app-image/oel-remake.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
