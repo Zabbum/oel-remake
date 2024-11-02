@@ -1,4 +1,4 @@
-package zabbum.oelremake.plants.industries.Pumps;
+package zabbum.oelremake.plants.industries;
 
 import com.github.zabbum.oelremakecomponents.Player;
 import com.github.zabbum.oelremakecomponents.plants.industries.Pumps.PumpsIndustry;
