@@ -26,7 +26,7 @@ public class CarsOperations implements BuyableIndustryOperation, BuyableProducts
      *
      * @return array of cars industries
      */
-    private CarsIndustry[] initialize() {
+    public static CarsIndustry[] initialize() {
         CarsIndustry[] carsIndustries = new CarsIndustry[4];
 
         // Cars productions initialization
