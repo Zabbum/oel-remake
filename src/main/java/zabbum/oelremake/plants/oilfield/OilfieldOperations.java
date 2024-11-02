@@ -1,5 +1,7 @@
 package zabbum.oelremake.plants.oilfield;
 
+import com.github.zabbum.oelremakecomponents.Player;
+import com.github.zabbum.oelremakecomponents.plants.oilfield.Oilfield;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.gui2.*;
@@ -7,7 +9,6 @@ import com.googlecode.lanterna.gui2.table.Table;
 import lombok.Getter;
 import zabbum.oelremake.Confirm;
 import zabbum.oelremake.Game;
-import zabbum.oelremake.Player;
 
 import java.util.Map;
 

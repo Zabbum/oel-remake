@@ -1,13 +1,14 @@
 package zabbum.oelremake.plants.industries.Pumps;
 
+import com.github.zabbum.oelremakecomponents.Player;
+import com.github.zabbum.oelremakecomponents.plants.industries.Pumps.PumpsIndustry;
+import com.github.zabbum.oelremakecomponents.plants.oilfield.Oilfield;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Window;
 import lombok.Getter;
-import zabbum.oelremake.Player;
 import zabbum.oelremake.operations.BuyableIndustryOperation;
 import zabbum.oelremake.operations.BuyableProductsOperation;
 import zabbum.oelremake.operations.SabotableOperation;
-import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.util.Map;
 

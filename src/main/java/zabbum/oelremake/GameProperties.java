@@ -1,5 +1,6 @@
 package zabbum.oelremake;
 
+import com.github.zabbum.oelremakecomponents.Player;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.SeparateTextGUIThread;
 import com.googlecode.lanterna.gui2.Window;
