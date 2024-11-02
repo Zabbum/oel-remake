@@ -1,14 +1,15 @@
 package zabbum.oelremake;
 
+import com.github.zabbum.oelremakecomponents.Player;
+import com.github.zabbum.oelremakecomponents.plants.industries.Cars.CarsIndustry;
+import com.github.zabbum.oelremakecomponents.plants.industries.Drills.DrillsIndustry;
+import com.github.zabbum.oelremakecomponents.plants.industries.Pumps.PumpsIndustry;
+import com.github.zabbum.oelremakecomponents.plants.oilfield.Oilfield;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.graphics.Theme;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.table.Table;
-import zabbum.oelremake.plants.industries.Cars.CarsIndustry;
-import zabbum.oelremake.plants.industries.Drills.DrillsIndustry;
-import zabbum.oelremake.plants.industries.Pumps.PumpsIndustry;
-import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.util.List;
 import java.util.Random;

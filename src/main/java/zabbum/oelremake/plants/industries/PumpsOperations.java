@@ -1,22 +1,23 @@
-package zabbum.oelremake.plants.industries.Drills;
+package zabbum.oelremake.plants.industries;
 
+import com.github.zabbum.oelremakecomponents.Player;
+import com.github.zabbum.oelremakecomponents.plants.industries.Pumps.PumpsIndustry;
+import com.github.zabbum.oelremakecomponents.plants.oilfield.Oilfield;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Window;
 import lombok.Getter;
-import zabbum.oelremake.Player;
 import zabbum.oelremake.operations.BuyableIndustryOperation;
 import zabbum.oelremake.operations.BuyableProductsOperation;
 import zabbum.oelremake.operations.SabotableOperation;
-import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.util.Map;
 
 @Getter
-public class DrillsOperations implements BuyableIndustryOperation, BuyableProductsOperation, SabotableOperation {
+public class PumpsOperations implements BuyableIndustryOperation, BuyableProductsOperation, SabotableOperation {
 
-    private final DrillsIndustry[] industries;
+    private final PumpsIndustry[] industries;
 
-    public DrillsOperations() {
+    public PumpsOperations() {
         industries = initialize();
     }
 
@@ -25,17 +26,15 @@ public class DrillsOperations implements BuyableIndustryOperation, BuyableProduc
      *
      * @return array of cars industries
      */
-    public static DrillsIndustry[] initialize() {
-        DrillsIndustry[] drillProds = new DrillsIndustry[3];
+    public static PumpsIndustry[] initialize() {
+        PumpsIndustry[] pumpProds = new PumpsIndustry[2];
 
-        // Drills productions initialization
-        drillProds[0] = new DrillsIndustry("TURBOWIERT");
-        drillProds[1] = new DrillsIndustry("NA B£YSK INC.");
-        drillProds[2] = new DrillsIndustry("PET SHOP&BOYS");
+        // Pump productions initialization
+        pumpProds[0] = new PumpsIndustry("ZASSANICKI GMBH");
+        pumpProds[1] = new PumpsIndustry("DR PUMPENER");
 
-        return drillProds;
+        return pumpProds;
     }
-
 
     @Override
     public void buyIndustryMenu(Player player, Window window, Map<String, String> langMap) throws InterruptedException {
@@ -49,10 +48,10 @@ public class DrillsOperations implements BuyableIndustryOperation, BuyableProduc
                 TextColor.ANSI.WHITE_BRIGHT,
                 TextColor.ANSI.CYAN,
                 TextColor.ANSI.BLUE,
-                langMap.get("drillsIndustrySale"),
-                langMap.get("drillsIndustryPrompt"),
-                langMap.get("drillsPricePrompt"),
-                60000,
+                langMap.get("pumpsIndustrySale"),
+                langMap.get("pumpsIndustryPrompt"),
+                langMap.get("pumpsPricePrompt"),
+                50000,
                 window,
                 langMap
         );
@@ -60,22 +59,21 @@ public class DrillsOperations implements BuyableIndustryOperation, BuyableProduc
 
     @Override
     public void buyProductsMenu(Player player, Oilfield[] oilfields, Window window, Map<String, String> langMap) throws InterruptedException {
-
         BuyableProductsOperation.defaultBuyProductsMenu(
                 player,
                 industries,
                 oilfields,
                 TextColor.ANSI.WHITE_BRIGHT,
-                TextColor.ANSI.YELLOW,
-                TextColor.ANSI.BLUE,
+                TextColor.ANSI.BLACK_BRIGHT,
+                TextColor.ANSI.BLACK_BRIGHT,
                 TextColor.ANSI.WHITE_BRIGHT,
                 TextColor.ANSI.WHITE_BRIGHT,
                 TextColor.ANSI.CYAN,
-                TextColor.ANSI.YELLOW,
-                TextColor.ANSI.BLUE,
-                langMap.get("drillsHereYouCanBuy"),
-                langMap.get("drillsProductsAmountPrompt"),
-                10,
+                TextColor.ANSI.BLACK_BRIGHT,
+                TextColor.ANSI.BLACK,
+                langMap.get("pumpsHereYouCanBuy"),
+                langMap.get("pumpsProductsAmountPrompt"),
+                15,
                 window,
                 langMap
         );

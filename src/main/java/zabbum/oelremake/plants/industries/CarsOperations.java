@@ -1,13 +1,14 @@
-package zabbum.oelremake.plants.industries.Cars;
+package zabbum.oelremake.plants.industries;
 
+import com.github.zabbum.oelremakecomponents.Player;
+import com.github.zabbum.oelremakecomponents.plants.industries.Cars.CarsIndustry;
+import com.github.zabbum.oelremakecomponents.plants.oilfield.Oilfield;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Window;
 import lombok.Getter;
-import zabbum.oelremake.Player;
 import zabbum.oelremake.operations.BuyableIndustryOperation;
 import zabbum.oelremake.operations.BuyableProductsOperation;
 import zabbum.oelremake.operations.SabotableOperation;
-import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class CarsOperations implements BuyableIndustryOperation, BuyableProducts
      *
      * @return array of cars industries
      */
-    private CarsIndustry[] initialize() {
+    public static CarsIndustry[] initialize() {
         CarsIndustry[] carsIndustries = new CarsIndustry[4];
 
         // Cars productions initialization

@@ -1,12 +1,13 @@
 package zabbum.oelremake;
 
+import com.github.zabbum.oelremakecomponents.Player;
+import com.github.zabbum.oelremakecomponents.plants.oilfield.Oilfield;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.graphics.Theme;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.table.Table;
 import zabbum.oelremake.artloader.ArtObject;
-import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.io.InputStream;
 import java.util.Objects;

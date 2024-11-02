@@ -18,7 +18,19 @@
         <main.class>zabbum.oelremake.Application</main.class>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <dependency>
+            <groupId>com.github.Zabbum</groupId>
+            <artifactId>oel-remake-components</artifactId>
+            <version>0.1.8</version>
+        </dependency>
         <dependency>
             <groupId>com.googlecode.lanterna</groupId>
             <artifactId>lanterna</artifactId>

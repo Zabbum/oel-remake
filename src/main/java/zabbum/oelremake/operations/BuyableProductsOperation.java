@@ -1,5 +1,8 @@
 package zabbum.oelremake.operations;
 
+import com.github.zabbum.oelremakecomponents.Player;
+import com.github.zabbum.oelremakecomponents.plants.industries.AbstractIndustry;
+import com.github.zabbum.oelremakecomponents.plants.oilfield.Oilfield;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
@@ -8,9 +11,6 @@ import com.googlecode.lanterna.gui2.table.Table;
 import zabbum.oelremake.Confirm;
 import zabbum.oelremake.Elements;
 import zabbum.oelremake.Game;
-import zabbum.oelremake.Player;
-import zabbum.oelremake.plants.industries.AbstractIndustry;
-import zabbum.oelremake.plants.oilfield.Oilfield;
 
 import java.util.Map;
 import java.util.regex.Pattern;
